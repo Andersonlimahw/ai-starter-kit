@@ -1,0 +1,10 @@
+{
+  "project": "ai-agents-starter-kit",
+  "description": "Exemplo de memória/contexto do agente Codex",
+  "sessions": [],
+  "preferences": {
+    "language": "python",
+    "style": "type-hints + docstrings",
+    "test_framework": "pytest"
+  }
+}
