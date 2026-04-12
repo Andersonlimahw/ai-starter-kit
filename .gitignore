@@ -1,0 +1,27 @@
+plan.md
+
+# Segurança – nunca versionar chaves reais
+.env
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Gerado pelos agentes
+examples/*/memory_log.json
+examples/*/generated/
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
