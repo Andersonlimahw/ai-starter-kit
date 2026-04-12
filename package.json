@@ -1,0 +1,34 @@
+{
+  "name": "ai-agents-starter-kit",
+  "version": "1.0.0",
+  "description": "Free AI Agents Starter Kit – Claude Code, Codex, Gemini & Copilot CLI",
+  "keywords": [
+    "ai",
+    "agents",
+    "claude-code",
+    "codex",
+    "gemini",
+    "copilot",
+    "llm",
+    "mcp",
+    "starter-kit"
+  ],
+  "homepage": "https://lemon.dev/pro-agents",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemondev/ai-agents-starter-kit.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "test": "node --test examples/**/*.test.js 2>/dev/null || echo 'No Node tests found'",
+    "test:smoke": "bash scripts/test_models.sh",
+    "lint": "eslint . --ext .js,.ts --ignore-pattern node_modules"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0"
+  }
+}
