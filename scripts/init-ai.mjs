@@ -21,34 +21,6 @@ const BASE_FILES = [
   { dest: 'GEMINI.md', symlink: 'AGENTS.md' },
 ];
 
-const CLAUDE_FILES = [
-  { src: '.claude/settings.json', dest: '.claude/settings.json' },
-  { src: '.claude/SKILLS.md', dest: '.claude/SKILLS.md' },
-  { src: '.claude/skills/semantic-commit/SKILL.md', dest: '.claude/skills/semantic-commit/SKILL.md' },
-  { src: '.claude/skills/code-review/SKILL.md', dest: '.claude/skills/code-review/SKILL.md' },
-  { src: '.claude/skills/debug-workflow/SKILL.md', dest: '.claude/skills/debug-workflow/SKILL.md' },
-  { src: '.claude/skills/llm-wiki/SKILL.md', dest: '.claude/skills/llm-wiki/SKILL.md' },
-  { src: '.claude/hooks/git-setup.sh', dest: '.claude/hooks/git-setup.sh', executable: true },
-  { src: '.claude/agents/task-router.md', dest: '.claude/agents/task-router.md' },
-  { src: '.claude/agents/code-reviewer.md', dest: '.claude/agents/code-reviewer.md' },
-  { src: '.claude/agents/debugger.md', dest: '.claude/agents/debugger.md' },
-];
-
-const CODEX_FILES = [
-  { src: '.codex/settings.json', dest: '.codex/settings.json' },
-  { src: '.codex/commands/project-commit.md', dest: '.codex/commands/project-commit.md' },
-  { src: '.codex/agents/task-router.md', dest: '.codex/agents/task-router.md' },
-];
-
-const GEMINI_FILES = [
-  { src: '.gemini/skills/llm-wiki/SKILL.md', dest: '.gemini/skills/llm-wiki/SKILL.md' },
-];
-
-const COPILOT_FILES = [
-  { src: '.agent/skills/semantic-commit/SKILL.md', dest: '.agent/skills/semantic-commit/SKILL.md' },
-  { src: '.agent/subagents/task-router.md', dest: '.agent/subagents/task-router.md' },
-];
-
 function isMainModule() {
   if (!process.argv[1]) {
     return false;
@@ -78,24 +50,54 @@ export function replacePlaceholders(content, vars) {
   }, content);
 }
 
+function getFilesRecursively(dir, base = '') {
+  const result = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const relativePath = path.join(base, entry.name);
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      result.push(...getFilesRecursively(fullPath, relativePath));
+    } else {
+      result.push(relativePath);
+    }
+  }
+
+  return result;
+}
+
 export function getTemplateFiles(clis = []) {
   const selected = new Set(['claude', ...clis]);
   const files = [...BASE_FILES];
 
-  if (selected.has('claude')) {
-    files.push(...CLAUDE_FILES);
-  }
+  const cliToFolder = {
+    claude: '.claude',
+    codex: '.codex',
+    gemini: '.gemini',
+    copilot: '.agent',
+  };
 
-  if (selected.has('codex')) {
-    files.push(...CODEX_FILES);
-  }
+  for (const cli of selected) {
+    const folder = cliToFolder[cli];
+    if (!folder) continue;
 
-  if (selected.has('gemini')) {
-    files.push(...GEMINI_FILES);
-  }
+    const folderPath = path.join(TEMPLATES_DIR, folder);
+    if (fs.existsSync(folderPath)) {
+      const paths = getFilesRecursively(folderPath, folder);
+      for (const p of paths) {
+        // Ignora arquivos indesejados se houver (ex: .DS_Store)
+        if (p.includes('.DS_Store')) continue;
 
-  if (selected.has('copilot')) {
-    files.push(...COPILOT_FILES);
+        const isExecutable = p.endsWith('.sh');
+        files.push({
+          src: p,
+          dest: p,
+          executable: isExecutable,
+        });
+      }
+    }
   }
 
   return files;

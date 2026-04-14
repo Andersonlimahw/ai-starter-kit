@@ -22,6 +22,10 @@
 | 14 | `docs/README-en.md` – docs em inglês (SEO) | ✅ Concluído |
 | 15 | `.github/workflows/tests.yml` – CI pipeline | ✅ Concluído |
 | 16 | `.gitignore` – regras corretas | ✅ Concluído |
+| 17 | `scripts/init-ai.mjs` – scaffold generator | ✅ Concluído |
+| 18 | `tests/init-ai.test.mjs` – testes unitários | ✅ Concluído |
+| 19 | `templates/` – templates base de agents | ✅ Concluído |
+| 20 | `examples/explorador-gemini/` – exemplo Gemini | ✅ Concluído |
 
 ## ✅ Implementação 100% Concluída!
 
@@ -38,6 +42,9 @@
 | 12/04/26 07:19 | `feat: docs/README-en.md versao inglesa para SEO` | docs/README-en.md |
 | 12/04/26 07:20 | `feat: CI pipeline com lint, testes e verificacao de seguranca` | .github/workflows/tests.yml |
 | 12/04/26 07:20 | `chore: .gitignore atualizado + plan.checklist.md final` | .gitignore, plan.checklist.md |
+| 13/04/26 10:45 | `feat: init-ai scaffold generator + templates` | scripts/init-ai.mjs, templates/ |
+| 13/04/26 11:00 | `test: coverage para init-ai writeFiles e symlinks` | tests/init-ai.test.mjs |
+| 13/04/26 11:15 | `feat: exemplo explorador-gemini para contexto longo` | examples/explorador-gemini/ |
 
 ## Estrutura Final
 
