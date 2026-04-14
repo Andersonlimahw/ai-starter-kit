@@ -26,6 +26,7 @@
 | 18 | `tests/init-ai.test.mjs` – testes unitários | ✅ Concluído |
 | 19 | `templates/` – templates base de agents | ✅ Concluído |
 | 20 | `examples/explorador-gemini/` – exemplo Gemini | ✅ Concluído |
+| 21 | `examples/multi-modelo-openclaude/` – exemplo multi-modelo | ✅ Concluído |
 
 ## ✅ Implementação 100% Concluída!
 
@@ -45,6 +46,8 @@
 | 13/04/26 10:45 | `feat: init-ai scaffold generator + templates` | scripts/init-ai.mjs, templates/ |
 | 13/04/26 11:00 | `test: coverage para init-ai writeFiles e symlinks` | tests/init-ai.test.mjs |
 | 13/04/26 11:15 | `feat: exemplo explorador-gemini para contexto longo` | examples/explorador-gemini/ |
+| 13/04/26 11:30 | `feat: exemplo multi-modelo openclaude` | examples/multi-modelo-openclaude/ |
+
 
 ## Estrutura Final
 

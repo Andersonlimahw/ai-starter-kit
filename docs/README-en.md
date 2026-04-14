@@ -166,7 +166,9 @@ ai-agents-starter-kit/
 │   └── hook-before-edit.sh      # Lint hook
 ├── examples/
 │   ├── depurador-claude/        # Debugger agent (Claude Code)
-│   └── gerador-codex/           # Code generator (Codex)
+│   ├── gerador-codex/           # Code generator (Codex)
+│   ├── explorador-gemini/       # Long-context explorer (Gemini)
+│   └── multi-modelo-openclaude/ # Multi-LLM portability (OpenClaude)
 ├── docs/
 │   └── README-en.md             # This file (English, SEO)
 └── .github/
