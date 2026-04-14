@@ -94,7 +94,28 @@ cd examples/gerador-codex
 codex
 ```
 
-Tudo pronto! Se encontrar erros, veja *Troubleshooting* abaixo.
+---
+
+## Scaffold de Novo Projeto (init-ai)
+
+Você pode adicionar rapidamente a infraestrutura de agentes de IA a qualquer projeto existente usando o gerador de scaffold `init-ai`.
+
+```bash
+# Na raiz do seu projeto:
+node scripts/init-ai.mjs
+```
+
+Isso irá:
+- ✅ Criar `CLAUDE.md` e `AGENTS.md` com as melhores práticas.
+- ✅ Configurar as pastas `.claude/`, `.gemini/`, `.codex/` e `.agent/` com skills e agentes pré-definidos.
+- ✅ Adicionar um symlink `GEMINI.md` para melhor contexto multi-CLI.
+- ✅ Permitir a instalação de skills da comunidade via [skills.sh](https://skills.sh).
+
+### Adicionar Skills da Comunidade
+Para adicionar skills específicas do catálogo da comunidade:
+```bash
+node scripts/init-ai.mjs --add-skill
+```
 
 ---
 
@@ -252,6 +273,9 @@ Atalho `wiki-search`: faz pesquisa automática e armazena em memória a resposta
 ```bash
 # Rodar testes Node.js
 npm test
+
+# Rodar testes de scaffold (init-ai)
+node --test tests/init-ai.test.mjs
 
 # Rodar testes Python
 pytest -q

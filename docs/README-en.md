@@ -57,6 +57,29 @@ cd examples/depurador-claude && claude
 
 ---
 
+## New Project Scaffold (init-ai)
+
+You can quickly add AI agent infrastructure to any existing project using the `init-ai` scaffold generator.
+
+```bash
+# In your project root:
+node scripts/init-ai.mjs
+```
+
+This will:
+- ✅ Create `CLAUDE.md` and `AGENTS.md` with best practices.
+- ✅ Setup `.claude/`, `.gemini/`, `.codex/` and `.agent/` folders with pre-defined skills and agents.
+- ✅ Add a `GEMINI.md` symlink for better multi-CLI context.
+- ✅ Allow you to install community skills from [skills.sh](https://skills.sh).
+
+### Add Community Skills
+To add specific skills from the community catalog:
+```bash
+node scripts/init-ai.mjs --add-skill
+```
+
+---
+
 ## CLI Installation
 
 | CLI | Install |
@@ -137,6 +160,7 @@ ai-agents-starter-kit/
 ├── LICENSE                      # MIT
 ├── scripts/
 │   ├── setup.sh                 # Cross-CLI setup (Bash)
+│   ├── init-ai.mjs              # AI Agent Scaffold Generator
 │   ├── test_models.sh           # Smoke tests
 │   ├── setup.py                 # Python setup
 │   └── hook-before-edit.sh      # Lint hook

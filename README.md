@@ -57,6 +57,28 @@ cd examples/depurador-claude && claude
 
 ---
 
+## Init AI — Scaffold para qualquer repositório
+
+O script `init-ai` gera a infraestrutura de AI agents em qualquer repositório existente.
+
+```bash
+# No diretório do seu projeto:
+node /path/to/ai-starter-kit/scripts/init-ai.mjs
+
+# Para adicionar skills da comunidade:
+node /path/to/ai-starter-kit/scripts/init-ai.mjs --add-skill
+```
+
+O script:
+1. Pergunta nome, stack e linguagem do projeto
+2. Detecta CLIs instalados e sugere Claude Code como padrão
+3. Gera `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude/skills/`, `.claude/agents/` e mais
+4. Oferece skills adicionais do [skills.sh](https://skills.sh) e [aitmpl.com](https://www.aitmpl.com/skills)
+
+Skills incluídas por padrão: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
+
+---
+
 ## 📦 Instalação dos CLIs
 
 | CLI | Instalação |
@@ -81,6 +103,7 @@ ai-agents-starter-kit/
 ├── LICENSE                      # MIT
 ├── scripts/
 │   ├── setup.sh                 # Setup cross-CLI (Bash)
+│   ├── init-ai.mjs              # Gerador de scaffold para IA
 │   ├── test_models.sh           # Smoke tests
 │   ├── setup.py                 # Setup Python
 │   └── hook-before-edit.sh      # Hook de lint antes de edições

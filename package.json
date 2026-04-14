@@ -24,11 +24,13 @@
   },
   "scripts": {
     "setup": "bash scripts/setup.sh",
-    "test": "node --test examples/**/*.test.js 2>/dev/null || echo 'No Node tests found'",
+    "init-ai": "node scripts/init-ai.mjs",
+    "test": "node --test tests/**/*.test.mjs examples/**/*.test.js 2>/dev/null || echo 'No tests found'",
     "test:smoke": "bash scripts/test_models.sh",
-    "lint": "eslint . --ext .js,.ts --ignore-pattern node_modules"
+    "lint": "eslint . --ext .js,.ts,.mjs --ignore-pattern node_modules"
   },
   "devDependencies": {
+    "@inquirer/prompts": "^7.0.0",
     "eslint": "^9.0.0"
   }
 }
