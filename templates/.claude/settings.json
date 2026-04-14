@@ -1,0 +1,22 @@
+{
+  "projectContext": {
+    "name": "{{PROJECT_NAME}}",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "stack": "{{STACK}}",
+    "language": "{{LANGUAGE}}"
+  },
+  "commands": {
+    "lint": "npm run lint",
+    "test": "npm test",
+    "build": "npm run build",
+    "typecheck": "npm run typecheck"
+  },
+  "restrictions": [
+    "Never commit .env files or secrets",
+    "Never hardcode API keys in source code",
+    "Always validate inputs at system boundaries"
+  ],
+  "autoContext": {
+    "always": ["AGENTS.md", "CLAUDE.md"]
+  }
+}

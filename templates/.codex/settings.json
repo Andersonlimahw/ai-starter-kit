@@ -1,0 +1,14 @@
+{
+  "projectContext": {
+    "name": "{{PROJECT_NAME}}",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "stack": "{{STACK}}",
+    "language": "{{LANGUAGE}}"
+  },
+  "model": "o4-mini",
+  "instructions": "Consulte AGENTS.md para contexto do projeto e regras. Stack: {{STACK}}.",
+  "restrictions": [
+    "Never commit .env files",
+    "Never hardcode secrets"
+  ]
+}
