@@ -1,4 +1,6 @@
 plan.md
+plan.checklist.md
+.planning/
 
 # Segurança – nunca versionar chaves reais
 .env

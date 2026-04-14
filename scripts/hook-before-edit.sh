@@ -7,7 +7,7 @@ set -euo pipefail
 echo "── Hook: before_code_edit ──────────────────────"
 
 # ── ESLint (JavaScript/TypeScript) ────────────────────────────────────────────
-if command -v npx >/dev/null 2>&1 && [ -f ".eslintrc*" ] || [ -f "eslint.config.*" ] 2>/dev/null; then
+if command -v npx >/dev/null 2>&1 && ls .eslintrc* eslint.config.* 2>/dev/null | grep -q .; then
   echo "Validando estilo de código com ESLint..."
   if ! npx eslint . --ext .js,.ts --max-warnings 0 2>/dev/null; then
     echo "✗ Erros de lint detectados. Corrija antes de executar o agente."

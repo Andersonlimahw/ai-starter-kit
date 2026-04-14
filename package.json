@@ -29,8 +29,11 @@
     "test:smoke": "bash scripts/test_models.sh",
     "lint": "eslint . --ext .js,.ts,.mjs --ignore-pattern node_modules"
   },
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.0"
+  },
   "devDependencies": {
-    "@inquirer/prompts": "^7.0.0",
+    "@eslint/js": "^9.39.4",
     "eslint": "^9.0.0"
   }
 }

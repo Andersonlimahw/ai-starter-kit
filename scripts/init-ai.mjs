@@ -212,6 +212,56 @@ function getConflicts(files, targetDir = TARGET_DIR) {
   return files.filter((file) => pathExists(path.join(targetDir, file.dest)));
 }
 
+async function handleUpdateMode() {
+  const { select, confirm } = await loadPrompts();
+
+  console.log('\nAI Agent Scaffold Updater');
+  console.log('='.repeat(40));
+  console.log(`Destino: ${TARGET_DIR}\n`);
+
+  const detected = getDetectedClis();
+  const installedClis = Object.entries(detected)
+    .filter(([, found]) => found)
+    .map(([name]) => name);
+
+  const clis = installedClis.length > 0 ? installedClis : ['claude'];
+
+  const conflictStrategy = await select({
+    message: 'Como tratar arquivos existentes durante a atualização?',
+    choices: [
+      { value: 'backup', name: 'Criar .bak e sobrescrever (recomendado)' },
+      { value: 'overwrite', name: 'Sobrescrever diretamente' },
+      { value: 'skip', name: 'Pular arquivos existentes (atualização parcial)' },
+    ],
+  });
+
+  const confirmed = await confirm({
+    message: `Atualizar scaffold para ${clis.join(', ')} com estratégia "${conflictStrategy}"?`,
+    default: true,
+  });
+
+  if (!confirmed) {
+    console.log('\nCancelado.');
+    return;
+  }
+
+  const vars = {
+    PROJECT_NAME: path.basename(TARGET_DIR),
+    PROJECT_DESCRIPTION: 'Projeto com suporte a AI agents',
+    LANGUAGE: 'TypeScript',
+    STACK: 'TypeScript',
+  };
+
+  const files = getTemplateFiles(clis);
+  const { written, skipped } = writeFiles(files, vars, conflictStrategy);
+
+  console.log('\nAtualização concluída.');
+  console.log(`Arquivos atualizados: ${written.length}`);
+  if (skipped.length > 0) {
+    console.log(`Arquivos pulados: ${skipped.length}`);
+  }
+}
+
 async function handleAddSkillMode() {
   const { select, checkbox, confirm } = await loadPrompts();
 
@@ -222,9 +272,42 @@ async function handleAddSkillMode() {
   const catalog = await fetchExtraSkillsCatalog();
 
   const mockSkills = [
-    { id: 'jest-pro', name: 'Jest Pro', description: 'Expertise em testes unitários e mocks', url: 'https://raw.githubusercontent.com/example/skills/main/jest-pro.md' },
-    { id: 'docker-master', name: 'Docker Master', description: 'Otimização de Dockerfiles e Compose', url: 'https://raw.githubusercontent.com/example/skills/main/docker-master.md' },
-    { id: 'sql-optimizer', name: 'SQL Optimizer', description: 'Análise de queries e indexação', url: 'https://raw.githubusercontent.com/example/skills/main/sql-optimizer.md' },
+    {
+      id: 'semantic-commit',
+      name: 'Semantic Commit',
+      description: 'Commits convencionais com scope, breaking changes e changelog automático',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/semantic-commit/SKILL.md',
+    },
+    {
+      id: 'code-review',
+      name: 'Code Review',
+      description: 'Revisão estruturada de PRs: segurança, performance, legibilidade',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/code-review/SKILL.md',
+    },
+    {
+      id: 'debug-workflow',
+      name: 'Debug Workflow',
+      description: 'Debugging sistemático com hipóteses, evidências e root cause analysis',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/debug-workflow/SKILL.md',
+    },
+    {
+      id: 'llm-wiki',
+      name: 'LLM Wiki',
+      description: 'Referência rápida de conceitos LLM: tokens, temperatura, RAG, fine-tuning',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/llm-wiki/SKILL.md',
+    },
+    {
+      id: 'test-driven',
+      name: 'Test-Driven Development',
+      description: 'TDD com Red-Green-Refactor, mocks, fixtures e cobertura mínima',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/test-driven/SKILL.md',
+    },
+    {
+      id: 'api-design',
+      name: 'API Design',
+      description: 'Boas práticas REST: versionamento, erros, paginação, autenticação',
+      url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/api-design/SKILL.md',
+    },
   ];
 
   const skills = catalog?.skills || mockSkills;
@@ -284,8 +367,17 @@ async function handleAddSkillMode() {
 
     fs.mkdirSync(skillDir, { recursive: true });
 
-    // Mock download (simulando fetch do conteúdo)
-    const content = `# ${skill.name}\n\n${skill.description}\n\n(Conteúdo baixado de ${skill.url})`;
+    let content;
+    try {
+      const res = await fetch(skill.url, { signal: AbortSignal.timeout(5000) });
+      if (res.ok) {
+        content = await res.text();
+      } else {
+        content = `# ${skill.name}\n\n${skill.description}\n\n> Download falhou (HTTP ${res.status}). Verifique: ${skill.url}\n`;
+      }
+    } catch (err) {
+      content = `# ${skill.name}\n\n${skill.description}\n\n> Download falhou: ${err.message}. Verifique: ${skill.url}\n`;
+    }
     fs.writeFileSync(destPath, content, 'utf8');
     console.log(`  + Instalada: ${skill.name}`);
   }
@@ -296,6 +388,11 @@ async function handleAddSkillMode() {
 export async function main() {
   if (process.argv.includes('--add-skill')) {
     await handleAddSkillMode();
+    return;
+  }
+
+  if (process.argv.includes('--update')) {
+    await handleUpdateMode();
     return;
   }
 
