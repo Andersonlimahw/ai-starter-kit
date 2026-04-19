@@ -1,13 +1,13 @@
 # Claude Code Entry Point
 
-Este projeto utiliza o **AI Agents Starter Kit**. Todas as regras de projeto, convenções de código e playbooks de agentes estão centralizados no arquivo principal de governança.
+This project uses the **AI Agents Starter Kit**. All project rules, code conventions, and agent playbooks are centralized in the main governance file.
 
-## 📖 Fonte da Verdade
-**LEIA PRIMEIRO: [AGENTS.md](./AGENTS.md)**
+## 📖 Source of Truth
+**READ FIRST: [AGENTS.md](./AGENTS.md)**
 
-### Comandos Rápidos
+### Quick Commands
 - **Review**: `claude --skill code-review`
 - **Commit**: `claude --skill semantic-commit`
 - **Debug**: `claude --skill debug-workflow`
 
-Sempre siga o **Contrato do Agente** definido em `AGENTS.md`.
+Always follow the **Agent Contract** defined in `AGENTS.md`.

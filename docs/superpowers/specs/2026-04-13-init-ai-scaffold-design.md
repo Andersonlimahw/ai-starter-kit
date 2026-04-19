@@ -1,51 +1,51 @@
 # Design Spec: init-ai — AI Agent Scaffold Generator
 
-**Data:** 2026-04-13  
-**Status:** Aprovado
+**Date:** 2026-04-13  
+**Status:** Approved
 
 ---
 
-## Objetivo
+## Objective
 
-Criar um script `scripts/init-ai.mjs` que, ao ser executado em qualquer repositório alvo, gera uma infraestrutura completa de AI agents: arquivos de configuração (`CLAUDE.md`, `AGENTS.md`, `GEMINI.md`), estrutura de pastas por CLI (`.claude/`, `.codex/`, `.gemini/`, `.agent/`), skills genéricas embutidas e subagents prontos para customização.
+Create a `scripts/init-ai.mjs` script that, when executed in any target repository, generates a complete AI agents infrastructure: configuration files (`CLAUDE.md`, `AGENTS.md`, `GEMINI.md`), CLI folder structure (`.claude/`, `.codex/`, `.gemini/`, `.agent/`), built-in generic skills, and subagents ready for customization.
 
-O script é agnóstico de framework e tecnologia — funciona em qualquer projeto (Node, Python, Go, etc.).
-
----
-
-## Escopo
-
-### Inclui
-
-- Script interativo Node.js (`init-ai.mjs`) com `@inquirer/prompts`
-- Diretório `templates/` com todos os arquivos fonte (Markdown + JSON)
-- 4 skills genéricas embutidas: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
-- 3 subagents embutidos: `task-router`, `code-reviewer`, `debugger`
-- Suporte a 4 CLIs: Claude Code (padrão), Codex, Gemini, Copilot
-- Fetch opcional de skills externas (skills.sh / aitmpl.com) ao final
-- Substituição de placeholders com dados do onboarding
-
-### Não inclui
-
-- Instalação de CLIs (responsabilidade do `setup.sh` existente)
-- Modificação do `package.json` do repo alvo
-- Commit automático dos arquivos gerados
-- Sobrescrita de `.env`
+The script is framework and technology agnostic — works in any project (Node, Python, Go, etc.).
 
 ---
 
-## Arquitetura
+## Scope
 
-### Estrutura de arquivos no ai-starter-kit
+### Includes
+
+- Interactive Node.js script (`init-ai.mjs`) with `@inquirer/prompts`
+- `templates/` directory with all source files (Markdown + JSON)
+- 4 built-in generic skills: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
+- 3 built-in subagents: `task-router`, `code-reviewer`, `debugger`
+- Support for 4 CLIs: Claude Code (default), Codex, Gemini, Copilot
+- Optional fetch of external skills (skills.sh / aitmpl.com) at the end
+- Placeholder substitution with onboarding data
+
+### Does not include
+
+- CLI installation (responsibility of the existing `setup.sh`)
+- Modification of the target repo's `package.json`
+- Automatic commit of generated files
+- Overwriting `.env`
+
+---
+
+## Architecture
+
+### File structure in ai-starter-kit
 
 ```
 ai-starter-kit/
 ├── scripts/
-│   └── init-ai.mjs                  ← script principal
+│   └── init-ai.mjs                  ← main script
 ├── templates/
 │   ├── CLAUDE.md
 │   ├── AGENTS.md
-│   ├── GEMINI.md                    ← será symlink no destino
+│   ├── GEMINI.md                    ← will be a symlink at the destination
 │   ├── .claude/
 │   │   ├── settings.json
 │   │   ├── SKILLS.md
@@ -70,126 +70,126 @@ ai-starter-kit/
 │   └── .agent/
 │       ├── skills/
 │       └── subagents/
-└── package.json                     ← adiciona @inquirer/prompts como devDep
+└── package.json                     ← adds @inquirer/prompts as devDep
 ```
 
-### Arquivos gerados no repo alvo
+### Files generated in the target repo
 
-Cópia dos templates acima com placeholders substituídos. Apenas as pastas dos CLIs selecionados pelo dev são criadas.
+Copy of the templates above with replaced placeholders. Only the CLI folders selected by the dev are created.
 
 ---
 
-## Fluxo do script
+## Script Flow
 
-### Etapa 1 — Coleta de contexto
+### Step 1 — Context Collection
 
-Perguntas sequenciais com `@inquirer/prompts`:
+Sequential questions with `@inquirer/prompts`:
 
-| Campo | Tipo | Placeholder no template |
+| Field | Type | Placeholder in template |
 |---|---|---|
-| Nome do projeto | `input` | `{{PROJECT_NAME}}` |
-| Descrição curta | `input` | `{{PROJECT_DESCRIPTION}}` |
-| Linguagem principal | `select` | `{{LANGUAGE}}` |
-| Stack/frameworks | `input` (opcional) | `{{STACK}}` |
-| Idioma dos arquivos | `select` (PT/EN) | `{{LOCALE}}` |
+| Project Name | `input` | `{{PROJECT_NAME}}` |
+| Short description | `input` | `{{PROJECT_DESCRIPTION}}` |
+| Main language | `select` | `{{LANGUAGE}}` |
+| Stack/frameworks | `input` (optional) | `{{STACK}}` |
+| File language | `select` (PT/EN) | `{{LOCALE}}` |
 
-### Etapa 2 — Seleção de CLIs
+### Step 2 — CLI Selection
 
-`checkbox` com detecção automática de CLIs instalados. Claude Code pré-marcado por padrão.
+`checkbox` with automatic detection of installed CLIs. Claude Code pre-checked by default.
 
 ```
-? Quais AI CLIs você usa?
-  ❯ ◉ Claude Code  [recomendado]
+? Which AI CLIs do you use?
+  ❯ ◉ Claude Code  [recommended]
     ◯ OpenAI Codex CLI
     ◯ Gemini CLI
     ◯ GitHub Copilot CLI
 ```
 
-### Etapa 3 — Skills extras (opcional)
+### Step 3 — Extra Skills (optional)
 
 ```
-? Deseja instalar skills adicionais do skills.sh/aitmpl.com?
-  ❯ Não, usar apenas o bundle padrão
-    Sim, mostrar catálogo disponível
+? Do you want to install additional skills from skills.sh/aitmpl.com?
+  ❯ No, use only the default bundle
+    Yes, show available catalog
 ```
 
-Se sim: fetch do catálogo via HTTPS, exibe checkboxes, baixa arquivos selecionados para `.claude/skills/`.
+If yes: fetch the catalog via HTTPS, display checkboxes, download selected files to `.claude/skills/`.
 
-Se offline: aviso e continua com bundle local.
+If offline: warning and continues with local bundle.
 
-### Etapa 4 — Confirmação e escrita
+### Step 4 — Confirmation and writing
 
-Resume os arquivos a serem criados, pede confirmação. Opções para conflitos:
-- Pular existentes (padrão)
-- Sobrescrever tudo
-- Fazer backup (`.bak`) e sobrescrever
+Summarizes files to be created, asks for confirmation. Options for conflicts:
+- Skip existing (default)
+- Overwrite everything
+- Backup (`.bak`) and overwrite
 
 ---
 
-## Templates — Conteúdo
+## Templates — Content
 
 ### CLAUDE.md
 
 ```markdown
 # {{PROJECT_NAME}} — Claude Code Entry
 
-Regras e contexto centralizados em AGENTS.md.
+Rules and context centralized in AGENTS.md.
 
-## Lembrete rápido
-- Commits: use `cn "mensagem"` (semantic-commit skill)
-- Code review: use a skill `code-review`
-- Debug: use a skill `debug-workflow`
+## Quick reminder
+- Commits: use `cn "message"` (semantic-commit skill)
+- Code review: use the `code-review` skill
+- Debug: use the `debug-workflow` skill
 - Stack: {{STACK}}
 ```
 
 ### AGENTS.md
 
-Documento principal com seções:
-- Visão geral do projeto
-- Skills disponíveis (tabela)
-- Subagents disponíveis (tabela)
-- Referências (llm-wiki, skills.sh, aitmpl.com)
-- Placeholder para regras de arquitetura
+Main document with sections:
+- Project overview
+- Available skills (table)
+- Available subagents (table)
+- References (llm-wiki, skills.sh, aitmpl.com)
+- Placeholder for architecture rules
 
 ### Skill `llm-wiki`
 
-Conceitos fundamentais do LLM Wiki (Karpathy) embutidos como contexto de sistema. Não faz fetch em runtime — o conteúdo está no arquivo. Inclui links para:
+Fundamental LLM Wiki (Karpathy) concepts built-in as system context. Does not fetch at runtime — the content is in the file. Includes links to:
 - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 - https://skills.sh
 - https://www.aitmpl.com/skills
 
 ---
 
-## Skills embutidas
+## Built-in Skills
 
-| Skill | Descrição | Trigger |
+| Skill | Description | Trigger |
 |---|---|---|
-| `semantic-commit` | Workflow de commit semântico com timestamp | "commit", "cn" |
-| `code-review` | Checklist genérico de revisão de código | "review", "revisar" |
-| `debug-workflow` | Metodologia científica de debugging | "debug", "bug" |
-| `llm-wiki` | Conceitos fundamentais de LLMs como contexto | "llm", "modelo", "prompt" |
+| `semantic-commit` | Semantic commit workflow with timestamp | "commit", "cn" |
+| `code-review` | Generic code review checklist | "review", "review" |
+| `debug-workflow` | Scientific debugging methodology | "debug", "bug" |
+| `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "prompt" |
 
-## Subagents embutidos
+## Built-in Subagents
 
-| Agent | Modelo | Função |
+| Agent | Model | Function |
 |---|---|---|
-| `task-router` | sonnet | Roteia subtarefas para o modelo/specialist correto |
-| `code-reviewer` | sonnet | Revisão focada em bugs e qualidade |
-| `debugger` | opus | Investigação científica de bugs |
+| `task-router` | sonnet | Routes subtasks to the correct model/specialist |
+| `code-reviewer` | sonnet | Review focused on bugs and quality |
+| `debugger` | opus | Scientific bug investigation |
 
 ---
 
-## Segurança e idempotência
+## Security and Idempotency
 
-- Detecção de conflitos antes de gravar com 3 opções de resolução
-- Padrão: pular arquivos existentes (nunca destrói trabalho existente)
-- Rodar duas vezes não corrompe nada
-- Falha de rede não bloqueia — bundle local como fallback
-- Nunca toca em `.env`, `package.json` do alvo, ou faz commit
+- Conflict detection before writing with 3 resolution options
+- Default: skip existing files (never destroys existing work)
+- Running twice doesn't corrupt anything
+- Network failure doesn't block — local bundle as fallback
+- Never touches `.env`, target's `package.json`, or commits
 
 ---
 
-## Dependências adicionadas ao ai-starter-kit
+## Dependencies added to ai-starter-kit
 
 ```json
 {
@@ -204,27 +204,27 @@ Conceitos fundamentais do LLM Wiki (Karpathy) embutidos como contexto de sistema
 
 ---
 
-## Como usar (no repo alvo)
+## How to use (in target repo)
 
 ```bash
-# Opção 1: via npx (sem clonar o starter kit)
+# Option 1: via npx (without cloning the starter kit)
 npx --yes github:lemondev/ai-starter-kit/scripts/init-ai.mjs
 
-# Opção 2: clone local
+# Option 2: local clone
 git clone https://github.com/lemondev/ai-starter-kit.git
 cd meu-projeto
 node ../ai-starter-kit/scripts/init-ai.mjs
 
-# Opção 3: npm script (se o starter kit estiver como devDep)
+# Option 3: npm script (if the starter kit is a devDep)
 npm run init-ai
 ```
 
 ---
 
-## Fora do escopo (não implementar)
+## Out of scope (do not implement)
 
-- Instalação de CLIs (já coberto por `setup.sh`)
-- CI/CD automático no repo alvo
-- Integração com MCP servers
-- Versionamento de templates
-- UI web para o onboarding
+- CLI installation (already covered by `setup.sh`)
+- Automatic CI/CD in the target repo
+- Integration with MCP servers
+- Template versioning
+- Web UI for onboarding

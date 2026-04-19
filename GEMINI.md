@@ -1,13 +1,13 @@
 # Gemini CLI Entry Point
 
-Para garantir consistência multi-modelo, este projeto utiliza um único contrato de governança para todos os agentes de IA.
+To ensure multi-model consistency, this project uses a single governance contract for all AI agents.
 
-## 📖 Fonte da Verdade
-**LEIA PRIMEIRO: [AGENTS.md](./AGENTS.md)**
+## 📖 Source of Truth
+**READ FIRST: [AGENTS.md](./AGENTS.md)**
 
-### Instruções para Gemini
-- Use o contexto longo para analisar arquivos em `@docs/**`.
-- Siga as convenções de commit e código descritas em `AGENTS.md`.
-- Em caso de ambiguidade, peça clarificação baseada nos specs de design em `docs/superpowers/specs/`.
+### Instructions for Gemini
+- Use the long context to analyze files in `@docs/**`.
+- Follow the commit and code conventions described in `AGENTS.md`.
+- In case of ambiguity, ask for clarification based on the design specs in `docs/superpowers/specs/`.
 
-Este arquivo atua como um redirecionador de contexto para o AGENTS.md.
+This file acts as a context redirector to `AGENTS.md`.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 AI Agents Starter Kit – Python Setup Script
-Configura o ambiente Python necessário para os exemplos do kit.
+Configures the Python environment required for the kit's examples.
 """
 import os
 import subprocess
@@ -9,11 +9,11 @@ import sys
 
 
 def run(cmd: list[str], check: bool = True) -> int:
-    """Executa um comando e retorna o código de saída."""
+    """Executes a command and returns the exit code."""
     print(f"  → {' '.join(cmd)}")
     result = subprocess.run(cmd, check=False)
     if check and result.returncode != 0:
-        print(f"  ✗ Falhou com código {result.returncode}")
+        print(f"  ✗ Failed with code {result.returncode}")
         sys.exit(result.returncode)
     return result.returncode
 
@@ -25,33 +25,33 @@ def main() -> None:
     print("═" * 45)
     print()
 
-    # Verificar versão do Python
+    # Verify Python version
     major, minor = sys.version_info.major, sys.version_info.minor
     if major < 3 or (major == 3 and minor < 10):
-        print(f"✗ Python >= 3.10 necessário. Versão atual: {major}.{minor}")
+        print(f"✗ Python >= 3.10 required. Current version: {major}.{minor}")
         sys.exit(1)
-    print(f"✔ Python {major}.{minor} detectado.")
+    print(f"✔ Python {major}.{minor} detected.")
 
-    # Instalar dependências de desenvolvimento
+    # Installing development dependencies...
     print()
-    print("Instalando dependências de desenvolvimento...")
+    print("Installing development dependencies...")
     run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
     run([sys.executable, "-m", "pip", "install", "pytest>=8.0", "flake8>=7.0", "black>=24.0"])
-    print("✔ Dependências instaladas!")
+    print("✔ Dependencies installed!")
 
-    # Verificar requirements.txt (opcional)
+    # Verify requirements.txt (optional)
     if os.path.exists("requirements.txt"):
         print()
-        print("Instalando requirements.txt...")
+        print("Installing requirements.txt...")
         run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-        print("✔ requirements.txt instalado!")
+        print("✔ requirements.txt installed!")
     else:
-        print("ℹ  requirements.txt não encontrado – pulando.")
+        print("ℹ  requirements.txt not found – skipping.")
 
     print()
     print("═" * 45)
-    print("✔ Ambiente Python pronto!")
-    print("  Execute os testes com: pytest -q")
+    print("✔ Python environment ready!")
+    print("  Run tests with: pytest -q")
     print("═" * 45)
     print()
 

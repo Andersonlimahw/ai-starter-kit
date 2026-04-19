@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * init-ai — AI Agent Scaffold Generator
- * Gera infraestrutura de AI agents em qualquer repositório.
- * Uso: node scripts/init-ai.mjs
+ * Generates AI agents infrastructure in any repository.
+ * Usage: node scripts/init-ai.mjs
  */
 
 import fs from 'node:fs';
@@ -35,7 +35,7 @@ async function loadPrompts() {
   } catch (error) {
     const cause = error && typeof error === 'object' && 'message' in error ? error.message : String(error);
     throw new Error(
-      `Dependência @inquirer/prompts indisponível. Rode "npm install" antes de usar init-ai. Detalhe: ${cause}`
+      `Dependency @inquirer/prompts unavailable. Run "npm install" before using init-ai. Detail: ${cause}`
     );
   }
 }
@@ -87,7 +87,7 @@ export function getTemplateFiles(clis = []) {
     if (fs.existsSync(folderPath)) {
       const paths = getFilesRecursively(folderPath, folder);
       for (const p of paths) {
-        // Ignora arquivos indesejados se houver (ex: .DS_Store)
+        // Ignore unwanted files if any (e.g., .DS_Store)
         if (p.includes('.DS_Store')) continue;
 
         const isExecutable = p.endsWith('.sh');
@@ -162,7 +162,7 @@ function writeSymlink(file, destPath) {
         fs.unlinkSync(destPath);
       }
     } catch {
-      // O destino pode ainda não existir; seguimos para criar o link.
+      // Destination might not exist yet; we continue to create the link.
     }
   }
 
@@ -219,7 +219,7 @@ async function handleUpdateMode() {
 
   console.log('\nAI Agent Scaffold Updater');
   console.log('='.repeat(40));
-  console.log(`Destino: ${TARGET_DIR}\n`);
+  console.log(`Destination: ${TARGET_DIR}\n`);
 
   const detected = getDetectedClis();
   const installedClis = Object.entries(detected)
@@ -229,27 +229,27 @@ async function handleUpdateMode() {
   const clis = installedClis.length > 0 ? installedClis : ['claude'];
 
   const conflictStrategy = await select({
-    message: 'Como tratar arquivos existentes durante a atualização?',
+    message: 'How to handle existing files during the update?',
     choices: [
-      { value: 'backup', name: 'Criar .bak e sobrescrever (recomendado)' },
-      { value: 'overwrite', name: 'Sobrescrever diretamente' },
-      { value: 'skip', name: 'Pular arquivos existentes (atualização parcial)' },
+      { value: 'backup', name: 'Create .bak and overwrite (recommended)' },
+      { value: 'overwrite', name: 'Overwrite directly' },
+      { value: 'skip', name: 'Skip existing files (partial update)' },
     ],
   });
 
   const confirmed = await confirm({
-    message: `Atualizar scaffold para ${clis.join(', ')} com estratégia "${conflictStrategy}"?`,
+    message: `Update scaffold for ${clis.join(', ')} with strategy "${conflictStrategy}"?`,
     default: true,
   });
 
   if (!confirmed) {
-    console.log('\nCancelado.');
+    console.log('\nCancelled.');
     return;
   }
 
   const vars = {
     PROJECT_NAME: path.basename(TARGET_DIR),
-    PROJECT_DESCRIPTION: 'Projeto com suporte a AI agents',
+    PROJECT_DESCRIPTION: 'Project with AI agents support',
     LANGUAGE: 'TypeScript',
     STACK: 'TypeScript',
   };
@@ -257,10 +257,10 @@ async function handleUpdateMode() {
   const files = getTemplateFiles(clis);
   const { written, skipped } = writeFiles(files, vars, conflictStrategy);
 
-  console.log('\nAtualização concluída.');
-  console.log(`Arquivos atualizados: ${written.length}`);
+  console.log('\nUpdate completed.');
+  console.log(`Files updated: ${written.length}`);
   if (skipped.length > 0) {
-    console.log(`Arquivos pulados: ${skipped.length}`);
+    console.log(`Files skipped: ${skipped.length}`);
   }
 }
 
@@ -270,44 +270,44 @@ async function handleAddSkillMode() {
   console.log('\nAI Agent Skill Installer (Community)');
   console.log('='.repeat(40));
 
-  console.log('\nBuscando catálogo de skills...');
+  console.log('\nFetching skills catalog...');
   const catalog = await fetchExtraSkillsCatalog();
 
   const mockSkills = [
     {
       id: 'semantic-commit',
       name: 'Semantic Commit',
-      description: 'Commits convencionais com scope, breaking changes e changelog automático',
+      description: 'Conventional commits with scope, breaking changes, and automatic changelog',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/semantic-commit/SKILL.md',
     },
     {
       id: 'code-review',
       name: 'Code Review',
-      description: 'Revisão estruturada de PRs: segurança, performance, legibilidade',
+      description: 'Structured PR review: security, performance, readability',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/code-review/SKILL.md',
     },
     {
       id: 'debug-workflow',
       name: 'Debug Workflow',
-      description: 'Debugging sistemático com hipóteses, evidências e root cause analysis',
+      description: 'Systematic debugging with hypotheses, evidence, and root cause analysis',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/debug-workflow/SKILL.md',
     },
     {
       id: 'llm-wiki',
       name: 'LLM Wiki',
-      description: 'Referência rápida de conceitos LLM: tokens, temperatura, RAG, fine-tuning',
+      description: 'Quick reference for LLM concepts: tokens, temperature, RAG, fine-tuning',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/llm-wiki/SKILL.md',
     },
     {
       id: 'test-driven',
       name: 'Test-Driven Development',
-      description: 'TDD com Red-Green-Refactor, mocks, fixtures e cobertura mínima',
+      description: 'TDD with Red-Green-Refactor, mocks, fixtures, and minimum coverage',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/test-driven/SKILL.md',
     },
     {
       id: 'api-design',
       name: 'API Design',
-      description: 'Boas práticas REST: versionamento, erros, paginação, autenticação',
+      description: 'REST best practices: versioning, errors, pagination, authentication',
       url: 'https://raw.githubusercontent.com/lemondev/ai-agents-starter-kit/main/templates/.claude/skills/api-design/SKILL.md',
     },
   ];
@@ -315,11 +315,11 @@ async function handleAddSkillMode() {
   const skills = catalog?.skills || mockSkills;
 
   if (!catalog) {
-    console.log('Aviso: Usando catálogo offline de exemplo.');
+    console.log('Warning: Using offline example catalog.');
   }
 
   const selectedSkills = await checkbox({
-    message: 'Selecione as skills que deseja instalar:',
+    message: 'Select the skills you want to install:',
     choices: skills.map(s => ({
       name: `${s.name} - ${s.description}`,
       value: s
@@ -327,12 +327,12 @@ async function handleAddSkillMode() {
   });
 
   if (selectedSkills.length === 0) {
-    console.log('\nNenhuma skill selecionada.');
+    console.log('\nNo skills selected.');
     return;
   }
 
   const targetCli = await select({
-    message: 'Para qual CLI deseja instalar?',
+    message: 'For which CLI do you want to install?',
     choices: [
       { name: 'Claude Code (.claude/skills)', value: 'claude' },
       { name: 'Gemini CLI (.gemini/skills)', value: 'gemini' },
@@ -350,7 +350,7 @@ async function handleAddSkillMode() {
 
   const baseDir = cliPaths[targetCli];
 
-  console.log(`\nInstalando ${selectedSkills.length} skill(s) em ${baseDir}...`);
+  console.log(`\nInstalling ${selectedSkills.length} skill(s) in ${baseDir}...`);
 
   for (const skill of selectedSkills) {
     const skillDir = path.join(TARGET_DIR, baseDir, skill.id);
@@ -358,11 +358,11 @@ async function handleAddSkillMode() {
 
     if (fs.existsSync(destPath)) {
       const overwrite = await confirm({
-        message: `Skill "${skill.name}" já existe. Sobrescrever?`,
+        message: `Skill "${skill.name}" already exists. Overwrite?`,
         default: false
       });
       if (!overwrite) {
-        console.log(`  - Pulei ${skill.name}`);
+        console.log(`  - Skipped ${skill.name}`);
         continue;
       }
     }
@@ -375,16 +375,16 @@ async function handleAddSkillMode() {
       if (res.ok) {
         content = await res.text();
       } else {
-        content = `# ${skill.name}\n\n${skill.description}\n\n> Download falhou (HTTP ${res.status}). Verifique: ${skill.url}\n`;
+        content = `# ${skill.name}\n\n${skill.description}\n\n> Download failed (HTTP ${res.status}). Check: ${skill.url}\n`;
       }
     } catch (err) {
-      content = `# ${skill.name}\n\n${skill.description}\n\n> Download falhou: ${err.message}. Verifique: ${skill.url}\n`;
+      content = `# ${skill.name}\n\n${skill.description}\n\n> Download failed: ${err.message}. Check: ${skill.url}\n`;
     }
     fs.writeFileSync(destPath, content, 'utf8');
-    console.log(`  + Instalada: ${skill.name}`);
+    console.log(`  + Installed: ${skill.name}`);
   }
 
-  console.log('\nFinalizado com sucesso.');
+  console.log('\nSuccessfully finished.');
 }
 
 export async function main() {
@@ -402,52 +402,52 @@ export async function main() {
 
   console.log('\nAI Agent Scaffold Generator');
   console.log('='.repeat(40));
-  console.log(`Destino: ${TARGET_DIR}\n`);
+  console.log(`Destination: ${TARGET_DIR}\n`);
 
   const projectName = await input({
-    message: 'Nome do projeto:',
+    message: 'Project name:',
     default: path.basename(TARGET_DIR),
   });
 
   const description = await input({
-    message: 'Descrição curta:',
-    default: 'Projeto com suporte a AI agents',
+    message: 'Short description:',
+    default: 'Project with AI agents support',
   });
 
   const language = await select({
-    message: 'Linguagem principal:',
-    choices: ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Outra'].map((value) => ({
+    message: 'Main language:',
+    choices: ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Other'].map((value) => ({
       value,
       name: value,
     })),
   });
 
   const stack = await input({
-    message: 'Stack/frameworks (opcional):',
+    message: 'Stack/frameworks (optional):',
     default: language,
   });
 
   const detected = getDetectedClis();
   const selectedClis = await checkbox({
-    message: 'Quais AI CLIs você usa? (espaço para marcar)',
+    message: 'Which AI CLIs do you use? (space to mark)',
     choices: [
       {
-        name: `Claude Code [recomendado${detected.claude ? ' | instalado' : ''}]`,
+        name: `Claude Code [recommended${detected.claude ? ' | installed' : ''}]`,
         value: 'claude',
         checked: true,
       },
       {
-        name: `OpenAI Codex CLI${detected.codex ? ' | instalado' : ''}`,
+        name: `OpenAI Codex CLI${detected.codex ? ' | installed' : ''}`,
         value: 'codex',
         checked: detected.codex,
       },
       {
-        name: `Gemini CLI${detected.gemini ? ' | instalado' : ''}`,
+        name: `Gemini CLI${detected.gemini ? ' | installed' : ''}`,
         value: 'gemini',
         checked: detected.gemini,
       },
       {
-        name: `GitHub Copilot CLI${detected.copilot ? ' | instalado' : ''}`,
+        name: `GitHub Copilot CLI${detected.copilot ? ' | installed' : ''}`,
         value: 'copilot',
         checked: detected.copilot,
       },
@@ -456,7 +456,7 @@ export async function main() {
 
   const clis = Array.from(new Set(['claude', ...selectedClis]));
   const wantExtra = await confirm({
-    message: 'Consultar catálogo opcional de skills externas (skills.sh/aitmpl.com)?',
+    message: 'Consult optional external skills catalog (skills.sh/aitmpl.com)?',
     default: false,
   });
 
@@ -472,22 +472,22 @@ export async function main() {
   let conflictStrategy = 'skip';
 
   if (conflicts.length > 0) {
-    console.log(`\n${conflicts.length} arquivo(s) já existem no destino:`);
+    console.log(`\n${conflicts.length} file(s) already exist at the destination:`);
     for (const file of conflicts) {
       console.log(`  - ${file.dest}`);
     }
 
     conflictStrategy = await select({
-      message: 'Como tratar conflitos?',
+      message: 'How to handle conflicts?',
       choices: [
-        { value: 'skip', name: 'Pular arquivos existentes (seguro)' },
-        { value: 'overwrite', name: 'Sobrescrever arquivos existentes' },
-        { value: 'backup', name: 'Renomear para .bak e sobrescrever' },
+        { value: 'skip', name: 'Skip existing files (safe)' },
+        { value: 'overwrite', name: 'Overwrite existing files' },
+        { value: 'backup', name: 'Rename to .bak and overwrite' },
       ],
     });
   }
 
-  console.log(`\nResumo: ${files.length} item(ns) serão processados.\n`);
+  console.log(`\nSummary: ${files.length} item(s) will be processed.\n`);
   for (const file of files) {
     const marker = conflicts.some((conflict) => conflict.dest === file.dest) ? '!' : '-';
     const descriptor = file.symlink ? `${file.dest} -> ${file.symlink}` : file.dest;
@@ -495,47 +495,47 @@ export async function main() {
   }
 
   const confirmed = await confirm({
-    message: '\nConfirmar instalação?',
+    message: '\nConfirm installation?',
     default: true,
   });
 
   if (!confirmed) {
-    console.log('\nCancelado.');
+    console.log('\nCancelled.');
     return;
   }
 
   const { written, skipped } = writeFiles(files, vars, conflictStrategy);
 
   if (wantExtra) {
-    console.log('\nBuscando catálogo opcional...');
+    console.log('\nFetching optional catalog...');
     const catalog = await fetchExtraSkillsCatalog();
 
     if (catalog) {
-      console.log('Catálogo externo disponível: https://skills.sh');
+      console.log('External catalog available: https://skills.sh');
     } else {
-      console.log('Não foi possível buscar o catálogo agora. Use manualmente:');
+      console.log('Could not fetch the catalog now. Use manually:');
     }
 
     console.log('  - https://skills.sh');
     console.log('  - https://www.aitmpl.com/skills');
   }
 
-  console.log('\nInstalação concluída.');
-  console.log(`Arquivos criados/atualizados: ${written.length}`);
+  console.log('\nInstallation completed.');
+  console.log(`Files created/updated: ${written.length}`);
 
   if (skipped.length > 0) {
-    console.log(`Arquivos pulados: ${skipped.length}`);
+    console.log(`Files skipped: ${skipped.length}`);
   }
 
-  console.log('\nPróximos passos:');
-  console.log('  1. Revise CLAUDE.md e AGENTS.md no projeto alvo');
-  console.log('  2. Ajuste as skills e agentes gerados para o contexto do repo');
-  console.log('  3. Rode o CLI que você realmente usa: claude, codex, gemini ou copilot');
+  console.log('\nNext steps:');
+  console.log('  1. Review CLAUDE.md and AGENTS.md in the target project');
+  console.log('  2. Adjust the generated skills and agents to the repo context');
+  console.log('  3. Run the CLI you actually use: claude, codex, gemini or copilot');
 }
 
 if (isMainModule()) {
   main().catch((error) => {
-    console.error('\nErro:', error.message);
+    console.error('\nError:', error.message);
     process.exit(1);
   });
 }

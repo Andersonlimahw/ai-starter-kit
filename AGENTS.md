@@ -1,67 +1,67 @@
 # AI Agents Starter Kit — Working Agreement
 
-Este repositório é um **harness** (ambiente de execução) para agentes de IA. Ele define contratos, regras e ferramentas para garantir que a IA opere de forma segura, previsível e idiomática.
+This repository is a **harness** (execution environment) for AI agents. It defines contracts, rules, and tools to ensure that AI operates safely, predictably, and idiomatically.
 
 ---
 
-## 📂 Índice de Documentação (`/docs`)
+## 📂 Documentation Index (`/docs`)
 
-Consulte estes documentos para entender as entranhas e o futuro deste kit:
+Refer to these documents to understand the inner workings and future of this kit:
 
 - **[README-en.md](./docs/README-en.md)**: English version and international SEO targets.
-- **superpowers/**: Arquitetura de "superpoderes" e automações avançadas.
+- **superpowers/**: Advanced "superpowers" architecture and automations.
     - **plans/**:
-        - [2026-04-13-init-ai-scaffold.md](./docs/superpowers/plans/2026-04-13-init-ai-scaffold.md): Plano de implementação do scaffold automatizado.
+        - [2026-04-13-init-ai-scaffold.md](./docs/superpowers/plans/2026-04-13-init-ai-scaffold.md): Implementation plan for the automated scaffold.
     - **specs/**:
-        - [2026-04-13-init-ai-scaffold-design.md](./docs/superpowers/specs/2026-04-13-init-ai-scaffold-design.md): Spec técnica do gerador `init-ai`.
+        - [2026-04-13-init-ai-scaffold-design.md](./docs/superpowers/specs/2026-04-13-init-ai-scaffold-design.md): Technical spec for the `init-ai` generator.
 
 ---
 
-## 📜 Contrato do Agente (Boris Best Practices)
+## 📜 Agent Contract (Best Practices)
 
-Ao operar neste repositório, você deve seguir este contrato operacional:
+When operating in this repository, you must follow this operational contract:
 
-### 1. Intenção e Planejamento
-- **Modo Plano**: Para qualquer tarefa que envolva mais de um arquivo ou lógica complexa, você **deve** começar em modo de plano (`Plan Mode`).
-- **Verificação Empírica**: Antes de corrigir um bug, você deve reproduzi-lo com um script ou teste que falhe.
+### 1. Intent and Planning
+- **Plan Mode**: For any task involving more than one file or complex logic, you **must** start in `Plan Mode`.
+- **Empirical Verification**: Before fixing a bug, you must reproduce it with a script or test that fails.
 
-### 2. Estilo e Convenções
-- **Stack**: Node.js (TypeScript) e Python.
-- **Commits**: Use a skill `semantic-commit`. Formato: `[type]: [desc] : dd/mm/yy - hh:mm`.
-- **Linguagem**: Documentação e commits em **Português (pt-BR)**, código e variáveis em **Inglês**.
+### 2. Style and Conventions
+- **Stack**: Node.js (TypeScript) and Python.
+- **Commits**: Use the `semantic-commit` skill. Format: `[type]: [desc] : mm/dd/yy - hh:mm`.
+- **Language**: Documentation, commits, and comments in **American English (EN-US)**. Code and variables in **English**.
 
-### 3. Regras de "Nunca" (Hard Guardrails)
-- **NUNCA** commite arquivos `.env` ou segredos.
-- **NUNCA** execute comandos contra produção sem aprovação humana explícita.
-- **NUNCA** ignore falhas de linter ou typecheck ao finalizar uma tarefa.
+### 3. "Never" Rules (Hard Guardrails)
+- **NEVER** commit `.env` files or secrets.
+- **NEVER** run commands against production without explicit human approval.
+- **NEVER** ignore linter or typecheck failures when finishing a task.
 
 ---
 
-## 🛠️ Skills e Subagents
+## 🛠️ Skills and Subagents
 
-| Nome | Tipo | Função Principal |
+| Name | Type | Main Function |
 |---|---|---|
-| `semantic-commit` | Skill | Gera mensagens de commit semântico com timestamp. |
-| `code-review` | Skill | Checklist de qualidade, segurança e performance. |
-| `debug-workflow` | Skill | Metodologia científica: Reproduzir -> Isolar -> Corrigir. |
-| `llm-wiki` | Skill | Base de conhecimento sobre tokens, RAG e agentes. |
-| `task-router` | Agent | Roteia tarefas complexas para o modelo ideal (Opus/Sonnet/Haiku). |
+| `semantic-commit` | Skill | Generates semantic commit messages with timestamp. |
+| `code-review` | Skill | Quality, security, and performance checklist. |
+| `debug-workflow` | Skill | Scientific methodology: Reproduce -> Isolate -> Fix. |
+| `llm-wiki` | Skill | Knowledge base on tokens, RAG, and agents. |
+| `task-router` | Agent | Routes complex tasks to the ideal model (Opus/Sonnet/Haiku). |
 
 ---
 
-## 🦾 Modelos Suportados
+## 🦾 Supported Models
 
-- **Claude Code**: Recomendado para execução complexa e refatoração.
-- **Gemini CLI**: Ideal para análise de contexto longo (logs, docs extensos).
-- **Codex CLI**: Execuções rápidas e geração de boilerplate.
-
----
-
-## 🔐 Checklist de Segurança
-- [ ] Variáveis de ambiente isoladas no `.env`.
-- [ ] Stage de arquivos revisado (`git status`).
-- [ ] Comandos `Bash` perigosos confirmados manualmente.
+- **Claude Code**: Recommended for complex execution and refactoring.
+- **Gemini CLI**: Ideal for long context analysis (logs, extensive docs).
+- **Codex CLI**: Fast executions and boilerplate generation.
 
 ---
 
-*Para dúvidas ou expansão, utilize a skill `llm-wiki` ou consulte [lemon.dev](https://lemon.dev).*
+## 🔐 Security Checklist
+- [ ] Environment variables isolated in `.env`.
+- [ ] Staged files reviewed (`git status`).
+- [ ] Dangerous `Bash` commands manually confirmed.
+
+---
+
+*For questions or expansion, use the `llm-wiki` skill or visit [lemon.dev](https://lemon.dev).*

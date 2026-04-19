@@ -1,21 +1,21 @@
 # Skills Index — {{PROJECT_NAME}}
 
-Skills disponíveis neste projeto:
+Skills available in this project:
 
-| Skill | Arquivo | Trigger |
+| Skill | File | Trigger |
 |---|---|---|
 | `semantic-commit` | `.claude/skills/semantic-commit/SKILL.md` | "commit", "cn" |
-| `code-review` | `.claude/skills/code-review/SKILL.md` | "review", "revisar" |
+| `code-review` | `.claude/skills/code-review/SKILL.md` | "review", "review" |
 | `debug-workflow` | `.claude/skills/debug-workflow/SKILL.md` | "debug", "bug" |
-| `llm-wiki` | `.claude/skills/llm-wiki/SKILL.md` | "llm", "modelo", "prompt" |
+| `llm-wiki` | `.claude/skills/llm-wiki/SKILL.md` | "llm", "model", "prompt" |
 
-## Adicionar skills externas
+## Add external skills
 
 ```bash
-# Via ai-starter-kit (interativo)
+# Via ai-starter-kit (interactive)
 node /path/to/ai-starter-kit/scripts/init-ai.mjs --add-skill
 
 # Via skills.sh (manual)
-# Acesse https://skills.sh e copie o arquivo SKILL.md desejado
-# para .claude/skills/<nome>/SKILL.md
+# Access https://skills.sh and copy the desired SKILL.md file
+# to .claude/skills/<name>/SKILL.md
 ```

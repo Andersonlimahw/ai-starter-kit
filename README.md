@@ -1,7 +1,7 @@
 # AI Agents Starter Kit 🤖
 
 > **Free AI Agents Starter Kit – Claude Code (Anthropic), Codex (OpenAI), Gemini (Google) & Copilot**  
-> Acelere o desenvolvimento com agentes de IA – suporte multi-modelo, configuração em 5 minutos, exemplos prontos.
+> Accelerate development with AI agents – multi-model support, 5-minute setup, ready-to-use examples.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-green)](https://nodejs.org)
@@ -10,78 +10,78 @@
 
 ---
 
-## 🦾 O que é este Kit?
+## 🦾 What is this Kit?
 
-O **AI Agents Starter Kit** é um repositório cross-platform (Node.js + Python) com tudo que um desenvolvedor precisa para começar a usar **agentes de código com múltiplos modelos de IA**:
+The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) with everything a developer needs to start using **code agents with multiple AI models**:
 
 - **Claude Code** (Anthropic)
 - **Codex CLI** (OpenAI)
 - **Gemini CLI** (Google)
 - **GitHub Copilot CLI**
-- **OpenClaude** (multi-modelo)
+- **OpenClaude** (multi-model)
 
 ---
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-- ✅ Quickstart de **5 minutos** para cada plataforma
-- ✅ Exemplos de **agentes e sub-agentes**
-- ✅ **Skills** (habilidades) pré-definidas: debug, geração de código, refatoração
-- ✅ **Hooks** customizáveis antes/depois de ações
-- ✅ **Memória** via MCP (Model Context Protocol)
-- ✅ **LLM-Wiki**: busca automática e armazenamento de contexto
-- ✅ Scripts de setup automático (`bash scripts/setup.sh`)
-- ✅ CI/CD com GitHub Actions
-- ✅ Comparação de modelos e CLIs
-- ✅ Checklist de segurança
+- ✅ **5-minute quickstart** for each platform
+- ✅ **Agent and sub-agent** examples
+- ✅ Pre-defined **Skills**: debug, code generation, refactoring
+- ✅ Customizable **Hooks** before/after actions
+- ✅ **Memory** via MCP (Model Context Protocol)
+- ✅ **LLM-Wiki**: automatic search and context storage
+- ✅ Automatic setup scripts (`bash scripts/setup.sh`)
+- ✅ CI/CD with GitHub Actions
+- ✅ Model and CLI comparison
+- ✅ Security checklist
 
 ---
 
 ## ⚡ Quickstart
 
 ```bash
-# 1. Clone o repositório
+# 1. Clone the repository
 git clone https://github.com/lemondev/ai-agents-starter-kit.git
 cd ai-agents-starter-kit
 
-# 2. Setup automático (instala todos os CLIs)
+# 2. Automatic setup (installs all CLIs)
 bash scripts/setup.sh
 
-# 3. Configure suas chaves
+# 3. Configure your keys
 cp .env.example .env
-# Edite .env com suas chaves de API
+# Edit .env with your API keys
 
-# 4. Rode um agente de exemplo
+# 4. Run an example agent
 cd examples/depurador-claude && claude
 ```
 
 ---
 
-## Init AI — Scaffold para qualquer repositório
+## Init AI — Scaffold for any repository
 
-O script `init-ai` gera a infraestrutura de AI agents em qualquer repositório existente.
+The `init-ai` script generates the AI agents infrastructure in any existing repository.
 
 ```bash
-# No diretório do seu projeto:
+# In your project directory:
 node /path/to/ai-starter-kit/scripts/init-ai.mjs
 
-# Para adicionar skills da comunidade:
+# To add community skills:
 node /path/to/ai-starter-kit/scripts/init-ai.mjs --add-skill
 ```
 
-O script:
-1. Pergunta nome, stack e linguagem do projeto
-2. Detecta CLIs instalados e sugere Claude Code como padrão
-3. Gera `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude/skills/`, `.claude/agents/` e mais
-4. Oferece skills adicionais do [skills.sh](https://skills.sh) e [aitmpl.com](https://www.aitmpl.com/skills)
+The script:
+1. Asks for project name, stack, and language
+2. Detects installed CLIs and suggests Claude Code as default
+3. Generates `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude/skills/`, `.claude/agents/`, and more
+4. Offers additional skills from [skills.sh](https://skills.sh) and [aitmpl.com](https://www.aitmpl.com/skills)
 
-Skills incluídas por padrão: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
+Skills included by default: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
 
 ---
 
-## 📦 Instalação dos CLIs
+## 📦 CLI Installation
 
-| CLI | Instalação |
+| CLI | Installation |
 |-----|-----------|
 | Claude Code | `curl -fsSL https://claude.ai/install.sh \| bash` |
 | Codex CLI | `npm install -g @openai/codex` |
@@ -91,29 +91,29 @@ Skills incluídas por padrão: `semantic-commit`, `code-review`, `debug-workflow
 
 ---
 
-## 🏗️ Estrutura do Projeto
+## 🏗️ Project Structure
 
 ```
 ai-agents-starter-kit/
-├── AGENTS.md                    # Documentação principal (pt-BR)
-├── README.md                    # Este arquivo
-├── .env.example                 # Variáveis de ambiente (exemplo)
-├── package.json                 # Config Node.js
-├── pyproject.toml               # Config Python
+├── AGENTS.md                    # Main documentation (EN-US)
+├── README.md                    # This file
+├── .env.example                 # Environment variables (example)
+├── package.json                 # Node.js config
+├── pyproject.toml               # Python config
 ├── LICENSE                      # MIT
 ├── scripts/
-│   ├── setup.sh                 # Setup cross-CLI (Bash)
-│   ├── init-ai.mjs              # Gerador de scaffold para IA
+│   ├── setup.sh                 # Cross-CLI setup (Bash)
+│   ├── init-ai.mjs              # AI scaffold generator
 │   ├── test_models.sh           # Smoke tests
-│   ├── setup.py                 # Setup Python
-│   └── hook-before-edit.sh      # Hook de lint antes de edições
+│   ├── setup.py                 # Python setup
+│   └── hook-before-edit.sh      # Lint hook before edits
 ├── examples/
-│   ├── depurador-claude/        # Agente "Depurador" (Claude Code)
-│   ├── gerador-codex/           # Agente "Gerador de Código" (Codex)
-│   ├── explorador-gemini/       # Análise de contexto longo (Gemini)
-│   └── multi-modelo-openclaude/ # Portabilidade entre LLMs (OpenClaude)
+│   ├── depurador-claude/        # "Debugger" Agent (Claude Code)
+│   ├── gerador-codex/           # "Code Generator" Agent (Codex)
+│   ├── explorador-gemini/       # Long context analysis (Gemini)
+│   └── multi-modelo-openclaude/ # LLM Portability (OpenClaude)
 ├── docs/
-│   └── README-en.md             # Versão em inglês (SEO)
+│   └── README-en.md             # English version (SEO)
 └── .github/
     └── workflows/
         └── tests.yml            # CI Pipeline
@@ -121,37 +121,37 @@ ai-agents-starter-kit/
 
 ---
 
-## 🔐 Segurança
+## 🔐 Security
 
-- Nunca commite o arquivo `.env`
-- Use `.env.example` como template
-- Confirme ações críticas dos agentes manualmente
-- Veja `AGENTS.md` para checklist completo de segurança
-
----
-
-## 🆙 Versão PRO
-
-A versão gratuita inclui os starter templates e agentes básicos.
-
-A versão **PRO** oferece:
-- 🤖 Agentes avançados (CI/CD, monitoramento, segurança)
-- 🔌 Plugins Premium (Sentry, Datadog)
-- 🚀 Acesso antecipado a novos modelos
-- 💬 Suporte prioritário
-
-> **[👉 Atualize para PRO em lemon.dev/pro-agents](https://lemon.dev/pro-agents)**
+- Never commit the `.env` file
+- Use `.env.example` as a template
+- Manually confirm critical agent actions
+- See `AGENTS.md` for a complete security checklist
 
 ---
 
-## 📖 Documentação
+## 🆙 PRO Version
 
-- [AGENTS.md](./AGENTS.md) – Documentação completa em português
+The free version includes starter templates and basic agents.
+
+The **PRO** version offers:
+- 🤖 Advanced agents (CI/CD, monitoring, security)
+- 🔌 Premium plugins (Sentry, Datadog)
+- 🚀 Early access to new models
+- 💬 Priority support
+
+> **[👉 Upgrade to PRO at lemon.dev/pro-agents](https://lemon.dev/pro-agents)**
+
+---
+
+## 📖 Documentation
+
+- [AGENTS.md](./AGENTS.md) – Complete documentation in English
 - [docs/README-en.md](./docs/README-en.md) – English documentation
-- [lemon.dev/pro-agents](https://lemon.dev/pro-agents) – Versão PRO e newsletter
+- [lemon.dev/pro-agents](https://lemon.dev/pro-agents) – PRO version and newsletter
 
 ---
 
-## 📄 Licença
+## 📄 License
 
 MIT © [lemon.dev](https://lemon.dev)

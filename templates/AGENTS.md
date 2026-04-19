@@ -3,38 +3,38 @@
 {{PROJECT_DESCRIPTION}}
 
 ## Stack
-**Linguagem:** {{LANGUAGE}} | **Frameworks:** {{STACK}}
+**Language:** {{LANGUAGE}} | **Frameworks:** {{STACK}}
 
 ---
 
-## Skills disponíveis
+## Available Skills
 
-| Skill | Descrição | Trigger |
+| Skill | Description | Trigger |
 |---|---|---|
-| `semantic-commit` | Workflow de commit semântico com timestamp | "commit", "cn", "fazer commit" |
-| `code-review` | Checklist genérico de revisão de código | "review", "revisar", "verificar código" |
-| `debug-workflow` | Metodologia científica de debugging | "debug", "bug", "erro", "investigar" |
-| `llm-wiki` | Conceitos fundamentais de LLMs como contexto | "llm", "modelo", "prompt", "token" |
+| `semantic-commit` | Semantic commit workflow with timestamp | "commit", "cn", "do commit" |
+| `code-review` | Generic code review checklist | "review", "review", "verify code" |
+| `debug-workflow` | Scientific debugging methodology | "debug", "bug", "error", "investigate" |
+| `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "prompt", "token" |
 
-## Subagents disponíveis
+## Available Subagents
 
-| Agent | Modelo | Função |
+| Agent | Model | Function |
 |---|---|---|
-| `task-router` | sonnet | Roteia subtarefas para o modelo/specialist correto |
-| `code-reviewer` | sonnet | Revisão focada em bugs e qualidade |
-| `debugger` | opus | Investigação científica de bugs |
+| `task-router` | sonnet | Routes subtasks to the correct model/specialist |
+| `code-reviewer` | sonnet | Review focused on bugs and quality |
+| `debugger` | opus | Scientific bug investigation |
 
 ---
 
-## Arquitetura do projeto
+## Project architecture
 
-> Adicione aqui as regras de arquitetura específicas do seu projeto.
-> Exemplo: padrões de camadas, convenções de nomenclatura, restrições.
+> Add your project-specific architecture rules here.
+> Example: layer patterns, naming conventions, constraints.
 
 ---
 
-## Referências
+## References
 
 - LLM Wiki (Karpathy): https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
-- Skills externas: https://skills.sh
-- Templates AI: https://www.aitmpl.com/skills
+- External skills: https://skills.sh
+- AI Templates: https://www.aitmpl.com/skills

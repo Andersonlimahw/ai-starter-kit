@@ -1,13 +1,13 @@
 # {{PROJECT_NAME}} — Claude Code Entry
 
-Regras e contexto centralizados em AGENTS.md.
+Rules and context centralized in AGENTS.md.
 
-## Lembrete rápido
-- Commits: use `cn "mensagem"` (semantic-commit skill)
-- Code review: use a skill `code-review`
-- Debug: use a skill `debug-workflow`
+## Quick reminder
+- Commits: use `cn "message"` (semantic-commit skill)
+- Code review: use the `code-review` skill
+- Debug: use the `debug-workflow` skill
 - Stack: {{STACK}}
-- Idioma: {{LANGUAGE}}
+- Language: {{LANGUAGE}}
 
-## Fonte da verdade
-Leia **[AGENTS.md](./AGENTS.md)** para o índice completo de diretrizes.
+## Source of truth
+Read **[AGENTS.md](./AGENTS.md)** for the complete guidelines index.

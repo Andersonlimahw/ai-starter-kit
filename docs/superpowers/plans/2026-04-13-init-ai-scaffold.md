@@ -2,57 +2,57 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Criar o script `scripts/init-ai.mjs` e os templates em `templates/` para gerar infraestrutura completa de AI agents em qualquer repositório alvo.
+**Goal:** Create the script `scripts/init-ai.mjs` and the templates in `templates/` to generate complete AI agents infrastructure in any target repository.
 
-**Architecture:** Script Node.js interativo (`@inquirer/prompts`) que lê templates de `templates/`, coleta contexto do projeto via onboarding, detecta CLIs instalados, substitui placeholders e grava os arquivos no repo alvo. Templates são arquivos Markdown/JSON com placeholders `{{KEY}}`.
+**Architecture:** Interactive Node.js script (`@inquirer/prompts`) that reads templates from `templates/`, collects project context via onboarding, detects installed CLIs, replaces placeholders and writes files to the target repo. Templates are Markdown/JSON files with placeholders `{{KEY}}`.
 
 **Tech Stack:** Node.js >=20, `@inquirer/prompts ^7`, `node:fs`, `node:path`, `node:child_process`
 
 ---
 
-## Mapa de arquivos
+## File Map
 
-### Criar (novos)
-| Arquivo | Responsabilidade |
+### Create (new)
+| File | Responsibility |
 |---|---|
-| `scripts/init-ai.mjs` | Script principal — onboarding, detecção de CLIs, cópia de templates |
-| `templates/CLAUDE.md` | Template do entry point para Claude Code |
-| `templates/AGENTS.md` | Template do índice principal de AI agents |
-| `templates/.claude/settings.json` | Config de projeto para Claude Code |
-| `templates/.claude/SKILLS.md` | Índice de skills do projeto |
-| `templates/.claude/skills/semantic-commit/SKILL.md` | Skill de commit semântico |
-| `templates/.claude/skills/code-review/SKILL.md` | Skill de revisão de código |
-| `templates/.claude/skills/debug-workflow/SKILL.md` | Skill de debugging sistemático |
-| `templates/.claude/skills/llm-wiki/SKILL.md` | Skill com conceitos LLM (Karpathy) |
-| `templates/.claude/hooks/git-setup.sh` | Hook de git (pre-commit, post-merge) |
-| `templates/.claude/agents/task-router.md` | Subagent roteador de tarefas |
-| `templates/.claude/agents/code-reviewer.md` | Subagent revisor de código |
-| `templates/.claude/agents/debugger.md` | Subagent debugger |
-| `templates/.codex/settings.json` | Config para Codex CLI |
-| `templates/.codex/commands/project-commit.md` | Comando de commit para Codex |
-| `templates/.codex/agents/task-router.md` | Task router para Codex |
-| `templates/.gemini/skills/llm-wiki/SKILL.md` | LLM wiki skill para Gemini CLI |
-| `templates/.agent/skills/semantic-commit/SKILL.md` | Commit skill para Copilot/outros |
-| `templates/.agent/subagents/task-router.md` | Task router para Copilot/outros |
-| `tests/init-ai.test.mjs` | Testes unitários das funções utilitárias |
+| `scripts/init-ai.mjs` | Main script — onboarding, CLI detection, template copying |
+| `templates/CLAUDE.md` | Entry point template for Claude Code |
+| `templates/AGENTS.md` | Main index template for AI agents |
+| `templates/.claude/settings.json` | Project config for Claude Code |
+| `templates/.claude/SKILLS.md` | Project skills index |
+| `templates/.claude/skills/semantic-commit/SKILL.md` | Semantic commit skill |
+| `templates/.claude/skills/code-review/SKILL.md` | Code review skill |
+| `templates/.claude/skills/debug-workflow/SKILL.md` | Systematic debugging skill |
+| `templates/.claude/skills/llm-wiki/SKILL.md` | Skill with LLM concepts (Karpathy) |
+| `templates/.claude/hooks/git-setup.sh` | Git hook (pre-commit, post-merge) |
+| `templates/.claude/agents/task-router.md` | Task router subagent |
+| `templates/.claude/agents/code-reviewer.md` | Code reviewer subagent |
+| `templates/.claude/agents/debugger.md` | Debugger subagent |
+| `templates/.codex/settings.json` | Config for Codex CLI |
+| `templates/.codex/commands/project-commit.md` | Commit command for Codex |
+| `templates/.codex/agents/task-router.md` | Task router for Codex |
+| `templates/.gemini/skills/llm-wiki/SKILL.md` | LLM wiki skill for Gemini CLI |
+| `templates/.agent/skills/semantic-commit/SKILL.md` | Commit skill for Copilot/others |
+| `templates/.agent/subagents/task-router.md` | Task router for Copilot/others |
+| `tests/init-ai.test.mjs` | Unit tests for utility functions 
 
-### Modificar (existentes)
-| Arquivo | O que muda |
+### Modify (existing)
+| File | What changes |
 |---|---|
-| `package.json` | Adicionar `@inquirer/prompts` devDep + script `init-ai` |
+| `package.json` | Add @inquirer/prompts devDep + init-ai script 
 
 ---
 
-## Task 1: Setup — package.json e estrutura de diretórios
+## Task 1: Setup — package.json and directory structure
 
 **Files:**
 - Modify: `package.json`
-- Create: `templates/` (diretório raiz dos templates)
+- Create: `templates/` (template root directory)
 - Create: `tests/init-ai.test.mjs`
 
-- [ ] **Step 1: Adicionar devDep e script ao package.json**
+- [ ] **Step 1: Add devDep and script to package.json**
 
-Editar `package.json`:
+Edit `package.json`:
 
 ```json
 {
@@ -83,16 +83,16 @@ Editar `package.json`:
 }
 ```
 
-- [ ] **Step 2: Instalar dependência**
+- [ ] **Step 2: Install dependency**
 
 ```bash
 cd /Users/andersonlimadev/Projects/IA/ai-starter-kit
 npm install
 ```
 
-Saída esperada: `added N packages` sem erros.
+Expected output: `added N packages` without errors.
 
-- [ ] **Step 3: Criar diretórios de templates**
+- [ ] **Step 3: Create template directories**
 
 ```bash
 mkdir -p templates/.claude/skills/semantic-commit
@@ -109,32 +109,32 @@ mkdir -p templates/.agent/subagents
 mkdir -p tests
 ```
 
-- [ ] **Step 4: Escrever teste unitário das funções utilitárias**
+- [ ] **Step 4: Write unit test for utility functions**
 
-Criar `tests/init-ai.test.mjs`:
+Create `tests/init-ai.test.mjs`:
 
 ```javascript
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-// Extraímos as funções puras para testar isoladamente
-// (init-ai.mjs exporta replacePlaceholders e getTemplateFiles)
+// We extract pure functions to test in isolation
+// (init-ai.mjs exports replacePlaceholders and getTemplateFiles)
 import { replacePlaceholders, getTemplateFiles } from '../scripts/init-ai.mjs';
 
-test('replacePlaceholders substitui todas as ocorrências', () => {
-  const template = 'Projeto: {{PROJECT_NAME}} — stack: {{STACK}} ({{PROJECT_NAME}})';
-  const vars = { PROJECT_NAME: 'meu-app', STACK: 'Next.js' };
+test('replacePlaceholders replaces all occurrences', () => {
+  const template = 'Project: {{PROJECT_NAME}} — stack: {{STACK}} ({{PROJECT_NAME}})';
+  const vars = { PROJECT_NAME: 'my-app', STACK: 'Next.js' };
   const result = replacePlaceholders(template, vars);
-  assert.equal(result, 'Projeto: meu-app — stack: Next.js (meu-app)');
+  assert.equal(result, 'Project: my-app — stack: Next.js (my-app)');
 });
 
-test('replacePlaceholders não altera texto sem placeholders', () => {
-  const template = 'Texto sem placeholders.';
+test('replacePlaceholders does not change text without placeholders', () => {
+  const template = 'Text without placeholders.';
   const result = replacePlaceholders(template, { FOO: 'bar' });
-  assert.equal(result, 'Texto sem placeholders.');
+  assert.equal(result, 'Text without placeholders.');
 });
 
-test('getTemplateFiles sempre inclui claude quando selecionado', () => {
+test('getTemplateFiles always includes claude when selected', () => {
   const files = getTemplateFiles(['claude']);
   const dests = files.map(f => f.dest);
   assert.ok(dests.includes('CLAUDE.md'));
@@ -143,26 +143,26 @@ test('getTemplateFiles sempre inclui claude quando selecionado', () => {
   assert.ok(dests.includes('.claude/skills/semantic-commit/SKILL.md'));
 });
 
-test('getTemplateFiles inclui codex quando selecionado', () => {
+test('getTemplateFiles includes codex when selected', () => {
   const files = getTemplateFiles(['claude', 'codex']);
   const dests = files.map(f => f.dest);
   assert.ok(dests.includes('.codex/settings.json'));
   assert.ok(dests.includes('.codex/commands/project-commit.md'));
 });
 
-test('getTemplateFiles não inclui codex quando não selecionado', () => {
+test('getTemplateFiles does not include codex when not selected', () => {
   const files = getTemplateFiles(['claude']);
   const dests = files.map(f => f.dest);
   assert.ok(!dests.includes('.codex/settings.json'));
 });
 
-test('getTemplateFiles inclui gemini quando selecionado', () => {
+test('getTemplateFiles includes gemini when selected', () => {
   const files = getTemplateFiles(['claude', 'gemini']);
   const dests = files.map(f => f.dest);
   assert.ok(dests.includes('.gemini/skills/llm-wiki/SKILL.md'));
 });
 
-test('getTemplateFiles inclui GEMINI.md como symlink', () => {
+test('getTemplateFiles includes GEMINI.md as symlink', () => {
   const files = getTemplateFiles(['claude']);
   const symlink = files.find(f => f.dest === 'GEMINI.md');
   assert.ok(symlink);
@@ -170,21 +170,21 @@ test('getTemplateFiles inclui GEMINI.md como symlink', () => {
 });
 ```
 
-- [ ] **Step 5: Rodar testes (esperar falha — script ainda não existe)**
+- [ ] **Step 5: Run tests (expect failure — script does not exist yet)**
 
 ```bash
 cd /Users/andersonlimadev/Projects/IA/ai-starter-kit
 node --test tests/init-ai.test.mjs 2>&1 | head -20
 ```
 
-Saída esperada: erro de import `Cannot find module '../scripts/init-ai.mjs'` — confirma que o teste está correto e esperando o script.
+Expected output: import error `Cannot find module '../scripts/init-ai.mjs'` — confirms that the test is correct and waiting for the script.
 
 - [ ] **Step 6: Commit**
 
 ```bash
 git add package.json package-lock.json tests/init-ai.test.mjs
 git commit -m "$(cat <<'EOF'
-feat: setup init-ai com @inquirer/prompts e testes unitários : 13/04/26
+feat: setup init-ai with @inquirer/prompts and unit tests : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -193,31 +193,31 @@ EOF
 
 ---
 
-## Task 2: Templates raiz — CLAUDE.md e AGENTS.md
+## Task 2: Root templates — CLAUDE.md and AGENTS.md
 
 **Files:**
 - Create: `templates/CLAUDE.md`
 - Create: `templates/AGENTS.md`
 
-- [ ] **Step 1: Criar templates/CLAUDE.md**
+- [ ] **Step 1: Create templates/CLAUDE.md**
 
 ```markdown
 # {{PROJECT_NAME}} — Claude Code Entry
 
-Regras e contexto centralizados em AGENTS.md.
+Rules and context centralized in AGENTS.md.
 
-## Lembrete rápido
-- Commits: use `cn "mensagem"` (semantic-commit skill)
-- Code review: use a skill `code-review`
-- Debug: use a skill `debug-workflow`
+## Quick reminder
+- Commits: use `cn "message"` (semantic-commit skill)
+- Code review: use the `code-review` skill
+- Debug: use the `debug-workflow` skill
 - Stack: {{STACK}}
-- Idioma: {{LANGUAGE}}
+- Language: {{LANGUAGE}}
 
-## Fonte da verdade
-Leia **[AGENTS.md](./AGENTS.md)** para o índice completo de diretrizes.
+## Source of truth
+Read **[AGENTS.md](./AGENTS.md)** for the complete guidelines index.
 ```
 
-- [ ] **Step 2: Criar templates/AGENTS.md**
+- [ ] **Step 2: Create templates/AGENTS.md**
 
 ```markdown
 # {{PROJECT_NAME}} — AI Agents Index
@@ -225,41 +225,41 @@ Leia **[AGENTS.md](./AGENTS.md)** para o índice completo de diretrizes.
 {{PROJECT_DESCRIPTION}}
 
 ## Stack
-**Linguagem:** {{LANGUAGE}} | **Frameworks:** {{STACK}}
+**Language:** {{LANGUAGE}} | **Frameworks:** {{STACK}}
 
 ---
 
-## Skills disponíveis
+## Available Skills
 
-| Skill | Descrição | Trigger |
+| Skill | Description | Trigger |
 |---|---|---|
-| `semantic-commit` | Workflow de commit semântico com timestamp | "commit", "cn", "fazer commit" |
-| `code-review` | Checklist genérico de revisão de código | "review", "revisar", "verificar código" |
-| `debug-workflow` | Metodologia científica de debugging | "debug", "bug", "erro", "investigar" |
-| `llm-wiki` | Conceitos fundamentais de LLMs como contexto | "llm", "modelo", "prompt", "token" |
+| `semantic-commit` | Semantic commit workflow with timestamp | "commit", "cn", "do commit" |
+| `code-review` | Generic code review checklist | "review", "review", "verify code" |
+| `debug-workflow` | Scientific debugging methodology | "debug", "bug", "error", "investigate" |
+| `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "prompt", "token" |
 
-## Subagents disponíveis
+## Available Subagents
 
-| Agent | Modelo | Função |
+| Agent | Model | Function |
 |---|---|---|
-| `task-router` | sonnet | Roteia subtarefas para o modelo/specialist correto |
-| `code-reviewer` | sonnet | Revisão focada em bugs e qualidade |
-| `debugger` | opus | Investigação científica de bugs |
+| `task-router` | sonnet | Routes subtasks to the correct model/specialist |
+| `code-reviewer` | sonnet | Review focused on bugs and quality |
+| `debugger` | opus | Scientific bug investigation |
 
 ---
 
-## Arquitetura do projeto
+## Project architecture
 
-> Adicione aqui as regras de arquitetura específicas do seu projeto.
-> Exemplo: padrões de camadas, convenções de nomenclatura, restrições.
+> Add your project-specific architecture rules here.
+> Example: layer patterns, naming conventions, constraints.
 
 ---
 
-## Referências
+## References
 
 - LLM Wiki (Karpathy): https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
-- Skills externas: https://skills.sh
-- Templates AI: https://www.aitmpl.com/skills
+- External skills: https://skills.sh
+- AI Templates: https://www.aitmpl.com/skills
 ```
 
 - [ ] **Step 3: Commit**
@@ -267,7 +267,7 @@ Leia **[AGENTS.md](./AGENTS.md)** para o índice completo de diretrizes.
 ```bash
 git add templates/CLAUDE.md templates/AGENTS.md
 git commit -m "$(cat <<'EOF'
-feat: templates CLAUDE.md e AGENTS.md com placeholders : 13/04/26
+feat: CLAUDE.md and AGENTS.md templates with placeholders : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -286,7 +286,7 @@ EOF
 - Create: `templates/.claude/skills/debug-workflow/SKILL.md`
 - Create: `templates/.claude/skills/llm-wiki/SKILL.md`
 
-- [ ] **Step 1: Criar templates/.claude/settings.json**
+- [ ] **Step 1: Create templates/.claude/settings.json**
 
 ```json
 {
@@ -313,73 +313,73 @@ EOF
 }
 ```
 
-- [ ] **Step 2: Criar templates/.claude/SKILLS.md**
+- [ ] **Step 2: Create templates/.claude/SKILLS.md**
 
 ```markdown
 # Skills Index — {{PROJECT_NAME}}
 
-Skills disponíveis neste projeto:
+Available skills in this project:
 
-| Skill | Arquivo | Trigger |
+| Skill | File | Trigger |
 |---|---|---|
 | `semantic-commit` | `.claude/skills/semantic-commit/SKILL.md` | "commit", "cn" |
-| `code-review` | `.claude/skills/code-review/SKILL.md` | "review", "revisar" |
+| `code-review` | `.claude/skills/code-review/SKILL.md` | "review", "review" |
 | `debug-workflow` | `.claude/skills/debug-workflow/SKILL.md` | "debug", "bug" |
-| `llm-wiki` | `.claude/skills/llm-wiki/SKILL.md` | "llm", "modelo", "prompt" |
+| `llm-wiki` | `.claude/skills/llm-wiki/SKILL.md` | "llm", "model", "prompt" |
 
-## Adicionar skills externas
+## Add external skills
 
 ```bash
-# Via ai-starter-kit (interativo)
+# Via ai-starter-kit (interactive)
 node /path/to/ai-starter-kit/scripts/init-ai.mjs --add-skill
 
 # Via skills.sh (manual)
-# Acesse https://skills.sh e copie o arquivo SKILL.md desejado
-# para .claude/skills/<nome>/SKILL.md
+# Access https://skills.sh and copy the desired SKILL.md file
+# to .claude/skills/<name>/SKILL.md
 ```
 ```
 
-- [ ] **Step 3: Criar templates/.claude/skills/semantic-commit/SKILL.md**
+- [ ] **Step 3: Create templates/.claude/skills/semantic-commit/SKILL.md**
 
 ```markdown
 ---
 name: semantic-commit
-description: Workflow de commit semântico com timestamp. Usar quando o usuário pede para "fazer commit", "salvar mudanças", "cn", ou qualquer variação de commit.
+description: Semantic commit workflow with timestamp. Use when the user asks to "do commit", "save changes", "cn", or any commit variation.
 ---
 
 # Semantic Commit Workflow
 
-## Tipos de commit
+## Commit types
 
-| Tipo | Quando usar |
+| Type | When to use |
 |---|---|
-| `feat` | Nova funcionalidade |
-| `fix` | Correção de bug |
-| `refactor` | Refatoração sem mudança de comportamento |
-| `style` | Formatação, espaços (sem mudança de lógica) |
-| `docs` | Apenas documentação |
-| `test` | Adição ou atualização de testes |
-| `chore` | Build, configs, dependências |
-| `perf` | Melhoria de performance |
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `refactor` | Refactoring without behavior change |
+| `style` | Formatting, spaces (no logic change) |
+| `docs` | Documentation only |
+| `test` | Adding or updating tests |
+| `chore` | Build, configs, dependencies |
+| `perf` | Performance improvement |
 
-## Formato obrigatório
+## Required format
 
 ```
-[type]: [descrição] : [dd/mm/yy] - [hh:mm]
+[type]: [description] : [dd/mm/yy] - [hh:mm]
 ```
 
-**Exemplo:** `feat: adicionar autenticação OAuth : 13/04/26 - 14:30`
+**Example:** `feat: add OAuth authentication : 13/04/26 - 14:30`
 
-## Passos
+## Steps
 
-1. Verificar mudanças: `git status` e `git diff --staged`
-2. Identificar tipo pela natureza das mudanças
-3. Executar:
+1. Verify changes: `git status` and `git diff --staged`
+2. Identify type by the nature of changes
+3. Execute:
 
 ```bash
-git add <arquivos-relevantes>
+git add <relevant-files>
 git commit -m "$(cat <<'COMMIT'
-[type]: [descrição] : [dd/mm/yy] - [hh:mm]
+[type]: [description] : [dd/mm/yy] - [hh:mm]
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 COMMIT
@@ -388,217 +388,217 @@ COMMIT
 
 ## Guardrails
 
-- **Nunca** fazer stage de `.env` ou arquivos com segredos
-- **Sempre** verificar `git status` antes e depois
-- **Nunca** usar `--no-verify` para pular hooks
-- Mensagem deve ser em português (ou idioma do projeto)
+- **Never** stage `.env` or files with secrets
+- **Always** check `git status` before and after
+- **Never** use `--no-verify` to skip hooks
+- Message must be in English (or project language)
 ```
 
-- [ ] **Step 4: Criar templates/.claude/skills/code-review/SKILL.md**
+- [ ] **Step 4: Create templates/.claude/skills/code-review/SKILL.md**
 
 ```markdown
 ---
 name: code-review
-description: Checklist genérico de revisão de código. Usar quando: "review", "revisar código", "verificar qualidade", "code review", "está bom esse código?".
+description: Generic code review checklist. Use when: "review", "review code", "verify quality", "code review", "is this code good?".
 ---
 
 # Code Review Checklist
 
-Revise o código sistematicamente por categoria. Reporte apenas issues de alta confiança.
+Review code systematically by category. Report only high-confidence issues.
 
-## Qualidade geral
+## General quality
 
-- [ ] Funções com responsabilidade única (uma função = uma tarefa)
-- [ ] Sem código duplicado — lógica repetida 3x+ merece abstração
-- [ ] Nomes descritivos (sem abreviações crípticas, sem `data`, `info`, `temp`)
-- [ ] Sem `any` types sem comentário justificando
-- [ ] Sem `TODO` / `FIXME` não resolvidos
+- [ ] Functions with single responsibility (one function = one task)
+- [ ] No duplicate code — logic repeated 3x+ deserves abstraction
+- [ ] Descriptive names (no cryptic abbreviations, no `data`, `info`, `temp`)
+- [ ] No `any` types without a justifying comment
+- [ ] No unresolved `TODO` / `FIXME`
 
-## Segurança
+## Security
 
-- [ ] Sem segredos, tokens ou chaves hardcoded
-- [ ] Inputs de usuário/APIs externas validados antes de usar
-- [ ] Sem SQL injection (queries parametrizadas)
-- [ ] Sem XSS (sanitização de output HTML)
-- [ ] Permissões mínimas necessárias
+- [ ] No hardcoded secrets, tokens, or keys
+- [ ] User inputs/external APIs validated before use
+- [ ] No SQL injection (parameterized queries)
+- [ ] No XSS (HTML output sanitization)
+- [ ] Minimum necessary permissions
 
-## Testes
+## Tests
 
-- [ ] Lógica crítica coberta por testes
-- [ ] Edge cases testados (null, empty, boundary)
-- [ ] Testes testam comportamento, não implementação
+- [ ] Critical logic covered by tests
+- [ ] Edge cases tested (null, empty, boundary)
+- [ ] Tests test behavior, not implementation
 
 ## Performance
 
-- [ ] Sem loops desnecessários em hot paths
-- [ ] Sem N+1 queries (batch quando possível)
-- [ ] Recursos abertos são fechados (conexões, file handles)
+- [ ] No unnecessary loops in hot paths
+- [ ] No N+1 queries (batch when possible)
+- [ ] Open resources are closed (connections, file handles)
 
-## Formato de feedback
+## Feedback format
 
 ```
-[CATEGORIA] caminho/arquivo.ts:linha
-Problema: descrição concreta do problema
-Fix: solução ou código corrigido
-Severidade: CRÍTICO | ALTO | BAIXO
+[CATEGORY] path/file.ts:line
+Problem: concrete description of the problem
+Fix: solution or corrected code
+Severity: CRITICAL | HIGH | LOW
 ```
 
-**CRÍTICO** = bloqueia merge. **ALTO** = deve corrigir antes. **BAIXO** = pode corrigir depois.
+**CRITICAL** = blocks merge. **HIGH** = must fix before. **LOW** = can fix later.
 
-## Referências
+## References
 
 - https://skills.sh
 - https://www.aitmpl.com/skills
 ```
 
-- [ ] **Step 5: Criar templates/.claude/skills/debug-workflow/SKILL.md**
+- [ ] **Step 5: Create templates/.claude/skills/debug-workflow/SKILL.md**
 
 ```markdown
 ---
 name: debug-workflow
-description: Metodologia científica de debugging. Usar quando: "debug", "bug", "erro", "não funciona", "investigar problema", "por que isso quebrou".
+description: Scientific debugging methodology. Use when: "debug", "bug", "error", "doesn't work", "investigate problem", "why did this break".
 ---
 
-# Debug Workflow — Metodologia Científica
+# Debug Workflow — Scientific Methodology
 
-Nunca pule etapas. Cada etapa deve ser confirmada antes da próxima.
+Never skip steps. Each step must be confirmed before the next.
 
-## Processo
+## Process
 
-### 1. Reproduzir
-Crie o menor caso reproduzível possível.
-- Qual é o input exato que causa o problema?
-- Acontece consistentemente ou de forma intermitente?
-- Em qual ambiente? (dev/prod/CI)
+### 1. Reproduce
+Create the smallest reproducible case possible.
+- What is the exact input causing the problem?
+- Does it happen consistently or intermittently?
+- In which environment? (dev/prod/CI)
 
-### 2. Isolar
-Identifique a menor unidade de código responsável.
-- Use `git bisect` para encontrar o commit que introduziu o bug
-- Comente código até o problema desaparecer — o último bloco comentado é suspeito
+### 2. Isolate
+Identify the smallest responsible code unit.
+- Use `git bisect` to find the commit that introduced the bug
+- Comment out code until the problem disappears — the last commented block is suspect
 
-### 3. Hipótese
-Forme UMA hipótese sobre a causa raiz. Seja específico:
-- "A variável X está undefined porque Y não foi inicializado antes de Z"
+### 3. Hypothesis
+Form ONE hypothesis about the root cause. Be specific:
+- "Variable X is undefined because Y was not initialized before Z"
 
-### 4. Testar hipótese
-Execute o MENOR experimento para validar/refutar:
+### 4. Test hypothesis
+Run the SMALLEST experiment to validate/refute:
 ```bash
-# Adicionar log temporário
-console.log('[DEBUG]', { variavel: x, estado: y });
+# Add temporary log
+console.log('[DEBUG]', { variable: x, state: y });
 
-# ou usar debugger
+# or use debugger
 node --inspect-brk script.js
 ```
 
-### 5. Corrigir
-Aplique o fix MÍNIMO que resolve a causa raiz. Evite "enquanto estou aqui" refactoring.
+### 5. Fix
+Apply the MINIMUM fix that resolves the root cause. Avoid "while I'm here" refactoring.
 
-### 6. Verificar
-- O bug original foi corrigido? ✓
-- Nenhuma regressão introduzida? ✓ (`npm test`)
-- O fix é reversível se necessário? ✓
+### 6. Verify
+- Was the original bug fixed? ✓
+- No regressions introduced? ✓ (`npm test`)
+- Is the fix reversible if necessary? ✓
 
-## Comandos úteis
+## Useful commands
 
 ```bash
-# Encontrar commit que introduziu bug
+# Find commit that introduced bug
 git bisect start
 git bisect bad HEAD
-git bisect good <commit-hash-bom>
-# git bisect good/bad até encontrar o commit
+git bisect good <good-commit-hash>
+# git bisect good/bad until you find the commit
 
-# Ver histórico de uma linha específica
-git log -L 42,42:src/arquivo.ts
+# See history of a specific line
+git log -L 42,42:src/file.ts
 
-# Stash para isolar mudanças locais
+# Stash to isolate local changes
 git stash && npm test && git stash pop
 ```
 
-## Referências
+## References
 
 - LLM Wiki: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 - skills.sh: https://skills.sh
 ```
 
-- [ ] **Step 6: Criar templates/.claude/skills/llm-wiki/SKILL.md**
+- [ ] **Step 6: Create templates/.claude/skills/llm-wiki/SKILL.md**
 
 ```markdown
 ---
 name: llm-wiki
-description: Conceitos fundamentais de LLMs como contexto para decisões de arquitetura de agentes. Ativar quando discutir: prompts, tokens, contexto, temperatura, embeddings, RAG, fine-tuning, agentes, escolha de modelo, latência de inferência.
+description: Fundamental LLM concepts as context for agent architecture decisions. Activate when discussing: prompts, tokens, context, temperature, embeddings, RAG, fine-tuning, agents, model choice, inference latency.
 ---
 
-# LLM Wiki — Conceitos Essenciais
+# LLM Wiki — Essential Concepts
 
-> Baseado em: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+> Based on: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 > Skills: https://skills.sh | https://www.aitmpl.com/skills
 
 ---
 
-## Tokens e Contexto
+## Tokens and Context
 
-- LLMs processam **tokens**, não palavras — ~4 chars/token em inglês, ~2-3 chars em português
-- **Context window**: limite total de tokens (entrada + saída). Ex: Claude Sonnet 4.6 = 200k tokens
-- Informação no **meio** do contexto tende a ser "esquecida" (*lost in the middle*) — coloque o mais importante no início ou fim
-- O **system prompt** define o papel e restrições do modelo — é processado com cache em modelos modernos
+- LLMs process **tokens**, not words — ~4 chars/token in English, ~2-3 chars in Portuguese
+- **Context window**: total token limit (input + output). Ex: Claude Sonnet 4.6 = 200k tokens
+- Information in the **middle** of the context tends to be "forgotten" (*lost in the middle*) — place the most important information at the beginning or end
+- The **system prompt** defines the role and constraints of the model — it is processed with cache in modern models
 
-## Temperatura e Sampling
+## Temperature and Sampling
 
-| Temperatura | Comportamento | Usar para |
+| Temperature | Behavior | Use for |
 |---|---|---|
-| 0 | Determinístico, sempre o token mais provável | Código, SQL, dados estruturados |
-| 0.1–0.3 | Ligeiramente criativo, consistente | Análise, explicações técnicas |
-| 0.7–1.0 | Criativo, variado | Escrita, brainstorming |
+| 0 | Deterministic, always the most probable token | Code, SQL, structured data |
+| 0.1–0.3 | Slightly creative, consistent | Analysis, technical explanations |
+| 0.7–1.0 | Creative, varied | Writing, brainstorming |
 
-- **top-p (nucleus sampling)**: considera apenas os tokens que somam P% de probabilidade
-- Para código: temperatura 0; para texto criativo: 0.7+
+- **top-p (nucleus sampling)**: considers only tokens that sum to P% probability
+- For code: temperature 0; for creative text: 0.7+
 
-## Agentes e Tool Use
+## Agents and Tool Use
 
-- **Agente** = LLM + loop de ações + conjunto de ferramentas
-- **ReAct pattern**: Reason → Act → Observe (repete até task concluída)
-- Cada chamada de ferramenta = nova inferência = latência acumulada
-- **Subagents**: agentes especializados chamados pelo agente orquestrador
-- Custo de agentes: proporcional ao número de turnos × tokens por turno
+- **Agent** = LLM + action loop + toolset
+- **ReAct pattern**: Reason → Act → Observe (repeats until task completed)
+- Each tool call = new inference = accumulated latency
+- **Subagents**: specialized agents called by the orchestrator agent
+- Agent cost: proportional to the number of turns × tokens per turn
 
-### Quando usar subagents
-- Tarefas independentes que podem rodar em paralelo
-- Domínios especializados (UI, backend, testes)
-- Quando o contexto do agente principal está saturado
+### When to use subagents
+- Independent tasks that can run in parallel
+- Specialized domains (UI, backend, tests)
+- When the main agent's context is saturated
 
 ## RAG vs Fine-tuning
 
 | | RAG | Fine-tuning |
 |---|---|---|
-| **O que é** | Busca contexto relevante em runtime | Treina o modelo com novos dados |
-| **Bom para** | Conhecimento que muda, fatos recentes | Estilo/formato consistente |
-| **Ruim para** | Conhecimento implícito/procedural | Fatos novos pós-treino |
-| **Custo** | Inferência + retrieval | Treinamento (caro) |
-| **Regra prática** | Tente primeiro | Só se RAG não resolver |
+| **What is it** | Searches for relevant context at runtime | Trains the model with new data |
+| **Good for** | Changing knowledge, recent facts | Consistent style/format |
+| **Bad for** | Implicit/procedural knowledge | New facts post-training |
+| **Cost** | Inference + retrieval | Training (expensive) |
+| **Rule of thumb** | Try first | Only if RAG doesn't solve it |
 
 ## Prompt Engineering
 
-- **Few-shot**: inclua 2-3 exemplos no prompt para guiar o formato da saída
-- **Chain-of-thought**: "pense passo a passo" melhora raciocínio em tarefas complexas
-- **Specificity wins**: quanto mais contexto relevante, melhor — seja concreto
-- **Role assignment**: "Você é um especialista em X" muda o comportamento do modelo
-- Evite prompts vagos como "melhore esse código" — prefira "refatore para reduzir duplicação em Y"
+- **Few-shot**: include 2-3 examples in the prompt to guide the output format
+- **Chain-of-thought**: "think step-by-step" improves reasoning in complex tasks
+- **Specificity wins**: the more relevant context, the better — be concrete
+- **Role assignment**: "You are an expert in X" changes the model's behavior
+- Avoid vague prompts like "improve this code" — prefer "refactor to reduce duplication in Y"
 
-## Escolha de Modelo
+## Model Choice
 
-| Perfil | Modelos | Usar quando |
+| Profile | Models | Use when |
 |---|---|---|
-| **Máxima capacidade** | Claude Opus 4.6, GPT-4 | Arquitetura, bugs críticos, decisões de release |
-| **Equilíbrio** | Claude Sonnet 4.6, GPT-4o | Implementação de features, refactoring |
-| **Rápido/barato** | Claude Haiku 4.5, GPT-3.5 | Formatação, boilerplate, edições repetitivas |
+| **Maximum capacity** | Claude Opus 4.6, GPT-4 | Architecture, critical bugs, release decisions |
+| **Balance** | Claude Sonnet 4.6, GPT-4o | Feature implementation, refactoring |
+| **Fast/cheap** | Claude Haiku 4.5, GPT-3.5 | Formatting, boilerplate, repetitive edits |
 
-## Segurança e Privacidade
+## Security and Privacy
 
-- Nunca envie dados sensíveis (PII, credenciais, dados de produção) ao modelo
-- Prompts de usuário podem tentar **prompt injection** — valide e sanitize
-- Use modos de aprovação para ações irreversíveis (delete, push, deploy)
+- Never send sensitive data (PII, credentials, production data) to the model
+- User prompts may attempt **prompt injection** — validate and sanitize
+- Use approval modes for irreversible actions (delete, push, deploy)
 
-## Referências
+## References
 
 - Karpathy LLM Wiki: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 - skills.sh: https://skills.sh
@@ -606,21 +606,21 @@ description: Conceitos fundamentais de LLMs como contexto para decisões de arqu
 - Claude models: https://docs.anthropic.com/en/docs/about-claude/models
 ```
 
-- [ ] **Step 7: Rodar testes (ainda devem falhar)**
+- [ ] **Step 7: Run tests (still should fail)**
 
 ```bash
 cd /Users/andersonlimadev/Projects/IA/ai-starter-kit
 node --test tests/init-ai.test.mjs 2>&1 | head -5
 ```
 
-Saída esperada: `Cannot find module '../scripts/init-ai.mjs'`
+Expected output: `Cannot find module '../scripts/init-ai.mjs'`
 
 - [ ] **Step 8: Commit**
 
 ```bash
 git add templates/.claude/
 git commit -m "$(cat <<'EOF'
-feat: templates de skills (semantic-commit, code-review, debug, llm-wiki) : 13/04/26
+feat: skills templates (semantic-commit, code-review, debug, llm-wiki) : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -629,7 +629,7 @@ EOF
 
 ---
 
-## Task 4: Agent templates e hooks
+## Task 4: Agent templates and hooks
 
 **Files:**
 - Create: `templates/.claude/hooks/git-setup.sh`
@@ -643,29 +643,31 @@ EOF
 - Create: `templates/.agent/skills/semantic-commit/SKILL.md`
 - Create: `templates/.agent/subagents/task-router.md`
 
-- [ ] **Step 1: Criar templates/.claude/hooks/git-setup.sh**
+- [ ] **Step 1: Create templates/.claude/hooks/git-setup.sh**
 
 ```bash
 #!/bin/bash
 # Git Hooks Setup — {{PROJECT_NAME}}
-# Instala hooks de pre-commit e post-merge
+# Installs pre-commit and post-merge hooks
 
 set -e
-echo "Configurando Git hooks para {{PROJECT_NAME}}..."
+echo "Configuring Git hooks for {{PROJECT_NAME}}"...
 mkdir -p .git/hooks
 
 cat > .git/hooks/pre-commit << 'HOOK'
 #!/bin/bash
-echo "Rodando verificações pre-commit..."
+echo "Running pre-commit checks"...
 
 if command -v npm &>/dev/null && [ -f package.json ]; then
-  if grep -q '"typecheck"' package.json 2>/dev/null; then
-    echo "Verificando TypeScript..."
-    npm run typecheck || { echo "TypeScript falhou. Commit abortado."; exit 1; }
+  if grep -q '"typecheck"' package.json 2>/dev/null;
+ then
+    echo "Checking TypeScript"...
+    npm run typecheck || { echo "TypeScript failed. Commit aborted."; exit 1; }
   fi
-  if grep -q '"lint"' package.json 2>/dev/null; then
-    echo "Rodando lint..."
-    npm run lint || { echo "Lint falhou. Commit abortado."; exit 1; }
+  if grep -q '"lint"' package.json 2>/dev/null;
+ then
+    echo "Running lint"...
+    npm run lint || { echo "Lint failed. Commit aborted."; exit 1; }
   fi
 fi
 
@@ -678,156 +680,156 @@ chmod +x .git/hooks/pre-commit
 cat > .git/hooks/post-merge << 'HOOK'
 #!/bin/bash
 if git diff --name-only HEAD@{1} | grep -qE "package-lock\.json|requirements\.txt"; then
-  echo "Dependências alteradas. Instale manualmente se necessário."
+  echo "Dependencies changed. Install manually if necessary."
 fi
 exit 0
-HOOK
+Hook
 
 chmod +x .git/hooks/post-merge
 
-echo "Hooks instalados: pre-commit (lint/typecheck), post-merge (aviso de deps)"
+echo "Hooks installed: pre-commit (lint/typecheck), post-merge (deps warning)"
 ```
 
-- [ ] **Step 2: Criar templates/.claude/agents/task-router.md**
+- [ ] **Step 2: Create templates/.claude/agents/task-router.md**
 
 ```markdown
 ---
 name: task-router
-description: Use este agente para rotear subtarefas para o modelo e specialist correto. Exemplos: tarefas multi-domínio, requests que tocam UI e backend, decisões de modelo.
+description: Use this agent to route subtasks to the correct model and specialist. Examples: multi-domain tasks, requests touching UI and backend, model decisions.
 model: sonnet
 color: cyan
 ---
 
-Você é um especialista em roteamento de tarefas para agentes de IA.
+You are an expert in task routing for AI agents.
 
-## Stack do projeto
+## Project stack
 {{STACK}} | {{LANGUAGE}}
 
-## Responsabilidades
+## Responsibilities
 
-1. Dividir requests em subtarefas concretas e independentes
-2. Atribuir o modelo mais adequado a cada subtarefa
-3. Identificar dependências entre subtarefas
-4. Produzir plano de execução com notas de risco
+1. Divide requests into concrete and independent subtasks
+2. Assign the most suitable model to each subtask
+3. Identify dependencies between subtasks
+4. Produce execution plan with risk notes
 
-## Regras de roteamento
+## Routing rules
 
-| Complexidade | Modelo | Quando usar |
+| Complexity | Model | When to use |
 |---|---|---|
-| Alta | opus | Arquitetura, bugs críticos, decisões de release, segurança |
-| Média | sonnet | Implementação de features, refactoring, revisão de código |
-| Baixa | haiku | Formatação, boilerplate, edições repetitivas, traduções |
+| High | opus | Architecture, critical bugs, release decisions, security |
+| Medium | sonnet | Feature implementation, refactoring, code review |
+| Low | haiku | Formatting, boilerplate, repetitive edits, translations |
 
-## Formato de saída
+## Output format
 
-Para cada subtarefa:
-- **Subtarefa**: descrição concreta
-- **Modelo recomendado**: opus / sonnet / haiku
-- **Por quê**: justificativa em 1 linha
-- **Depende de**: lista de subtarefas que devem completar antes
+For each subtask:
+- **Subtask**: concrete description
+- **Recommended model**: opus / sonnet / haiku
+- **Why**: 1-line justification
+- **Depends on**: list of subtasks that must complete before
 
-## Referências
+## References
 - LLM Wiki: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 ```
 
-- [ ] **Step 3: Criar templates/.claude/agents/code-reviewer.md**
+- [ ] **Step 3: Create templates/.claude/agents/code-reviewer.md**
 
 ```markdown
 ---
 name: code-reviewer
-description: Revisão de código focada em bugs, lógica e qualidade. Usar quando: "revisar PR", "verificar implementação", "code review", "está correto?".
+description: Code review focused on bugs, logic, and quality. Use when: "review PR", "verify implementation", "code review", "is it correct?".
 model: sonnet
 color: blue
 ---
 
-Você é um especialista em revisão de código para projetos {{LANGUAGE}}/{{STACK}}.
+You are a code review expert for {{LANGUAGE}}/{{STACK}} projects.
 
-## Responsabilidades
+## Responsibilities
 
-1. Identificar bugs e problemas de lógica com referência de arquivo:linha
-2. Verificar segurança (injection, exposição de dados, validação de inputs)
-3. Verificar qualidade (DRY, responsabilidade única, nomes descritivos)
-4. Sugerir melhorias com código concreto — nunca feedback vago
+1. Identify bugs and logic issues with file:line reference
+2. Verify security (injection, data exposure, input validation)
+3. Verify quality (DRY, single responsibility, descriptive names)
+4. Suggest improvements with concrete code — never vague feedback
 
-## Processo
+## Process
 
-1. Leia o código com atenção antes de comentar
-2. Agrupe feedback por severidade: CRÍTICO > ALTO > BAIXO
-3. Para cada issue: descreva o problema, mostre o fix, explique o motivo
+1. Read the code carefully before commenting
+2. Group feedback by severity: CRITICAL > HIGH > LOW
+3. For each issue: describe the problem, show the fix, explain the reason
 
-## Formato de feedback
+## Feedback format
 
 ```
-[CATEGORIA] caminho/arquivo.ts:linha
-Problema: descrição concreta
+[CATEGORY] path/file.ts:line
+Problem: concrete description
 Fix:
-```código corrigido```
-Severidade: CRÍTICO | ALTO | BAIXO
+```corrected code```
+Severity: CRITICAL | HIGH | LOW
 ```
 
-## Critérios de aprovação
+## Approval criteria
 
-Aprove quando:
-- Sem issues CRÍTICOS ou ALTOS
-- Lógica claramente correta
-- Sem segredos hardcoded
-- Inputs externos validados
+Approve when:
+- No CRITICAL or HIGH issues
+- Clearly correct logic
+- No hardcoded secrets
+- External inputs validated
 
-## Referências
+## References
 - skills.sh: https://skills.sh
 - aitmpl.com: https://www.aitmpl.com/skills
 ```
 
-- [ ] **Step 4: Criar templates/.claude/agents/debugger.md**
+- [ ] **Step 4: Create templates/.claude/agents/debugger.md**
 
 ```markdown
 ---
 name: debugger
-description: Investigação científica de bugs. Usar quando: "encontrar bug", "investigar erro", "debug sistemático", "por que X não funciona".
+description: Scientific bug investigation. Use when: "find bug", "investigate error", "systematic debug", "why X doesn't work".
 model: opus
 color: yellow
 ---
 
-Você é um especialista em debugging sistemático para {{LANGUAGE}}/{{STACK}}.
+You are a systematic debugging expert for {{LANGUAGE}}/{{STACK}}.
 
-## Processo obrigatório (nunca pule etapas)
+## Mandatory process (never skip steps)
 
-### Etapa 1 — Reproduzir
-Confirme o bug com o menor caso reproduzível possível.
-Pergunte: qual é o input exato? Acontece sempre?
+### Step 1 — Reproduce
+Confirm the bug with the smallest reproducible case possible.
+Ask: what is the exact input? Does it always happen?
 
-### Etapa 2 — Isolar
-Identifique a menor unidade de código responsável.
-Use `git bisect` se o bug foi introduzido recentemente.
+### Step 2 — Isolate
+Identify the smallest responsible code unit.
+Use `git bisect` if the bug was introduced recently.
 
-### Etapa 3 — Hipótese
-Forme UMA hipótese específica sobre a causa raiz.
-Exemplo: "X é undefined porque Y retorna null quando Z".
+### Step 3 — Hypothesis
+Form ONE specific hypothesis about the root cause.
+Example: "X is undefined because Y returns null when Z".
 
-### Etapa 4 — Testar
-Execute o menor experimento para validar/refutar a hipótese.
-Adicione log temporário ou use debugger.
+### Step 4 — Test
+Run the smallest experiment to validate/refute the hypothesis.
+Add temporary log or use debugger.
 
-### Etapa 5 — Corrigir
-Aplique o fix mínimo. Sem refactoring adicional neste passo.
+### Step 5 — Fix
+Apply the minimum fix. No additional refactoring in this step.
 
-### Etapa 6 — Verificar
-Confirme: bug corrigido + sem regressões (`npm test`) + fix é reversível.
+### Step 6 — Verify
+Confirm: bug fixed + no regressions (npm test) + fix is reversible.
 
-## Comandos úteis
+## Useful commands
 
 ```bash
 git bisect start && git bisect bad HEAD && git bisect good <hash>
-git log -L <linha>,<linha>:<arquivo>
+git log -L <line>,<line>:<file>
 node --inspect-brk <script>
 ```
 
-## Referências
+## References
 - Debug workflow skill: `.claude/skills/debug-workflow/SKILL.md`
 - LLM Wiki: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 ```
 
-- [ ] **Step 5: Criar templates/.codex/settings.json**
+- [ ] **Step 5: Create templates/.codex/settings.json**
 
 ```json
 {
@@ -838,7 +840,7 @@ node --inspect-brk <script>
     "language": "{{LANGUAGE}}"
   },
   "model": "o4-mini",
-  "instructions": "Consulte AGENTS.md para contexto do projeto e regras. Stack: {{STACK}}.",
+  "instructions": "See AGENTS.md for project context and rules. Stack: {{STACK}}.",
   "restrictions": [
     "Never commit .env files",
     "Never hardcode secrets"
@@ -846,151 +848,151 @@ node --inspect-brk <script>
 }
 ```
 
-- [ ] **Step 6: Criar templates/.codex/commands/project-commit.md**
+- [ ] **Step 6: Create templates/.codex/commands/project-commit.md**
 
 ```markdown
 # Smart Commit — {{PROJECT_NAME}}
 
-Gere uma mensagem de commit semântico seguindo o padrão do projeto.
+Generate a semantic commit message following the project pattern.
 
-## Passos
+## Steps
 
-### 1. Analisar mudanças
+### 1. Analyze changes
 ```bash
 git status
 git diff --staged
 ```
 
-### 2. Determinar tipo
-| Tipo | Quando |
+### 2. Determine type
+| Type | When |
 |---|---|
-| `feat` | Nova funcionalidade |
-| `fix` | Correção de bug |
-| `refactor` | Refatoração |
-| `docs` | Documentação |
-| `test` | Testes |
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `refactor` | Refactoring |
+| `docs` | Documentation |
+| `test` | Tests |
 | `chore` | Build/config/deps |
 
-### 3. Formato
+### 3. Format
 ```
-[type]: [descrição] : [dd/mm/yy] - [hh:mm]
+[type]: [description] : [dd/mm/yy] - [hh:mm]
 ```
 
-### 4. Executar
+### 4. Execute
 ```bash
-git add <arquivos>
-git commit -m "[type]: [descrição] : $(date '+%d/%m/%y - %H:%M')"
+git add <files>
+git commit -m "[type]: [description] : $(date '+%d/%m/%y - %H:%M')"
 ```
 
 ## Guardrails
-- Nunca commitar `.env`
-- Mensagem em português (padrão do projeto)
+- Never commit `.env`
+- Message in English (project default)
 ```
 
-- [ ] **Step 7: Criar templates/.codex/agents/task-router.md**
+- [ ] **Step 7: Create templates/.codex/agents/task-router.md**
 
-Mesmo conteúdo do task-router do Claude (copiado — Codex usa o mesmo formato de frontmatter):
+Same content as Claude's task-router (copied — Codex uses the same frontmatter format):
 
 ```markdown
 ---
 name: task-router
-description: Roteia subtarefas para o modelo e specialist correto.
+description: Routes subtasks to the correct model and specialist.
 model: o4-mini
 ---
 
-Você é um especialista em roteamento de tarefas.
+You are a task routing expert.
 
-Stack do projeto: {{STACK}} | {{LANGUAGE}}
+Project stack: {{STACK}} | {{LANGUAGE}}
 
-Responsabilidades:
-1. Dividir requests em subtarefas concretas
-2. Atribuir modelo (o1 para arquitetura/bugs críticos, o4-mini para implementação, gpt-4o-mini para boilerplate)
-3. Produzir plano com dependências e notas de risco
+Responsibilities:
+1. Divide requests into concrete subtasks
+2. Assign model (o1 for architecture/critical bugs, o4-mini for implementation, gpt-4o-mini for boilerplate)
+3. Produce plan with dependencies and risk notes
 
-Formato: subtarefa | modelo | justificativa
+Format: subtask | model | justification
 ```
 
-- [ ] **Step 8: Criar templates/.gemini/skills/llm-wiki/SKILL.md**
+- [ ] **Step 8: Create templates/.gemini/skills/llm-wiki/SKILL.md**
 
-Mesma skill llm-wiki do Claude (formato compatível com Gemini CLI):
+Same llm-wiki skill as Claude (Gemini CLI compatible format):
 
 ```markdown
 ---
 name: llm-wiki
-description: Conceitos fundamentais de LLMs. Ativar quando discutir tokens, contexto, temperatura, RAG, agentes, escolha de modelo.
+description: Fundamental LLM concepts. Activate when discussing tokens, context, temperature, RAG, agents, model choice.
 ---
 
-# LLM Wiki — Conceitos Essenciais
+# LLM Wiki — Essential Concepts
 
-> Baseado em: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+> Based on: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 > Skills: https://skills.sh | https://www.aitmpl.com/skills
 
-## Tokens e Contexto
-- ~4 chars/token em inglês, ~2-3 em português
-- Context window: limite total de tokens (entrada + saída)
-- Informação no meio do contexto pode ser esquecida (*lost in the middle*)
+## Tokens and Context
+- ~4 chars/token in English, ~2-3 in Portuguese
+- Context window: total token limit (input + output)
+- Information in the middle of the context can be forgotten (lost in the middle)
 
-## Temperatura
-- 0: determinístico (código, dados) | 0.7+: criativo (texto)
+## Temperature
+- 0: deterministic (code, data) | 0.7+: creative (text)
 
-## Agentes
+## Agents
 - ReAct: Reason → Act → Observe (loop)
-- Subagents: especializados, chamados pelo orquestrador
-- Custo: proporcional a turnos × tokens
+- Subagents: specialized, called by the orchestrator
+- Cost: proportional to turns × tokens
 
 ## RAG vs Fine-tuning
-- RAG: contexto em runtime, bom para conhecimento mutável
-- Fine-tuning: estilo/formato, não para fatos novos
+- RAG: runtime context, good for mutable knowledge
+- Fine-tuning: style/format, not for new facts
 
-## Modelos (Gemini)
-- Gemini 2.5 Pro: arquitetura, decisões críticas
-- Gemini 2.0 Flash: implementação, equilíbrio custo/qualidade
-- Gemini 2.0 Flash Lite: formatação, boilerplate
+## Models (Gemini)
+- Gemini 2.5 Pro: architecture, critical decisions
+- Gemini 2.0 Flash: implementation, cost/quality balance
+- Gemini 2.0 Flash Lite: formatting, boilerplate
 
-## Referências
+## References
 - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
 - https://skills.sh | https://www.aitmpl.com/skills
 ```
 
-- [ ] **Step 9: Criar templates/.agent/skills/semantic-commit/SKILL.md**
+- [ ] **Step 9: Create templates/.agent/skills/semantic-commit/SKILL.md**
 
 ```markdown
 ---
 name: semantic-commit
-description: Commit semântico. Usar quando: "commit", "salvar", "cn".
+description: Semantic commit. Use when: "commit", "save", "cn".
 ---
 
 # Semantic Commit
 
-Formato: `[type]: [descrição] : [dd/mm/yy] - [hh:mm]`
+Format: `[type]: [description] : [dd/mm/yy] - [hh:mm]`
 
-Tipos: feat | fix | refactor | style | docs | test | chore | perf
+Types: feat | fix | refactor | style | docs | test | chore | perf
 
-Passos:
-1. `git status` e `git diff --staged`
-2. Identificar tipo
-3. `git add <arquivos> && git commit -m "[type]: [desc] : $(date '+%d/%m/%y - %H:%M')"`
+Steps:
+1. `git status` and `git diff --staged`
+2. Identify type
+3. `git add <files> && git commit -m "[type]: [desc] : $(date '+%d/%m/%y - %H:%M')"`
 
-Nunca commitar `.env`.
+Never commit `.env`.
 ```
 
-- [ ] **Step 10: Criar templates/.agent/subagents/task-router.md**
+- [ ] **Step 10: Create templates/.agent/subagents/task-router.md**
 
 ```markdown
 ---
 name: task-router
-description: Roteia subtarefas para modelo/specialist correto.
+description: Routes subtasks to the correct model/specialist.
 ---
 
-Especialista em roteamento de tarefas para {{PROJECT_NAME}} ({{STACK}}).
+Task routing expert for {{PROJECT_NAME}} ({{STACK}}).
 
-Responsabilidades:
-1. Dividir requests em subtarefas
-2. Modelo alto (opus/o1): arquitetura e bugs críticos
-3. Modelo médio (sonnet/o4-mini): implementação
-4. Modelo baixo (haiku/flash-lite): boilerplate
+Responsibilities:
+1. Divide requests into subtasks
+2. High model (opus/o1): architecture and critical bugs
+3. Medium model (sonnet/o4-mini): implementation
+4. Low model (haiku/flash-lite): boilerplate
 
-Formato: subtarefa | modelo | motivo
+Format: subtask | model | reason
 ```
 
 - [ ] **Step 11: Commit**
@@ -998,7 +1000,7 @@ Formato: subtarefa | modelo | motivo
 ```bash
 git add templates/
 git commit -m "$(cat <<'EOF'
-feat: templates de agents, hooks e configs para Claude/Codex/Gemini/.agent : 13/04/26
+feat: agent templates, hooks and configs for Claude/Codex/Gemini/.agent : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -1007,19 +1009,19 @@ EOF
 
 ---
 
-## Task 5: Script principal — init-ai.mjs
+## Task 5: Main script — init-ai.mjs
 
 **Files:**
 - Create: `scripts/init-ai.mjs`
 
-- [ ] **Step 1: Criar scripts/init-ai.mjs**
+- [ ] **Step 1: Create scripts/init-ai.mjs**
 
 ```javascript
 #!/usr/bin/env node
 /**
  * init-ai — AI Agent Scaffold Generator
- * Gera infraestrutura de AI agents em qualquer repositório.
- * Uso: node scripts/init-ai.mjs
+ * Generates AI agents infrastructure in any repository.
+ * Usage: node scripts/init-ai.mjs
  */
 
 import { input, select, checkbox, confirm } from '@inquirer/prompts';
@@ -1034,7 +1036,7 @@ const __dirname = path.dirname(__filename);
 const TEMPLATES_DIR = path.resolve(__dirname, '..', 'templates');
 const TARGET_DIR = process.cwd();
 
-// ── Funções utilitárias exportadas (testáveis) ───────────────────────────────
+// ── Exported utility functions (testable) ───────────────────────────────
 
 export function replacePlaceholders(content, vars) {
   return Object.entries(vars).reduce(
@@ -1089,7 +1091,7 @@ export function getTemplateFiles(clis) {
   return files;
 }
 
-// ── Detecção de CLIs instalados ──────────────────────────────────────────────
+// ── Detection of installed CLIs ──────────────────────────────────────────────
 
 function detectCli(name) {
   try {
@@ -1100,7 +1102,7 @@ function detectCli(name) {
   }
 }
 
-// ── Fetch de skills externas (skills.sh) ─────────────────────────────────────
+// ── Fetch external skills (skills.sh) ─────────────────────────────────────
 
 async function fetchExtraSkillsCatalog() {
   return new Promise((resolve) => {
@@ -1121,7 +1123,7 @@ async function fetchExtraSkillsCatalog() {
   });
 }
 
-// ── Escrita de arquivos ───────────────────────────────────────────────────────
+// ── File writing ───────────────────────────────────────────────────────
 
 function writeFiles(files, vars, conflictStrategy) {
   const written = [];
@@ -1166,30 +1168,30 @@ function writeFiles(files, vars, conflictStrategy) {
 async function main() {
   console.log('\n🤖  AI Agent Scaffold Generator');
   console.log('─'.repeat(40));
-  console.log(`Destino: ${TARGET_DIR}\n`);
+  console.log(`Destination: ${TARGET_DIR}\n`);
 
-  // Etapa 1 — Contexto do projeto
+  // Step 1 — Project context
   const projectName = await input({
-    message: 'Nome do projeto:',
+    message: 'Project name:',
     default: path.basename(TARGET_DIR),
   });
 
   const description = await input({
-    message: 'Descrição curta:',
-    default: 'Projeto com suporte a AI agents',
+    message: 'Short description:',
+    default: 'Project with AI agents support',
   });
 
   const language = await select({
-    message: 'Linguagem principal:',
-    choices: ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Outra'].map(v => ({ value: v, name: v })),
+    message: 'Main language:',
+    choices: ['TypeScript', 'JavaScript', 'Python', 'Go', 'Rust', 'Other'].map(v => ({ value: v, name: v })),
   });
 
   const stack = await input({
-    message: 'Stack/frameworks (opcional):',
+    message: 'Stack/frameworks (optional):',
     default: language,
   });
 
-  // Etapa 2 — Seleção de CLIs
+  // Step 2 — CLI selection
   const detected = {
     claude: detectCli('claude'),
     codex: detectCli('codex'),
@@ -1198,37 +1200,37 @@ async function main() {
   };
 
   const selectedClis = await checkbox({
-    message: 'Quais AI CLIs você usa? (espaço para marcar)',
+    message: 'Which AI CLIs do you use? (space to mark)',
     choices: [
       {
-        name: `Claude Code  [recomendado${detected.claude ? ' ✓ instalado' : ''}]`,
+        name: `Claude Code  [recommended${detected.claude ? ' ✓ installed' : ''}]`,
         value: 'claude',
         checked: true,
       },
       {
-        name: `OpenAI Codex CLI${detected.codex ? '  ✓ instalado' : ''}`,
+        name: `OpenAI Codex CLI${detected.codex ? '  ✓ installed' : ''}`,
         value: 'codex',
         checked: detected.codex,
       },
       {
-        name: `Gemini CLI${detected.gemini ? '  ✓ instalado' : ''}`,
+        name: `Gemini CLI${detected.gemini ? '  ✓ installed' : ''}`,
         value: 'gemini',
         checked: detected.gemini,
       },
       {
-        name: `GitHub Copilot CLI${detected.copilot ? '  ✓ instalado' : ''}`,
+        name: `GitHub Copilot CLI${detected.copilot ? '  ✓ installed' : ''}`,
         value: 'copilot',
         checked: detected.copilot,
       },
     ],
   });
 
-  // Claude sempre incluído
+  // Claude always included
   const clis = selectedClis.includes('claude') ? selectedClis : ['claude', ...selectedClis];
 
-  // Etapa 3 — Skills extras
+  // Step 3 — Extra skills
   const wantExtra = await confirm({
-    message: 'Instalar skills adicionais do skills.sh/aitmpl.com?',
+    message: 'Install additional skills from skills.sh/aitmpl.com?',
     default: false,
   });
 
@@ -1239,104 +1241,104 @@ async function main() {
     STACK: stack,
   };
 
-  // Etapa 4 — Verificar conflitos
+  // Step 4 — Check for conflicts
   const files = getTemplateFiles(clis);
   const conflicts = files.filter(f => !f.symlink && fs.existsSync(path.join(TARGET_DIR, f.dest)));
 
   let conflictStrategy = 'skip';
   if (conflicts.length > 0) {
-    console.log(`\n⚠️  ${conflicts.length} arquivo(s) existente(s):`);
+    console.log(`\n⚠️  ${conflicts.length} existing file(s):`);
     conflicts.forEach(f => console.log(`   ${f.dest}`));
     conflictStrategy = await select({
-      message: 'Como proceder?',
+      message: 'How to proceed?',
       choices: [
-        { value: 'skip', name: 'Pular arquivos existentes (seguro)' },
-        { value: 'overwrite', name: 'Sobrescrever tudo' },
-        { value: 'backup', name: 'Fazer backup (.bak) e sobrescrever' },
+        { value: 'skip', name: 'Skip existing files (safe)' },
+        { value: 'overwrite', name: 'Overwrite everything' },
+        { value: 'backup', name: 'Backup (.bak) and overwrite' },
       ],
     });
   }
 
-  // Etapa 5 — Resumo e confirmação
-  console.log(`\nSerão criados/verificados ${files.length} arquivo(s):\n`);
+  // Step 5 — Summary and confirmation
+  console.log(`\n${files.length} file(s) will be created/verified:\n`);
   files.forEach(f => {
     const isConflict = conflicts.some(c => c.dest === f.dest);
     const marker = isConflict ? '⚠ ' : '  ';
     console.log(`  ${marker}${f.dest}${f.symlink ? ' → ' + f.symlink : ''}`);
   });
 
-  const confirmed = await confirm({ message: '\nConfirmar instalação?', default: true });
+  const confirmed = await confirm({ message: '\nConfirm installation?', default: true });
   if (!confirmed) {
-    console.log('\nCancelado.');
+    console.log('\nCancelled.');
     process.exit(0);
   }
 
-  // Etapa 6 — Escrever arquivos
+  // Step 6 — Write files
   const { written, skipped } = writeFiles(files, vars, conflictStrategy);
 
-  // Etapa 7 — Skills externas (opcional)
+  // Step 7 — External skills (optional)
   if (wantExtra) {
-    console.log('\nBuscando catálogo de skills externas...');
+    console.log('\nFetching external skills catalog...');
     const catalog = await fetchExtraSkillsCatalog();
     if (catalog) {
-      console.log('Catálogo disponível em: https://skills.sh');
+      console.log('Catalog available at: https://skills.sh');
     } else {
-      console.log('⚠️  Não foi possível conectar ao skills.sh. Acesse manualmente:');
+      console.log('⚠️  Could not connect to skills.sh. Access manually:');
     }
     console.log('   → https://skills.sh');
     console.log('   → https://www.aitmpl.com/skills');
   }
 
-  // Resumo final
+  // Final summary
   console.log('\n' + '─'.repeat(40));
-  console.log(`✅  Scaffold instalado em ${TARGET_DIR}`);
-  console.log(`   ${written.length} arquivo(s) criado(s)${skipped.length > 0 ? `, ${skipped.length} pulado(s)` : ''}`);
-  console.log('\nPróximos passos:');
-  console.log('  1. Revise CLAUDE.md e AGENTS.md e ajuste ao seu projeto');
-  console.log('  2. Personalize as skills em .claude/skills/');
-  console.log('  3. Execute: claude  (ou codex / gemini)');
-  console.log('  4. Skills externas: https://skills.sh | https://www.aitmpl.com/skills');
-  console.log('');
+  console.log(`✅  Scaffold installed in ${TARGET_DIR}`);
+  console.log(`   ${written.length} file(s) created${skipped.length > 0 ? `, ${skipped.length} skipped` : ''}`);
+  console.log('\nNext steps:');
+  console.log('  1. Review CLAUDE.md and AGENTS.md and adjust to your project');
+  console.log('  2. Customize skills in .claude/skills/');
+  console.log('  3. Run: claude  (or codex / gemini)');
+  console.log('  4. External skills: https://skills.sh | https://www.aitmpl.com/skills');
+  consoleconsole.log('');
 }
 
 main().catch(err => {
-  console.error('\n❌ Erro:', err.message);
+  console.error('\n❌ Error:', err.message);
   process.exit(1);
 });
 ```
 
-- [ ] **Step 2: Rodar testes (agora devem passar)**
+- [ ] **Step 2: Run tests (now they should pass)**
 
 ```bash
 cd /Users/andersonlimadev/Projects/IA/ai-starter-kit
 node --test tests/init-ai.test.mjs
 ```
 
-Saída esperada:
+Expected output:
 ```
-▶ replacePlaceholders substitui todas as ocorrências
-  ✔ replacePlaceholders substitui todas as ocorrências (Xms)
-▶ replacePlaceholders não altera texto sem placeholders
+▶ replacePlaceholders replaces all occurrences
+  ✔ replacePlaceholders replaces all occurrences (Xms)
+▶ replacePlaceholders does not change text without placeholders
   ✔ ...
-▶ getTemplateFiles sempre inclui claude quando selecionado
+▶ getTemplateFiles always includes claude when selected
   ✔ ...
-... (todos 7 testes passando)
+... (all 7 tests passing)
 ```
 
-- [ ] **Step 3: Verificar que o script pode ser importado sem erros**
+- [ ] **Step 3: Verify that the script can be imported without errors**
 
 ```bash
 node --input-type=module <<'EOF'
 import { replacePlaceholders, getTemplateFiles } from './scripts/init-ai.mjs';
 console.log('Import OK');
-console.log('Files para claude:', getTemplateFiles(['claude']).length, 'arquivos');
+console.log('Files for claude:', getTemplateFiles(['claude']).length, 'files');
 EOF
 ```
 
-Saída esperada:
+Expected output:
 ```
 Import OK
-Files para claude: 11 arquivos
+Files for claude: 11 files
 ```
 
 - [ ] **Step 4: Commit**
@@ -1344,7 +1346,7 @@ Files para claude: 11 arquivos
 ```bash
 git add scripts/init-ai.mjs
 git commit -m "$(cat <<'EOF'
-feat: script init-ai.mjs com onboarding interativo e scaffold de AI agents : 13/04/26
+feat: init-ai.mjs script with interactive onboarding and AI agent scaffold : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -1353,19 +1355,19 @@ EOF
 
 ---
 
-## Task 6: Smoke test e atualização do README
+## Task 6: Smoke test and README update
 
 **Files:**
-- Modify: `README.md` (adicionar seção init-ai)
-- Modify: `scripts/setup.sh` (mencionar init-ai como próximo passo)
+- Modify: `README.md` (add init-ai section)
+- Modify: `scripts/setup.sh` (mention init-ai as next step)
 
-- [ ] **Step 1: Verificar smoke test manual do script**
+- [ ] **Step 1: Verify manual script smoke test**
 
 ```bash
 cd /tmp && mkdir test-ai-scaffold && cd test-ai-scaffold && git init -q
 node /Users/andersonlimadev/Projects/IA/ai-starter-kit/scripts/init-ai.mjs <<'EOF'
-test-projeto
-Projeto de teste
+test-project
+Test project
 TypeScript
 Next.js
 
@@ -1375,79 +1377,79 @@ y
 EOF
 ```
 
-Verificar que os arquivos foram criados:
+Verify that files were created:
 
 ```bash
 ls CLAUDE.md AGENTS.md GEMINI.md .claude/settings.json .claude/skills/semantic-commit/SKILL.md
 ```
 
-Saída esperada: todos os arquivos listados sem erro.
+Expected output: all files listed without error.
 
-- [ ] **Step 2: Verificar substituição de placeholders**
+- [ ] **Step 2: Verify placeholder substitution**
 
 ```bash
-grep "test-projeto" CLAUDE.md
-grep "test-projeto" AGENTS.md
+grep "test-project" CLAUDE.md
+grep "test-project" AGENTS.md
 grep "Next.js" .claude/settings.json
 ```
 
-Saída esperada: linhas com o conteúdo correto substituído (sem `{{PROJECT_NAME}}`).
+Expected output: lines with the correct substituted content (no `{{PROJECT_NAME}}`).
 
-- [ ] **Step 3: Verificar GEMINI.md como symlink**
+- [ ] **Step 3: Verify GEMINI.md as symlink**
 
 ```bash
 ls -la GEMINI.md
 ```
 
-Saída esperada: `GEMINI.md -> AGENTS.md`
+Expected output: `GEMINI.md -> AGENTS.md`
 
-- [ ] **Step 4: Limpar teste**
+- [ ] **Step 4: Clean up test**
 
 ```bash
 rm -rf /tmp/test-ai-scaffold
 ```
 
-- [ ] **Step 5: Adicionar seção init-ai ao README.md**
+- [ ] **Step 5: Add init-ai section to README.md**
 
-No README.md existente, após a seção `## Quickstart (5 minutos)`, adicionar:
+In the existing README.md, after the `## Quickstart (5 minutes)` section, add:
 
 ```markdown
-## Init AI — Scaffold para qualquer repositório
+## Init AI — Scaffold for any repository
 
-O script `init-ai` gera toda a infraestrutura de AI agents em qualquer repositório existente:
+The `init-ai` script generates all AI agent infrastructure in any existing repository:
 
 ```bash
-# No diretório do seu projeto:
+# In your project directory:
 node /path/to/ai-starter-kit/scripts/init-ai.mjs
 
-# Ou via npm (se instalado como devDep):
+# Or via npm (if installed as devDep):
 npm run init-ai
 ```
 
-O script irá:
-1. Perguntar o nome, stack e linguagem do projeto
-2. Detectar CLIs instalados (Claude Code sugerido por padrão)
-3. Gerar `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude/skills/`, `.claude/agents/` e mais
-4. Oferecer skills adicionais do [skills.sh](https://skills.sh) e [aitmpl.com](https://www.aitmpl.com/skills)
+The script will:
+1. Ask for project name, stack, and language
+2. Detect installed CLIs (Claude Code suggested by default)
+3. Generate `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.claude/skills/`, `.claude/agents/` and more
+4. Offer additional skills from [skills.sh](https://skills.sh) and [aitmpl.com](https://www.aitmpl.com/skills)
 
-**Skills incluídas por padrão:** `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
+**Skills included by default:** `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
 ```
 
-- [ ] **Step 6: Rodar todos os testes**
+- [ ] **Step 6: Run all tests**
 
 ```bash
 cd /Users/andersonlimadev/Projects/IA/ai-starter-kit
 node --test tests/init-ai.test.mjs
 ```
 
-Saída esperada: 7 testes passando.
+Expected output: 7 tests passing.
 
-- [ ] **Step 7: Commit final**
+- [ ] **Step 7: Final commit**
 
 ```bash
 git add README.md scripts/setup.sh
 git commit -m "$(cat <<'EOF'
-docs: adicionar seção init-ai ao README e referências no setup.sh : 13/04/26
+docs: add init-ai section to README and references in setup.sh : 13/04/26
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 EOF
@@ -1458,29 +1460,29 @@ EOF
 
 ## Self-Review
 
-### Cobertura do spec
+### Spec coverage
 
-| Requisito do spec | Coberto por |
+| Spec requirement | Covered by |
 |---|---|
-| Script Node.js com @inquirer/prompts | Task 1 (setup) + Task 5 (script) |
-| Templates em `templates/` | Tasks 2, 3, 4 |
-| 4 skills embutidas | Task 3 |
+| Node.js script with @inquirer/prompts | Task 1 (setup) + Task 5 (script) |
+| Templates in `templates/` | Tasks 2, 3, 4 |
+| 4 built-in skills | Task 3 |
 | 3 subagents | Task 4 |
-| 4 CLIs com Claude como padrão | Task 5 (getTemplateFiles + checkbox) |
-| Detecção automática de CLIs | Task 5 (detectCli) |
-| Skills externas via skills.sh | Task 5 (fetchExtraSkillsCatalog) |
-| Fallback offline | Task 5 (try/catch no fetch) |
-| Conflito: 3 estratégias | Task 5 (conflictStrategy) |
-| GEMINI.md como symlink | Task 5 (writeFiles com file.symlink) |
-| Substituição de placeholders | Task 5 (replacePlaceholders) |
-| Testes unitários | Tasks 1 + 5 |
-| README atualizado | Task 6 |
+| 4 CLIs with Claude as default | Task 5 (getTemplateFiles + checkbox) |
+| Automatic CLI detection | Task 5 (detectCli) |
+| External skills via skills.sh | Task 5 (fetchExtraSkillsCatalog) |
+| Offline fallback | Task 5 (try/catch in fetch) |
+| Conflict: 3 strategies | Task 5 (conflictStrategy) |
+| GEMINI.md as symlink | Task 5 (writeFiles with file.symlink) |
+| Placeholder substitution | Task 5 (replacePlaceholders) |
+| Unit tests | Tasks 1 + 5 |
+| Updated README | Task 6 |
 | Smoke test | Task 6 |
 
-### Verificações adicionais
+### Additional checks
 
-- `replacePlaceholders` exportada e testada ✓
-- `getTemplateFiles` exportada e testada ✓
-- Nomes de função consistentes entre testes (Task 1) e implementação (Task 5) ✓
-- Paths absolutos em todos os passos ✓
-- Sem TBDs ou placeholders não resolvidos ✓
+- `replacePlaceholders` exported and tested ✓
+- `getTemplateFiles` exported and tested ✓
+- Function names consistent between tests (Task 1) and implementation (Task 5) ✓
+- Absolute paths in all steps ✓
+- No TBDs or unresolved placeholders ✓

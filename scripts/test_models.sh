@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # AI Agents Starter Kit – Smoke Tests
-# Verifica se todos os CLIs de IA estão instalados e operacionais.
+# Verifies if all AI CLIs are installed and operational.
 set -uo pipefail
 
 GREEN='\033[0;32m'
@@ -21,17 +21,17 @@ echo "   AI Agents Starter Kit – Smoke Tests"
 echo "═══════════════════════════════════════════"
 echo ""
 
-# Carregar .env se existir
+# Load .env if it exists
 if [ -f ".env" ]; then
   # shellcheck disable=SC1091
   set -a; source .env; set +a
-  ok ".env carregado"
+  ok ".env loaded"
 else
-  warn ".env não encontrado. Algumas verificações podem falhar."
+  warn ".env not found. Some checks may fail."
 fi
 
 echo ""
-echo "── Verificando CLIs instalados ─────────────────"
+echo "── Verifying installed CLIs ─────────────────"
 
 check_cli() {
   local name="$1"
@@ -40,10 +40,10 @@ check_cli() {
 
   if command -v "$cmd" >/dev/null 2>&1; then
     local ver
-    ver=$("$cmd" $version_flag 2>/dev/null | head -1 || echo "desconhecida")
+    ver=$("$cmd" $version_flag 2>/dev/null | head -1 || echo "unknown")
     ok "$name: $ver"
   else
-    fail "$name não encontrado. Execute: bash scripts/setup.sh"
+    fail "$name not found. Run: bash scripts/setup.sh"
   fi
 }
 
@@ -54,15 +54,15 @@ check_cli "Copilot CLI"     "copilot"    "--version"
 check_cli "OpenClaude CLI"  "openclaude" "--version"
 
 echo ""
-echo "── Verificando chaves de API ───────────────────"
+echo "── Verifying API keys ───────────────────"
 
 check_key() {
   local name="$1"
   local var="$2"
   if [ -n "${!var:-}" ]; then
-    ok "$name configurado (${var})"
+    ok "$name configured (${var})"
   else
-    warn "$name não configurado (${var} vazio)"
+    warn "$name not configured (${var} empty)"
   fi
 }
 
@@ -73,11 +73,11 @@ check_key "GitHub (Copilot)"   "GITHUB_TOKEN"
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo -e "Resultado: ${GREEN}${PASS} ok${NC} | ${RED}${FAIL} falha(s)${NC}"
+echo -e "Result: ${GREEN}${PASS} ok${NC} | ${RED}${FAIL} failure(s)${NC}"
 
 if [ $FAIL -eq 0 ]; then
-  echo -e "${GREEN}Todos os CLIs estão operacionais!${NC}"
+  echo -e "${GREEN}All CLIs are operational!${NC}"
 else
-  echo -e "${YELLOW}Corrija as falhas acima e execute novamente.${NC}"
+  echo -e "${YELLOW}Fix the failures above and run again.${NC}"
 fi
 echo ""
