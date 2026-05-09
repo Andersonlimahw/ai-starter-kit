@@ -55,7 +55,7 @@ cp .env.example .env
 # Edit .env with your API keys
 
 # 4. Run an example agent
-cd examples/depurador-claude && claude
+cd examples/debugger-claude && claude
 ```
 
 ---
@@ -111,9 +111,9 @@ ai-agents-starter-kit/
 │   ├── setup.py                 # Python setup
 │   └── hook-before-edit.sh      # Lint hook before edits
 ├── examples/
-│   ├── depurador-claude/        # "Debugger" Agent (Claude Code)
-│   ├── gerador-codex/           # "Code Generator" Agent (Codex)
-│   ├── explorador-gemini/       # Long context analysis (Gemini)
+│   ├── debugger-claude/        # "Debugger" Agent (Claude Code)
+│   ├── gerator-codex/           # "Code Generator" Agent (Codex)
+│   ├── explorer-gemini/       # Long context analysis (Gemini)
 │   └── multi-model-opencode/    # LLM Portability (OpenCode)
 ├── docs/
 │   └── README-en.md             # English version (SEO)
@@ -133,28 +133,14 @@ ai-agents-starter-kit/
 
 ---
 
-## 🆙 PRO Version
-
-The free version includes starter templates and basic agents.
-
-The **PRO** version offers:
-- 🤖 Advanced agents (CI/CD, monitoring, security)
-- 🔌 Premium plugins (Sentry, Datadog)
-- 🚀 Early access to new models
-- 💬 Priority support
-
-> **[👉 Upgrade to PRO at lemon.dev/pro-agents](https://lemon.dev/pro-agents)**
-
----
-
 ## 📖 Documentation
 
 - [AGENTS.md](./AGENTS.md) – Complete documentation in English
 - [docs/README-en.md](./docs/README-en.md) – English documentation
-- [lemon.dev/pro-agents](https://lemon.dev/pro-agents) – PRO version and newsletter
+- [lemon.dev.br](https://lemon.dev.br/) – My personal website
 
 ---
 
 ## 📄 License
 
-MIT © [lemon.dev](https://lemon.dev)
+MIT © [lemon.dev.br](https://lemon.dev.br)

@@ -12,7 +12,7 @@ This example demonstrates a **code generation agent** using the OpenAI Codex CLI
 ## How to use
 
 ```bash
-cd examples/gerador-codex
+cd examples/gerator-codex
 codex
 ```
 
@@ -26,7 +26,7 @@ codex run --memory=projects.json \
 ## Structure
 
 ```
-gerador-codex/
+gerator-codex/
 ├── AGENTS.md          # This file (agent documentation)
 ├── codex-agent.ts     # TypeScript orchestration example
 ├── simple_agent.py    # Python agent example

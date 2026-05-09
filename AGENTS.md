@@ -84,7 +84,7 @@ To get the most out of this kit, align your model selection with the task nature
 ### ⚙️ Ideal Setup Guide
 
 #### **Beginner (The Explorer)**
-- Focus on `depurador-claude` and `gerador-codex` examples.
+- Focus on `debugger-claude` and `gerator-codex` examples.
 - Use `skills-selector` to let the agent guide you.
 - Always use `Plan Mode` to understand the agent's logic.
 

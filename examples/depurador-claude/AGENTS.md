@@ -13,7 +13,7 @@ This example demonstrates a **code debugging agent** using Claude Code.
 
 ```bash
 # In the kit root:
-cd examples/depurador-claude
+cd examples/debugger-claude
 claude
 ```
 
@@ -22,7 +22,7 @@ Claude Code will read the `CLAUDE.md` in this folder and act as a specialized de
 ## Structure
 
 ```
-depurador-claude/
+debugger-claude/
 ├── AGENTS.md       # This file (agent documentation)
 ├── CLAUDE.md       # Instructions for Claude Code
 ├── sample_bug.py   # Sample code with bugs to debug

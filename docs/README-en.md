@@ -55,7 +55,7 @@ cp .env.example .env
 # Edit .env with your API keys
 
 # 4. Run an example agent
-cd examples/depurador-claude && claude
+cd examples/debugger-claude && claude
 ```
 
 ---
@@ -168,9 +168,9 @@ ai-agents-starter-kit/
 │   ├── setup.py                 # Python setup
 │   └── hook-before-edit.sh      # Lint hook
 ├── examples/
-│   ├── depurador-claude/        # Debugger agent (Claude Code)
-│   ├── gerador-codex/           # Code generator (Codex)
-│   ├── explorador-gemini/       # Long-context explorer (Gemini)
+│   ├── debugger-claude/        # Debugger agent (Claude Code)
+│   ├── gerator-codex/           # Code generator (Codex)
+│   ├── explorer-gemini/       # Long-context explorer (Gemini)
 │   └── multi-model-opencode/    # Multi-LLM portability (OpenCode)
 ├── docs/
 │   └── README-en.md             # This file (English, SEO)
