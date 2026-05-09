@@ -10,7 +10,8 @@ Comprehensive guide to AI development workflows:
 
 ### 🚀 Getting Started
 - **[README-en.md](./docs/README-en.md)**: Main entry point and feature overview.
-- **[Marketplace Publishing](./docs/marketplace/PUBLISHING.md)**: How to share your skills and agents.
+- **[Marketplace Distribution](./docs/marketplace/PLUGIN-DISTRIBUTION.md)**: Transform this kit into a shareable plugin.
+- **[Publishing Guide](./docs/marketplace/PUBLISHING.md)**: How to share your skills and agents.
 
 ### 🧠 Superpowers & Automation
 - **Advanced Architecture**:
