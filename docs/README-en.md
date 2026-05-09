@@ -31,6 +31,7 @@ The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) 
 - ✅ **Memory** via MCP (Model Context Protocol)
 - ✅ **LLM-Wiki**: automatic search and context storage
 - ✅ **Token Optimization**: Built-in support for **RTK** and **Caveman Mode**
+- ✅ **Engineering Skills**: Integrated Matt Pocock's skills (TDD, Grill Me, PRDs)
 - ✅ **Automatic setup** scripts (`bash scripts/setup.sh`)
 
 - ✅ CI/CD with GitHub Actions

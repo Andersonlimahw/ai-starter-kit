@@ -15,6 +15,7 @@ Maximize performance while minimizing costs:
 |---|---|---|
 | **RTK (Rust Token Killer)** | Proxy and filter shell output to save 60-90% tokens. | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **Caveman Mode** | Ultra-terse communication mode for CLI agents. | `activate_skill caveman` |
+| **Matt Pocock Skills** | Engineering discipline: Grill Me, TDD, PRDs, Issues. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **Karpathy Skills** | LLM fundamental concepts and best practices. | [Karpathy Gist](https://github.com/forrestchang/andrej-karpathy-skills) |
 
 ---
@@ -29,6 +30,11 @@ Maximize performance while minimizing costs:
 | `code-review` | Generic code review checklist | "review", "audit", "verify code" |
 | `debug-workflow` | Scientific debugging methodology | "debug", "bug", "investigate" |
 | `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "token" |
+| `grill-me` | Intensive interview to resolve design ambiguities | "/grill-me", "grill" |
+| `tdd` | Strict Red-Green-Refactor loop | "/tdd", "test first" |
+| `diagnose` | Scientific debugging loop | "/diagnose", "debug" |
+| `to-prd` | Generate Product Requirements Document | "/to-prd", "prd" |
+| `to-issues` | Break PRD into vertical task slices | "/to-issues", "tasks" |
 
 ## 🦾 Available Subagents
 

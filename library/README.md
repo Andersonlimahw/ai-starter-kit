@@ -9,6 +9,7 @@ This folder contains reusable skills and components that can be shared across di
 | **[smart-dispatch](./skills/smart-dispatch/SKILL.md)** | Advanced model routing logic based on complexity and cost. |
 | **[skills-selector](./skills/skills-selector/SKILL.md)** | Meta-skill for efficient context management. |
 | **[jest-pro](./skills/jest-pro/SKILL.md)** | Expert-level Jest testing guidance. |
+| **[Matt Pocock Engineering Skills](./skills/matt-pocock/)** | Comprehensive set of skills for real engineering: Grill Me, TDD, PRDs, Issues, etc. |
 
 ## 🚀 How to Use
 
