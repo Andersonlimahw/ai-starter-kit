@@ -86,4 +86,4 @@ npx --yes github:your-username/your-starter-kit-fork/scripts/init-ai.mjs
 ## 🤝 Community & Support
 
 - Submit your best agents to [aitmpl.com](https://aitmpl.com).
-- Join the discussion at [lemon.dev](https://lemon.dev).
+- Join the discussion at [lemon.dev.br](https://lemon.dev.br).
