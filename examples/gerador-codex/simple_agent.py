@@ -118,7 +118,7 @@ def main() -> None:
     print(f"Generated tests ({len(test_code)} characters)")
 
     print("\n✅ Agent finished!")
-    print("💎 PRO version: https://lemon.dev/pro-agents")
+    print("💎 PRO version: https://lemon.dev.br")
 
 
 if __name__ == "__main__":

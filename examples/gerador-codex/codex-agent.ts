@@ -67,8 +67,8 @@ async function main(): Promise<void> {
   console.log("⚙️  Sub-agent 2: Generating Queue implementation...");
   const generation = runCodex(
     "Implement a generic Queue class in Python with methods: " +
-      "enqueue(item), dequeue() -> item, peek() -> item, is_empty() -> bool, size() -> int. " +
-      "Use type hints and docstrings. Save to ./generated/queue.py"
+    "enqueue(item), dequeue() -> item, peek() -> item, is_empty() -> bool, size() -> int. " +
+    "Use type hints and docstrings. Save to ./generated/queue.py"
   );
   if (generation.success) {
     console.log("✔ Code generated:\n", generation.output.slice(0, 200), "...\n");
@@ -79,7 +79,7 @@ async function main(): Promise<void> {
   console.log("🧪 Sub-agent 3: Generating unit tests...");
   const tests = runCodex(
     "Generate complete pytest unit tests for the Queue class in ./generated/queue.py. " +
-      "Cover edge cases: empty queue, single element, multiple elements.",
+    "Cover edge cases: empty queue, single element, multiple elements.",
     [targetFile]
   );
   if (tests.success) {
@@ -88,7 +88,7 @@ async function main(): Promise<void> {
   }
 
   console.log("\n✅ Generator Agent finished! Check ./generated/");
-  console.log("💎 PRO version with more agents: https://lemon.dev/pro-agents\n");
+  console.log("💎 PRO version: https://lemon.dev.br\n");
 }
 
 main().catch(console.error);

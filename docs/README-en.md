@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-green)](https://nodejs.org)
 [![Python](https://img.shields.io/badge/Python-%3E%3D3.10-blue)](https://python.org)
-[![PRO Version](https://img.shields.io/badge/PRO-lemon.dev%2Fpro--agents-orange)](https://lemon.dev/pro-agents)
+[![PRO Version](https://img.shields.io/badge/PRO-lemon.dev%2Fpro--agents-orange)](https://lemon.dev.br)
 
 ---
 
@@ -147,7 +147,7 @@ The **PRO** version offers:
 - 🚀 Early access to new models
 - 💬 Priority support
 
-> **[👉 Upgrade to PRO at lemon.dev/pro-agents](https://lemon.dev/pro-agents)**
+> **[👉 Upgrade to PRO at lemon.dev.brpro-agents](https://lemon.dev.brpro-agents)**
 
 ---
 

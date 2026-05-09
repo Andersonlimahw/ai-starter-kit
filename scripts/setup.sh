@@ -89,6 +89,6 @@ echo "  2. If you want to generate the AI agents scaffold in another repository,
 echo "  3. Run: bash scripts/test_models.sh"
 echo "  4. Explore: cd examples/debugger-claude && claude"
 echo ""
-echo "  💎 PRO version: https://lemon.dev/pro-agents"
+echo "  💎 PRO version: https://lemon.dev.br"
 echo "═══════════════════════════════════════════"
 echo ""

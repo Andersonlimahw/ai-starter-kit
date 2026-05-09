@@ -62,7 +62,7 @@ Edit `package.json`:
   "keywords": [
     "ai", "agents", "claude-code", "codex", "gemini", "copilot", "llm", "mcp", "starter-kit"
   ],
-  "homepage": "https://lemon.dev/pro-agents",
+  "homepage": "https://lemon.dev.br",
   "repository": {
     "type": "git",
     "url": "https://github.com/lemondev/ai-agents-starter-kit.git"
