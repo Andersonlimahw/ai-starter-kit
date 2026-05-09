@@ -1,32 +1,32 @@
-# Agente Explorador (Gemini CLI)
+# Explorer Agent (Gemini CLI)
 
-Este agente utiliza a **janela de contexto de 2M de tokens** do Gemini para analisar repositórios inteiros ou documentações extensas em um único prompt.
+This agent uses Gemini's **2M token context window** to analyze entire repositories or extensive documentation in a single prompt.
 
-## Configuração
+## Setup
 
-1. Certifique-se que o `gemini-cli` está instalado: `npm install -g @google/gemini-cli`
-2. Configure sua chave: `export GEMINI_API_KEY=your_key`
-3. O modelo padrão é o `gemini-2.0-flash-exp` (ou superior).
+1. Ensure `gemini-cli` is installed: `npm install -g @google/gemini-cli`
+2. Configure your key: `export GEMINI_API_KEY=your_key`
+3. The default model is `gemini-2.0-flash-exp` (or higher).
 
-## Uso
+## Usage
 
-Para explorar este repositório:
+To explore this repository:
 
 ```bash
-gemini --system "Você é um arquiteto de software especialista em IA." \
+gemini --system "You are a software architect specializing in AI." \
   --context "README.md, AGENTS.md, scripts/init-ai.mjs" \
-  "Descreva a arquitetura deste projeto e sugira 3 melhorias estruturais."
+  "Describe the architecture of this project and suggest 3 structural improvements."
 ```
 
-## Vantagens do Gemini para este caso
-- **Janela Gigante**: Pode ler o projeto inteiro sem precisar de RAG complexo.
-- **Multimodal**: Pode ler diagramas em imagens (via `--image`).
-- **Velocidade**: O Flash 2.0 é ideal para análise de código rápida.
+## Gemini Advantages for this case
+- **Giant Window**: Can read the entire project without needing complex RAG.
+- **Multimodal**: Can read diagrams in images (via `--image`).
+- **Speed**: Flash 2.0 is ideal for fast code analysis.
 
 ---
 
-## Skills e Memória
+## Skills and Memory
 
-Este agente consulta `../../AGENTS.md` e usa as regras de memória do `projects.json` local se disponível.
+This agent consults `../../AGENTS.md` and uses local `projects.json` memory rules if available.
 
 ```

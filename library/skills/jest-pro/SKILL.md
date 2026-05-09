@@ -1,18 +1,18 @@
 ---
 name: jest-pro
-description: Expert em Jest. Configuração de mocks, coverage e testes assíncronos.
+description: Jest Expert. Mock configuration, coverage, and asynchronous testing.
 ---
 
 # Jest Pro Skill
 
-Use para criar ou melhorar testes unitários com Jest.
+Use to create or improve unit tests with Jest.
 
-## Regras
-- Sempre use `jest.spyOn` para mocks se possível.
-- Cobertura mínima de 80% em lógica crítica.
-- Use `test.each` para tabelas de decisão.
+## Rules
+- Always use `jest.spyOn` for mocks if possible.
+- Minimum 80% coverage for critical logic.
+- Use `test.each` for decision tables.
 
-## Exemplo
+## Example
 ```javascript
 test('should do X', () => {
   const spy = jest.spyOn(console, 'log');

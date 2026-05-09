@@ -1,9 +1,9 @@
 /**
- * AI Agents Starter Kit – Exemplo de orquestração com Codex CLI
- * Demonstra uso de sub-agentes paralelos para revisão e geração de testes.
+ * AI Agents Starter Kit – Orchestration example with Codex CLI
+ * Demonstrates use of parallel sub-agents for review and test generation.
  *
- * Nota: Este é um exemplo conceitual que ilustra o padrão de uso.
- * O SDK @openai/codex pode variar – consulte a documentação oficial.
+ * Note: This is a conceptual example illustrating the usage pattern.
+ * The @openai/codex SDK may vary – consult the official documentation.
  */
 
 import { execSync } from "child_process";
@@ -16,7 +16,7 @@ interface AgentResult {
 }
 
 /**
- * Executa o Codex CLI com um prompt e retorna o resultado.
+ * Executes the Codex CLI with a prompt and returns the result.
  */
 function runCodex(prompt: string, files: string[] = []): AgentResult {
   const filesArg = files.map((f) => `--file "${f}"`).join(" ");
@@ -35,7 +35,7 @@ function runCodex(prompt: string, files: string[] = []): AgentResult {
 }
 
 /**
- * Salva resultado em memória (memory_log.json).
+ * Saves result to memory (memory_log.json).
  */
 function storeMemory(task: string, output: string): void {
   const memFile = "./memory_log.json";
@@ -44,51 +44,51 @@ function storeMemory(task: string, output: string): void {
     ? fs.readFileSync(memFile, "utf8").trim()
     : "";
   fs.appendFileSync(memFile, JSON.stringify(entry) + "\n");
-  console.log(`[Memória] Resultado salvo em ${memFile}`);
+  console.log(`[Memory] Result saved to ${memFile}`);
 }
 
 async function main(): Promise<void> {
   const targetFile = "./generated/queue.py";
 
-  console.log("🤖 Agente Gerador de Código (Codex) iniciando...\n");
+  console.log("🤖 Code Generator Agent (Codex) starting...\n");
 
-  // ── Sub-agente 1: Revisão de código ──────────────────────────────────────
-  console.log("📋 Sub-agente 1: Revisando código existente...");
+  // ── Sub-agent 1: Code Review ──────────────────────────────────────────
+  console.log("📋 Sub-agent 1: Reviewing existing code...");
   const review = runCodex(
-    "Revise este código Python e identifique melhorias de performance e legibilidade.",
+    "Review this Python code and identify performance and readability improvements.",
     ["./sample_input.py"]
   );
   if (review.success) {
-    console.log("✔ Revisão concluída:\n", review.output.slice(0, 200), "...\n");
-    storeMemory("Revisão de código", review.output);
+    console.log("✔ Review completed:\n", review.output.slice(0, 200), "...\n");
+    storeMemory("Code review", review.output);
   }
 
-  // ── Sub-agente 2: Geração de código ──────────────────────────────────────
-  console.log("⚙️  Sub-agente 2: Gerando implementação de Queue...");
+  // ── Sub-agent 2: Code Generation ──────────────────────────────────────
+  console.log("⚙️  Sub-agent 2: Generating Queue implementation...");
   const generation = runCodex(
-    "Implemente uma classe Queue genérica em Python com métodos: " +
+    "Implement a generic Queue class in Python with methods: " +
       "enqueue(item), dequeue() -> item, peek() -> item, is_empty() -> bool, size() -> int. " +
-      "Use type hints e docstrings. Salve em ./generated/queue.py"
+      "Use type hints and docstrings. Save to ./generated/queue.py"
   );
   if (generation.success) {
-    console.log("✔ Código gerado:\n", generation.output.slice(0, 200), "...\n");
-    storeMemory("Geração de Queue", generation.output);
+    console.log("✔ Code generated:\n", generation.output.slice(0, 200), "...\n");
+    storeMemory("Queue generation", generation.output);
   }
 
-  // ── Sub-agente 3: Geração de testes ──────────────────────────────────────
-  console.log("🧪 Sub-agente 3: Gerando testes unitários...");
+  // ── Sub-agent 3: Test Generation ──────────────────────────────────────
+  console.log("🧪 Sub-agent 3: Generating unit tests...");
   const tests = runCodex(
-    "Gere testes unitários pytest completos para a classe Queue em ./generated/queue.py. " +
-      "Cubra casos de borda: fila vazia, único elemento, múltiplos elementos.",
+    "Generate complete pytest unit tests for the Queue class in ./generated/queue.py. " +
+      "Cover edge cases: empty queue, single element, multiple elements.",
     [targetFile]
   );
   if (tests.success) {
-    console.log("✔ Testes gerados:\n", tests.output.slice(0, 200), "...\n");
-    storeMemory("Testes de Queue", tests.output);
+    console.log("✔ Tests generated:\n", tests.output.slice(0, 200), "...\n");
+    storeMemory("Queue tests", tests.output);
   }
 
-  console.log("\n✅ Agente Gerador finalizado! Verifique ./generated/");
-  console.log("💎 Versão PRO com mais agentes: https://lemon.dev/pro-agents\n");
+  console.log("\n✅ Generator Agent finished! Check ./generated/");
+  console.log("💎 PRO version with more agents: https://lemon.dev/pro-agents\n");
 }
 
 main().catch(console.error);

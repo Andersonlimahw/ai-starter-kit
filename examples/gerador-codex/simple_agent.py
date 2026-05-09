@@ -1,6 +1,6 @@
 """
-AI Agents Starter Kit – Agente Python simples com OpenAI API.
-Demonstra geração de código via API direta (sem CLI).
+AI Agents Starter Kit – Simple Python agent with OpenAI API.
+Demonstrates code generation via direct API (without CLI).
 """
 import json
 import os
@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def store_memory(task: str, output: str, mem_file: str = "./memory_log.json") -> None:
-    """Salva resultado da sessão no arquivo de memória."""
+    """Saves session result to memory file."""
     entry = {
         "task": task,
         "output": output,
@@ -18,13 +18,13 @@ def store_memory(task: str, output: str, mem_file: str = "./memory_log.json") ->
     with open(mem_file, "a", encoding="utf-8") as f:
         json.dump(entry, f, ensure_ascii=False)
         f.write("\n")
-    print(f"[Memória] Salvo em {mem_file}")
+    print(f"[Memory] Saved to {mem_file}")
 
 
 def run_codex_cli(prompt: str, files: list[str] | None = None) -> str:
     """
-    Executa o Codex CLI via subprocess e retorna a saída.
-    Em produção, use subprocess.run com tratamento de erros adequado.
+    Executes the Codex CLI via subprocess and returns the output.
+    In production, use subprocess.run with proper error handling.
     """
     import subprocess
 
@@ -44,21 +44,21 @@ def run_codex_cli(prompt: str, files: list[str] | None = None) -> str:
 
 def generate_code(description: str, output_file: str | None = None) -> str:
     """
-    Gera código a partir de uma descrição em linguagem natural.
+    Generates code from a natural language description.
 
     Args:
-        description: O que o código deve fazer.
-        output_file: Caminho para salvar o código gerado (opcional).
+        description: What the code should do.
+        output_file: Path to save the generated code (optional).
 
     Returns:
-        O código gerado como string.
+        The generated code as a string.
     """
-    print(f"\n🤖 Gerando código para: {description[:60]}...")
+    print(f"\n🤖 Generating code for: {description[:60]}...")
 
     prompt = (
-        f"Implemente o seguinte em Python com type hints e docstrings:\n\n"
+        f"Implement the following in Python with type hints and docstrings:\n\n"
         f"{description}\n\n"
-        "Retorne apenas o código Python, sem explicações adicionais."
+        "Return only the Python code, without additional explanations."
     )
 
     output = run_codex_cli(prompt)
@@ -66,59 +66,59 @@ def generate_code(description: str, output_file: str | None = None) -> str:
     if output_file:
         Path(output_file).parent.mkdir(parents=True, exist_ok=True)
         Path(output_file).write_text(output, encoding="utf-8")
-        print(f"✔ Código salvo em {output_file}")
+        print(f"✔ Code saved to {output_file}")
 
-    store_memory(f"Geração: {description}", output)
+    store_memory(f"Generation: {description}", output)
     return output
 
 
 def refactor_code(file_path: str) -> str:
     """
-    Refatora um arquivo Python existente.
+    Refactors an existing Python file.
 
     Args:
-        file_path: Caminho para o arquivo a refatorar.
+        file_path: Path to the file to refactor.
 
     Returns:
-        O código refatorado.
+        The refactored code.
     """
-    print(f"\n🔧 Refatorando: {file_path}...")
+    print(f"\n🔧 Refactoring: {file_path}...")
 
     prompt = (
-        "Refatore o seguinte código Python para melhorar legibilidade, "
-        "performance e seguir boas práticas. Use type hints completos."
+        "Refactor the following Python code to improve readability, "
+        "performance, and follow best practices. Use complete type hints."
     )
 
     output = run_codex_cli(prompt, files=[file_path])
-    store_memory(f"Refatoração: {file_path}", output)
+    store_memory(f"Refactoring: {file_path}", output)
     return output
 
 
 def main() -> None:
     print("=" * 45)
-    print("  Agente Gerador de Código (Python)")
+    print("  Code Generator Agent (Python)")
     print("=" * 45)
 
-    # Exemplo 1: Gerar uma estrutura de dados
+    # Example 1: Generate a data structure
     queue_code = generate_code(
         description=(
-            "Uma classe Queue genérica com métodos: "
+            "A generic Queue class with methods: "
             "enqueue(item), dequeue() -> item, peek() -> item, "
             "is_empty() -> bool, size() -> int"
         ),
         output_file="./generated/queue.py",
     )
-    print(f"\nCódigo gerado ({len(queue_code)} caracteres)")
+    print(f"\nGenerated code ({len(queue_code)} characters)")
 
-    # Exemplo 2: Gerar testes
+    # Example 2: Generate tests
     test_code = generate_code(
-        description="Testes unitários pytest para a classe Queue em ./generated/queue.py",
+        description="pytest unit tests for the Queue class in ./generated/queue.py",
         output_file="./generated/test_queue.py",
     )
-    print(f"Testes gerados ({len(test_code)} caracteres)")
+    print(f"Generated tests ({len(test_code)} characters)")
 
-    print("\n✅ Agente finalizado!")
-    print("💎 Versão PRO: https://lemon.dev/pro-agents")
+    print("\n✅ Agent finished!")
+    print("💎 PRO version: https://lemon.dev/pro-agents")
 
 
 if __name__ == "__main__":

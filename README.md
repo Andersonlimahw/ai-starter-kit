@@ -18,7 +18,7 @@ The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) 
 - **Codex CLI** (OpenAI)
 - **Gemini CLI** (Google)
 - **GitHub Copilot CLI**
-- **OpenClaude** (multi-model)
+- **OpenCode** (multi-model)
 
 ---
 
@@ -29,8 +29,10 @@ The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) 
 - ✅ Pre-defined **Skills**: debug, code generation, refactoring
 - ✅ Customizable **Hooks** before/after actions
 - ✅ **Memory** via MCP (Model Context Protocol)
-- ✅ **LLM-Wiki**: automatic search and context storage
-- ✅ Automatic setup scripts (`bash scripts/setup.sh`)
+- ✅ **LLM-Wiki**: Automatic search and context storage
+- ✅ **Token Optimization**: Built-in support for **RTK** and **Caveman Mode**
+- ✅ **Automatic setup** scripts (`bash scripts/setup.sh`)
+
 - ✅ CI/CD with GitHub Actions
 - ✅ Model and CLI comparison
 - ✅ Security checklist
@@ -87,7 +89,7 @@ Skills included by default: `semantic-commit`, `code-review`, `debug-workflow`, 
 | Codex CLI | `npm install -g @openai/codex` |
 | Gemini CLI | `npm install -g @google/gemini-cli` |
 | Copilot CLI | `npm install -g @github/copilot` |
-| OpenClaude | `npm install -g @gitlawb/openclaude` |
+| OpenCode | `npm install -g opencode-ai` |
 
 ---
 
@@ -111,7 +113,7 @@ ai-agents-starter-kit/
 │   ├── depurador-claude/        # "Debugger" Agent (Claude Code)
 │   ├── gerador-codex/           # "Code Generator" Agent (Codex)
 │   ├── explorador-gemini/       # Long context analysis (Gemini)
-│   └── multi-modelo-openclaude/ # LLM Portability (OpenClaude)
+│   └── multi-model-opencode/    # LLM Portability (OpenCode)
 ├── docs/
 │   └── README-en.md             # English version (SEO)
 └── .github/

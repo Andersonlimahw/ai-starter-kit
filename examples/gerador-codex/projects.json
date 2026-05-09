@@ -1,6 +1,6 @@
 {
   "project": "ai-agents-starter-kit",
-  "description": "Exemplo de memória/contexto do agente Codex",
+  "description": "Example of Codex agent memory/context",
   "sessions": [],
   "preferences": {
     "language": "python",

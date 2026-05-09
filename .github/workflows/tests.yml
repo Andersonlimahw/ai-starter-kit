@@ -18,33 +18,33 @@ jobs:
 
     steps:
       # ── Checkout ─────────────────────────────────────────────────────────────
-      - name: Checkout código
+      - name: Checkout code
         uses: actions/checkout@v4
 
       # ── Node.js ──────────────────────────────────────────────────────────────
-      - name: Configurar Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - name: Instalar dependências Node.js
+      - name: Install Node.js dependencies
         run: npm install --if-present
 
       - name: Lint JavaScript/TypeScript
-        run: npm run lint --if-present || echo "Sem erros de lint JS/TS"
+        run: npm run lint --if-present || echo "No JS/TS lint errors"
 
-      - name: Rodar testes Node.js
-        run: npm test --if-present || echo "Sem testes Node.js"
+      - name: Run Node.js tests
+        run: npm test --if-present || echo "No Node.js tests"
 
       # ── Python ───────────────────────────────────────────────────────────────
-      - name: Configurar Python ${{ matrix.python-version }}
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
 
-      - name: Instalar dependências Python
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pytest flake8 black
@@ -52,49 +52,50 @@ jobs:
 
       - name: Lint Python (Flake8)
         run: |
-          flake8 . \
-            --max-line-length=88 \
-            --exclude=.git,__pycache__,.env,node_modules \
-            --count --show-source --statistics || echo "Lint Python: aviso(s) encontrado(s)"
+          flake8 .
+            --max-line-length=88
+            --exclude=.git,__pycache__,.env,node_modules
+            --count --show-source --statistics || echo "Lint Python: warning(s) found"
 
-      - name: Verificar formatação Python (Black)
+      - name: Check Python formatting (Black)
         run: |
-          black --check --diff . \
-            --exclude '/(\.git|__pycache__|\.env|node_modules)/' || echo "Black: formatar código pendente"
+          black --check --diff .
+            --exclude '/(\x2Egit|__pycache__|\x2Eenv|node_modules)/' || echo "Black: pending code formatting"
 
-      - name: Rodar testes Python (pytest)
-        run: pytest -q --tb=short || echo "Sem testes Python ou todos passaram"
+      - name: Run Python tests (pytest)
+        run: pytest -q --tb=short || echo "No Python tests or all passed"
 
-      # ── Scripts de Shell ─────────────────────────────────────────────────────
-      - name: Verificar sintaxe dos scripts Shell
+      # ── Shell Scripts ────────────────────────────────────────────────────────
+      - name: Check Shell scripts syntax
         run: |
           for script in scripts/*.sh; do
-            bash -n "$script" && echo "✔ $script" || echo "✗ Erro em $script"
+            bash -n "$script" && echo "✔ $script" || echo "✗ Error in $script"
           done
 
   security-check:
-    name: Verificação de Segurança
+    name: Security Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout código
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Verificar chaves expostas acidentalmente
+      - name: Check for accidentally exposed keys
         run: |
-          # Garante que não há chaves de API reais nos arquivos versionados
-          if grep -rE "(sk-[a-zA-Z0-9]{20,}|AIza[a-zA-Z0-9_-]{35})" \
-               --include="*.py" --include="*.ts" --include="*.js" \
-               --include="*.json" --include="*.md" \
-               --exclude-dir=".git" . 2>/dev/null; then
-            echo "⚠️  Possível chave de API exposta encontrada!"
+          # Ensures no real API keys in versioned files
+          if grep -rE "(sk-[a-zA-Z0-9]{20,}|AIza[a-zA-Z0-9_-]{35})"
+               --include="*.py" --include="*.ts" --include="*.js"
+               --include="*.json" --include="*.md"
+               --exclude-dir=".git" . 2>/dev/null;
+          then
+            echo "⚠️  Possible exposed API key found!"
             exit 1
           fi
-          echo "✔ Nenhuma chave de API exposta detectada."
+          echo "✔ No exposed API keys detected."
 
-      - name: Verificar .env não commitado
+      - name: Check for uncommitted .env
         run: |
-          if git ls-files | grep -q "^\.env$"; then
-            echo "⚠️  Arquivo .env está commitado no repositório!"
+          if git ls-files | grep -q "^.env$"; then
+            echo "⚠️  .env file is committed in the repository!"
             exit 1
           fi
-          echo "✔ .env não está commitado."
+          echo "✔ .env is not committed."

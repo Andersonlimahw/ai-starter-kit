@@ -1,7 +1,7 @@
 # Gemini Explorer Context
 
-Regras globais: [../../AGENTS.md](../../AGENTS.md)
-Instruções específicas: [AGENTS.md](./AGENTS.md)
+Global rules: [../../AGENTS.md](../../AGENTS.md)
+Specific instructions: [AGENTS.md](./AGENTS.md)
 
-Este exemplo foca em **Análise Arquitetural** e **Contexto Longo**.
-Use a skill `llm-wiki` para discutir limites de contexto.
+This example focuses on **Architectural Analysis** and **Long Context**.
+Use the `llm-wiki` skill to discuss context limits.

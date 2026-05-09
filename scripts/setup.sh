@@ -62,14 +62,14 @@ else
   info "Copilot CLI installed!"
 fi
 
-# ── OpenClaude CLI ────────────────────────────────────────────────────────────
+# ── OpenCode CLI ────────────────────────────────────────────────────────────
 echo ""
-echo "Installing OpenClaude CLI..."
-if command -v openclaude >/dev/null 2>&1; then
-  info "OpenClaude CLI already installed: $(openclaude --version 2>/dev/null || echo 'unknown version')"
+echo "Installing OpenCode CLI..."
+if command -v opencode >/dev/null 2>&1; then
+  info "OpenCode CLI already installed: $(opencode --version 2>/dev/null || echo 'unknown version')"
 else
-  npm install -g @gitlawb/openclaude
-  info "OpenClaude CLI installed!"
+  npm install -g opencode-ai
+  info "OpenCode CLI installed!"
 fi
 
 # ── Configure .env ───────────────────────────────────────────────────────────

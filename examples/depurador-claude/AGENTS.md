@@ -1,44 +1,44 @@
-# Agente Depurador – Claude Code
+# Debugger Agent – Claude Code
 
-Este exemplo demonstra um agente de **depuração de código** usando Claude Code.
+This example demonstrates a **code debugging agent** using Claude Code.
 
-## O que ele faz
+## What it does
 
-- Analisa o código em busca de bugs e erros
-- Usa habilidade `SearchLogs` para checar logs de execução
-- Cria sub-agentes para análise paralela quando necessário
-- Sugere correções com explicações claras
+- Analyzes code for bugs and errors
+- Uses the `SearchLogs` skill to check execution logs
+- Creates sub-agents for parallel analysis when necessary
+- Suggests fixes with clear explanations
 
-## Como usar
+## How to use
 
 ```bash
-# Na raiz do kit:
+# In the kit root:
 cd examples/depurador-claude
 claude
 ```
 
-O Claude Code irá ler o `CLAUDE.md` desta pasta e agir como um agente de depuração especializado.
+Claude Code will read the `CLAUDE.md` in this folder and act as a specialized debugging agent.
 
-## Estrutura
+## Structure
 
 ```
 depurador-claude/
-├── AGENTS.md       # Este arquivo (documentação do agente)
-├── CLAUDE.md       # Instruções para o Claude Code
-├── sample_bug.py   # Código de exemplo com bugs para depurar
-└── memory_log.json # Log de memória do agente (gerado ao usar)
+├── AGENTS.md       # This file (agent documentation)
+├── CLAUDE.md       # Instructions for Claude Code
+├── sample_bug.py   # Sample code with bugs to debug
+└── memory_log.json # Agent memory log (generated during use)
 ```
 
-## Exemplo de uso
+## Usage example
 
 ```
-Você: Analise o arquivo sample_bug.py e encontre todos os bugs.
+You: Analyze the sample_bug.py file and find all bugs.
 
-Claude: Vou analisar o arquivo...
-[lê sample_bug.py]
-Encontrei 3 problemas:
-1. Linha 12: divisão por zero possível quando `count = 0`
-2. Linha 28: variável `result` usada antes de ser inicializada
-3. Linha 45: loop infinito se `items` estiver vazio
+Claude: I'll analyze the file...
+[reads sample_bug.py]
+I found 3 issues:
+1. Line 12: possible division by zero when `count = 0`
+2. Line 28: `result` variable used before being initialized
+3. Line 45: infinite loop if `items` is empty
 ...
 ```

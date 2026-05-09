@@ -51,7 +51,7 @@ check_cli "Claude Code"     "claude"     "--version"
 check_cli "Codex CLI"       "codex"      "--version"
 check_cli "Gemini CLI"      "gemini"     "--version"
 check_cli "Copilot CLI"     "copilot"    "--version"
-check_cli "OpenClaude CLI"  "openclaude" "--version"
+check_cli "OpenCode CLI"    "opencode"   "--version"
 
 echo ""
 echo "── Verifying API keys ───────────────────"

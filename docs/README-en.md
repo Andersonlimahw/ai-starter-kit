@@ -18,7 +18,7 @@ The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) 
 - **Codex CLI** (OpenAI)
 - **Gemini CLI** (Google)
 - **GitHub Copilot CLI**
-- **OpenClaude** (multi-model)
+- **OpenCode** (multi-model)
 
 ---
 
@@ -30,7 +30,9 @@ The **AI Agents Starter Kit** is a cross-platform repository (Node.js + Python) 
 - ✅ Customizable **hooks** before/after agent actions
 - ✅ **Memory** via MCP (Model Context Protocol)
 - ✅ **LLM-Wiki**: automatic search and context storage
-- ✅ Automatic setup scripts (`bash scripts/setup.sh`)
+- ✅ **Token Optimization**: Built-in support for **RTK** and **Caveman Mode**
+- ✅ **Automatic setup** scripts (`bash scripts/setup.sh`)
+
 - ✅ CI/CD with GitHub Actions
 - ✅ Model comparison matrix
 - ✅ Security checklist
@@ -88,13 +90,13 @@ node scripts/init-ai.mjs --add-skill
 | Codex CLI | `npm install -g @openai/codex` |
 | Gemini CLI | `npm install -g @google/gemini-cli` |
 | Copilot CLI | `npm install -g @github/copilot` |
-| OpenClaude | `npm install -g @gitlawb/openclaude` |
+| OpenCode | `npm install -g opencode-ai` |
 
 ---
 
 ## Model Comparison
 
-| Feature | Claude Code | Codex CLI | Gemini CLI | Copilot CLI | OpenClaude |
+| Feature | Claude Code | Codex CLI | Gemini CLI | Copilot CLI | OpenCode |
 |---------|------------|-----------|-----------|------------|-----------|
 | **Install** | Script/Brew | npm | npm | npm | npm |
 | **Source** | Closed (CLI avail.) | Open-source | Open-source | Closed | Open-source |
@@ -114,7 +116,7 @@ flowchart LR
     B(Codex CLI Agent) -->|MCP / Memory| S
     C(Gemini CLI Agent) -->|MCP / Memory| S
     D(Copilot CLI Agent) -->|MCP / Memory| S
-    E(OpenClaude Agent) -->|MCP / Memory| S
+    E(OpenCode Agent) -->|MCP / Memory| S
   end
   subgraph Context
     S --> DB[(Memory Store)]
@@ -168,7 +170,7 @@ ai-agents-starter-kit/
 │   ├── depurador-claude/        # Debugger agent (Claude Code)
 │   ├── gerador-codex/           # Code generator (Codex)
 │   ├── explorador-gemini/       # Long-context explorer (Gemini)
-│   └── multi-modelo-openclaude/ # Multi-LLM portability (OpenClaude)
+│   └── multi-model-opencode/    # Multi-LLM portability (OpenCode)
 ├── docs/
 │   └── README-en.md             # This file (English, SEO)
 └── .github/

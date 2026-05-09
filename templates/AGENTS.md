@@ -7,16 +7,30 @@
 
 ---
 
-## Available Skills
+## 💰 Token Optimization & DX
+
+Maximize performance while minimizing costs:
+
+| Tool | Purpose | Source/Command |
+|---|---|---|
+| **RTK (Rust Token Killer)** | Proxy and filter shell output to save 60-90% tokens. | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
+| **Caveman Mode** | Ultra-terse communication mode for CLI agents. | `activate_skill caveman` |
+| **Karpathy Skills** | LLM fundamental concepts and best practices. | [Karpathy Gist](https://github.com/forrestchang/andrej-karpathy-skills) |
+
+---
+
+## 🛠️ Available Skills
 
 | Skill | Description | Trigger |
 |---|---|---|
+| `skills-selector` | Meta-skill to activate relevant skills only | "plan", "how to", "help" |
+| `smart-dispatch` | Routes tasks to L1/L2/L3 models | "implement", "fix", "create" |
 | `semantic-commit` | Semantic commit workflow with timestamp | "commit", "cn", "do commit" |
-| `code-review` | Generic code review checklist | "review", "review", "verify code" |
-| `debug-workflow` | Scientific debugging methodology | "debug", "bug", "error", "investigate" |
-| `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "prompt", "token" |
+| `code-review` | Generic code review checklist | "review", "audit", "verify code" |
+| `debug-workflow` | Scientific debugging methodology | "debug", "bug", "investigate" |
+| `llm-wiki` | Fundamental LLM concepts as context | "llm", "model", "token" |
 
-## Available Subagents
+## 🦾 Available Subagents
 
 | Agent | Model | Function |
 |---|---|---|

@@ -1,55 +1,54 @@
-# AI Agents Starter Kit – Checklist de Implementação
+# AI Agents Starter Kit – Implementation Checklist
 
-> Atualizado automaticamente conforme as tarefas são concluídas.
+> Automatically updated as tasks are completed.
 
-## Status Geral
+## General Status
 
-| Etapa | Arquivo / Tarefa | Status |
-|-------|-----------------|--------|
-| 1 | `plan.checklist.md` – este arquivo | ✅ Concluído |
-| 2 | `README.md` – hero, CTAs, badges | ✅ Concluído |
-| 3 | `AGENTS.md` – documentação principal pt-BR | ✅ Concluído |
-| 4 | `.env.example` – variáveis de ambiente | ✅ Concluído |
-| 5 | `package.json` – config Node.js | ✅ Concluído |
-| 6 | `pyproject.toml` – config Python | ✅ Concluído |
-| 7 | `LICENSE` – MIT | ✅ Concluído |
-| 8 | `scripts/setup.sh` – setup cross-CLI | ✅ Concluído |
-| 9 | `scripts/test_models.sh` – smoke tests | ✅ Concluído |
-| 10 | `scripts/setup.py` – setup Python | ✅ Concluído |
-| 11 | `scripts/hook-before-edit.sh` – hook de lint | ✅ Concluído |
-| 12 | `examples/depurador-claude/` – agente Claude | ✅ Concluído |
-| 13 | `examples/gerador-codex/` – agente Codex | ✅ Concluído |
-| 14 | `docs/README-en.md` – docs em inglês (SEO) | ✅ Concluído |
-| 15 | `.github/workflows/tests.yml` – CI pipeline | ✅ Concluído |
-| 16 | `.gitignore` – regras corretas | ✅ Concluído |
-| 17 | `scripts/init-ai.mjs` – scaffold generator | ✅ Concluído |
-| 18 | `tests/init-ai.test.mjs` – testes unitários | ✅ Concluído |
-| 19 | `templates/` – templates base de agents | ✅ Concluído |
-| 20 | `examples/explorador-gemini/` – exemplo Gemini | ✅ Concluído |
-| 21 | `examples/multi-modelo-openclaude/` – exemplo multi-modelo | ✅ Concluído |
+| Step | File / Task | Status |
+|------|-------------|--------|
+| 1 | `plan.checklist.md` – this file | ✅ Completed |
+| 2 | `README.md` – hero, CTAs, badges | ✅ Completed |
+| 3 | `AGENTS.md` – main documentation pt-BR | ✅ Completed |
+| 4 | `.env.example` – environment variables | ✅ Completed |
+| 5 | `package.json` – Node.js config | ✅ Completed |
+| 6 | `pyproject.toml` – Python config | ✅ Completed |
+| 7 | `LICENSE` – MIT | ✅ Completed |
+| 8 | `scripts/setup.sh` – cross-CLI setup | ✅ Completed |
+| 9 | `scripts/test_models.sh` – smoke tests | ✅ Completed |
+| 10 | `scripts/setup.py` – Python setup | ✅ Completed |
+| 11 | `scripts/hook-before-edit.sh` – lint hook | ✅ Completed |
+| 12 | `examples/claude-debugger/` – Claude agent | ✅ Completed |
+| 13 | `examples/codex-generator/` – Codex agent | ✅ Completed |
+| 14 | `docs/README-en.md` – docs in English (SEO) | ✅ Completed |
+| 15 | `.github/workflows/tests.yml` – CI pipeline | ✅ Completed |
+| 16 | `.gitignore` – correct rules | ✅ Completed |
+| 17 | `scripts/init-ai.mjs` – scaffold generator | ✅ Completed |
+| 18 | `tests/init-ai.test.mjs` – unit tests | ✅ Completed |
+| 19 | `templates/` – base agent templates | ✅ Completed |
+| 20 | `examples/gemini-explorer/` – Gemini example | ✅ Completed |
+| 21 | `examples/multi-model-opencode/` – multi-model example | ✅ Completed |
 
-## ✅ Implementação 100% Concluída!
+## ✅ Implementation 100% Completed!
 
-## Log de Commits
+## Commit Log
 
-| Data/Hora | Mensagem | Arquivo(s) |
-|-----------|----------|-----------|
-| 12/04/26 07:14 | `feat: plan.checklist.md` | plan.checklist.md |
-| 12/04/26 07:14 | `feat: README.md hero com CTAs e badges` | README.md |
-| 12/04/26 07:15 | `feat: AGENTS.md documentacao principal pt-BR` | AGENTS.md |
-| 12/04/26 07:16 | `feat: arquivos de configuracao base do projeto` | .env.example, package.json, pyproject.toml, LICENSE |
-| 12/04/26 07:17 | `feat: scripts de setup, smoke tests e hook de lint` | scripts/ |
-| 12/04/26 07:18 | `feat: exemplos depurador-claude e gerador-codex` | examples/ |
-| 12/04/26 07:19 | `feat: docs/README-en.md versao inglesa para SEO` | docs/README-en.md |
-| 12/04/26 07:20 | `feat: CI pipeline com lint, testes e verificacao de seguranca` | .github/workflows/tests.yml |
-| 12/04/26 07:20 | `chore: .gitignore atualizado + plan.checklist.md final` | .gitignore, plan.checklist.md |
-| 13/04/26 10:45 | `feat: init-ai scaffold generator + templates` | scripts/init-ai.mjs, templates/ |
-| 13/04/26 11:00 | `test: coverage para init-ai writeFiles e symlinks` | tests/init-ai.test.mjs |
-| 13/04/26 11:15 | `feat: exemplo explorador-gemini para contexto longo` | examples/explorador-gemini/ |
-| 13/04/26 11:30 | `feat: exemplo multi-modelo openclaude` | examples/multi-modelo-openclaude/ |
+| Date/Time | Message | File(s) |
+|-----------|---------|---------|
+| 04/12/26 07:14 | `feat: plan.checklist.md` | plan.checklist.md |
+| 04/12/26 07:14 | `feat: README.md hero with CTAs and badges` | README.md |
+| 04/12/26 07:15 | `feat: AGENTS.md main documentation pt-BR` | AGENTS.md |
+| 04/12/26 07:16 | `feat: project base configuration files` | .env.example, package.json, pyproject.toml, LICENSE |
+| 04/12/26 07:17 | `feat: setup scripts, smoke tests, and lint hook` | scripts/ |
+| 04/12/26 07:18 | `feat: claude-debugger and codex-generator examples` | examples/ |
+| 04/12/26 07:19 | `feat: docs/README-en.md English version for SEO` | docs/README-en.md |
+| 04/12/26 07:20 | `feat: CI pipeline with lint, tests, and security verification` | .github/workflows/tests.yml |
+| 04/12/26 07:20 | `chore: updated .gitignore + final plan.checklist.md` | .gitignore, plan.checklist.md |
+| 04/13/26 10:45 | `feat: init-ai scaffold generator + templates` | scripts/init-ai.mjs, templates/ |
+| 04/13/26 11:00 | `test: coverage for init-ai writeFiles and symlinks` | tests/init-ai.test.mjs |
+| 04/13/26 11:15 | `feat: gemini-explorer example for long context` | examples/gemini-explorer/ |
+| 04/13/26 11:30 | `feat: multi-model opencode example` | examples/multi-model-opencode/ |
 
-
-## Estrutura Final
+## Final Structure
 
 ```
 ai-agents-starter-kit/
@@ -66,11 +65,11 @@ ai-agents-starter-kit/
 │   ├── setup.py                      ✅
 │   └── hook-before-edit.sh           ✅
 ├── examples/
-│   ├── depurador-claude/
+│   ├── claude-debugger/
 │   │   ├── AGENTS.md                 ✅
 │   │   ├── CLAUDE.md                 ✅
 │   │   └── sample_bug.py             ✅
-│   └── gerador-codex/
+│   └── codex-generator/
 │       ├── AGENTS.md                 ✅
 │       ├── codex-agent.ts            ✅
 │       ├── simple_agent.py           ✅

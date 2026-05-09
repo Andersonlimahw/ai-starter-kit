@@ -1,63 +1,63 @@
 """
-AI Agents Starter Kit – Exemplo de código com bugs para depurar.
-Use o agente Claude para identificar e corrigir os problemas abaixo.
+AI Agents Starter Kit – Sample code with bugs to debug.
+Use the Claude agent to identify and fix the problems below.
 """
 
 
-def calcular_media(numeros):
-    """Calcula a média de uma lista de números."""
-    # BUG 1: Divisão por zero quando a lista está vazia
-    total = sum(numeros)
-    return total / len(numeros)
+def calculate_average(numbers):
+    """Calculates the average of a list of numbers."""
+    # BUG 1: Division by zero when the list is empty
+    total = sum(numbers)
+    return total / len(numbers)
 
 
-def buscar_usuario(usuarios, nome):
-    """Busca um usuário pelo nome (case-sensitive)."""
-    for usuario in usuarios:
-        # BUG 2: Comparação incorreta – deveria ser case-insensitive
-        if usuario["nome"] == nome:
-            return usuario
+def find_user(users, name):
+    """Searches for a user by name (case-sensitive)."""
+    for user in users:
+        # BUG 2: Incorrect comparison – should be case-insensitive
+        if user["name"] == name:
+            return user
     return None
 
 
-def processar_pedidos(pedidos):
-    """Processa uma lista de pedidos e retorna o total."""
-    # BUG 3: Variável `total` usada antes de ser inicializada
-    for pedido in pedidos:
-        total += pedido["valor"]
+def process_orders(orders):
+    """Processes a list of orders and returns the total."""
+    # BUG 3: Variable `total` used before being initialized
+    for order in orders:
+        total += order["value"]
     return total
 
 
-def listar_arquivos(diretorio):
-    """Lista arquivos de um diretório recursivamente."""
+def list_files(directory):
+    """Lists files in a directory recursively."""
     import os
-    resultado = []
-    for item in os.listdir(diretorio):
-        caminho = os.path.join(diretorio, item)
-        if os.path.isdir(caminho):
-            # BUG 4: Loop infinito potencial – falta de limite de profundidade
-            resultado.extend(listar_arquivos(caminho))
+    result = []
+    for item in os.listdir(directory):
+        path = os.path.join(directory, item)
+        if os.path.isdir(path):
+            # BUG 4: Potential infinite loop – lack of depth limit
+            result.extend(list_files(path))
         else:
-            resultado.append(caminho)
-    return resultado
+            result.append(path)
+    return result
 
 
-def formatar_data(data_str):
-    """Converte string de data para objeto datetime."""
+def format_date(date_str):
+    """Converts a date string to a datetime object."""
     from datetime import datetime
-    # BUG 5: Formato de data incorreto (usa '-' mas espera '/')
-    return datetime.strptime(data_str, "%d/%m/%Y")
+    # BUG 5: Incorrect date format (uses '-' but expects '/')
+    return datetime.strptime(date_str, "%d/%m/%Y")
 
 
-# Código de demonstração
+# Demonstration code
 if __name__ == "__main__":
-    # Teste 1: divisão por zero
-    print(calcular_media([]))  # Vai lançar ZeroDivisionError
+    # Test 1: division by zero
+    print(calculate_average([]))  # Will raise ZeroDivisionError
 
-    # Teste 2: busca case-sensitive
-    usuarios = [{"nome": "Alice"}, {"nome": "Bob"}]
-    print(buscar_usuario(usuarios, "alice"))  # Retorna None (bug)
+    # Test 2: case-sensitive search
+    users = [{"name": "Alice"}, {"name": "Bob"}]
+    print(find_user(users, "alice"))  # Returns None (bug)
 
-    # Teste 3: variável não inicializada
-    pedidos = [{"valor": 10}, {"valor": 20}]
-    print(processar_pedidos(pedidos))  # Vai lançar UnboundLocalError
+    # Test 3: uninitialized variable
+    orders = [{"value": 10}, {"value": 20}]
+    print(process_orders(orders))  # Will raise UnboundLocalError

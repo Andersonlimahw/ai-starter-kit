@@ -6,14 +6,31 @@ This repository is a **harness** (execution environment) for AI agents. It defin
 
 ## 📂 Documentation Index (`/docs`)
 
-Refer to these documents to understand the inner workings and future of this kit:
+Comprehensive guide to AI development workflows:
 
-- **[README-en.md](./docs/README-en.md)**: English version and international SEO targets.
-- **superpowers/**: Advanced "superpowers" architecture and automations.
-    - **plans/**:
-        - [2026-04-13-init-ai-scaffold.md](./docs/superpowers/plans/2026-04-13-init-ai-scaffold.md): Implementation plan for the automated scaffold.
-    - **specs/**:
-        - [2026-04-13-init-ai-scaffold-design.md](./docs/superpowers/specs/2026-04-13-init-ai-scaffold-design.md): Technical spec for the `init-ai` generator.
+### 🚀 Getting Started
+- **[README-en.md](./docs/README-en.md)**: Main entry point and feature overview.
+- **[Marketplace Publishing](./docs/marketplace/PUBLISHING.md)**: How to share your skills and agents.
+
+### 🧠 Superpowers & Automation
+- **Advanced Architecture**:
+    - [2026-04-13-init-ai-scaffold-design.md](./docs/superpowers/specs/2026-04-13-init-ai-scaffold-design.md): The core logic of the `init-ai` generator.
+- **Implementation Plans**:
+    - [2026-04-13-init-ai-scaffold.md](./docs/superpowers/plans/2026-04-13-init-ai-scaffold.md): Detailed task breakdown for scaffold development.
+
+---
+
+## 💰 Token Optimization & DX
+
+Maximize performance while minimizing costs with these essential tools:
+
+| Tool | Purpose | Source/Command |
+|---|---|---|
+| **RTK (Rust Token Killer)** | Proxy and filter shell output to save 60-90% tokens. | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
+| **Caveman Mode** | Ultra-terse communication mode for CLI agents. | `activate_skill caveman` |
+| **Karpathy Skills** | LLM fundamental concepts and best practices. | [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) |
+
+> **Pro Tip:** Configure `rtk` as a global proxy for your CLI to automatically optimize every interaction.
 
 ---
 
@@ -41,11 +58,39 @@ When operating in this repository, you must follow this operational contract:
 
 | Name | Type | Main Function |
 |---|---|---|
+| `skills-selector` | Meta-Skill | Gatekeeper that activates only relevant skills to save context. |
+| `smart-dispatch` | Skill | Routes tasks to the optimal model/provider (L1/L2/L3). |
 | `semantic-commit` | Skill | Generates semantic commit messages with timestamp. |
 | `code-review` | Skill | Quality, security, and performance checklist. |
 | `debug-workflow` | Skill | Scientific methodology: Reproduce -> Isolate -> Fix. |
 | `llm-wiki` | Skill | Knowledge base on tokens, RAG, and agents. |
-| `task-router` | Agent | Routes complex tasks to the ideal model (Opus/Sonnet/Haiku). |
+| `task-router` | Agent | Orchestrator for complex, multi-domain requests. |
+
+---
+
+## 🧠 Reasoning & Thinking Models
+
+To get the most out of this kit, align your model selection with the task nature:
+
+- **Thinking/Reasoning (L2/L3)**: Use **Gemini 2.0 Flash (Thinking Mode)** or **Claude 3.5 Sonnet** for complex debugging and architectural decisions. These models "think" before they act, reducing errors in complex logic.
+- **Speed & Utility (L1)**: Use **GPT-4o-mini** or **Haiku** for boilerplate, small refactors, and unit tests.
+
+### ⚙️ Ideal Setup Guide
+
+#### **Beginner (The Explorer)**
+- Focus on `depurador-claude` and `gerador-codex` examples.
+- Use `skills-selector` to let the agent guide you.
+- Always use `Plan Mode` to understand the agent's logic.
+
+#### **Intermediate (The Implementer)**
+- Customize `templates/` for your specific stack.
+- Start using `smart-dispatch` to optimize costs.
+- Integrate `rtk` to clean up your CLI history.
+
+#### **Advanced (The Architect)**
+- Build custom agents in `.claude/agents/` for specialized domains (e.g., Security Auditor, Performance Guru).
+- Use `OpenCode` with local models (Ollama) for sensitive internal logic.
+- Contribute new skills to the `library/skills/` folder.
 
 ---
 
@@ -54,6 +99,7 @@ When operating in this repository, you must follow this operational contract:
 - **Claude Code**: Recommended for complex execution and refactoring.
 - **Gemini CLI**: Ideal for long context analysis (logs, extensive docs).
 - **Codex CLI**: Fast executions and boilerplate generation.
+- **OpenCode**: Multi-provider CLI for vendor independence and local models.
 
 ---
 
