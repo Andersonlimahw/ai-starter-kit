@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Starter Kit Tutorial Storyboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-variation="architect">
+  <div id="deck-container">
+    <!-- Slide 1: Intro -->
+    <section class="active">
+      <h1>Accelerate with AI Agents</h1>
+      <h2>AI Agents Starter Kit</h2>
+      <p>Multi-model support, 5-minute setup, production-ready examples.</p>
+      <div class="terminal" id="term-intro">
+        $ git clone https://github.com/lemondev/ai-agents-starter-kit.git
+        <br>$ cd ai-agents-starter-kit
+        <br>$ bash scripts/setup.sh
+      </div>
+      <div class="slide-number">1 / 8</div>
+    </section>
+
+    <!-- Slide 2: Architecture -->
+    <section>
+      <h1>The Multi-Model Harness</h1>
+      <h2>Governance & Consistency</h2>
+      <ul>
+        <li>Single contract via <code>AGENTS.md</code></li>
+        <li>Long context analysis with Gemini CLI</li>
+        <li>Complex execution with Claude Code</li>
+        <li>Fast boilerplate via Codex CLI</li>
+      </ul>
+      <div class="slide-number">2 / 8</div>
+    </section>
+
+    <!-- Slide 3: Installation -->
+    <section>
+      <h1>Setup: Clone to Code</h1>
+      <h2>5-Minute Quickstart</h2>
+      <div class="terminal" id="term-setup">
+        <span class="cursor">_</span>
+      </div>
+      <p>Automatic installation for Claude, Gemini, and Codex CLIs.</p>
+      <div class="slide-number">3 / 8</div>
+    </section>
+
+    <!-- Slide 4: Comparison -->
+    <section>
+      <h1>Model Orchestration</h1>
+      <div class="grid">
+        <div class="card">
+          <h2>Claude Code</h2>
+          <p style="font-size: 20px; color: var(--muted)">The Implementer</p>
+          <p style="font-size: 22px;">Complex refactors, logic execution, and local development loop.</p>
+        </div>
+        <div class="card">
+          <h2>Gemini CLI</h2>
+          <p style="font-size: 20px; color: var(--muted)">The Analyst</p>
+          <p style="font-size: 22px;">Long context analysis, documentation retrieval, and reasoning.</p>
+        </div>
+        <div class="card">
+          <h2>Codex CLI</h2>
+          <p style="font-size: 20px; color: var(--muted)">The Utility</p>
+          <p style="font-size: 22px;">Fast boilerplate, unit testing, and repetitive scripting tasks.</p>
+        </div>
+      </div>
+      <div class="slide-number">4 / 8</div>
+    </section>
+
+    <!-- Slide 5: Init-AI -->
+    <section>
+      <h1>Scaffolding: init-ai</h1>
+      <h2>AI Infrastructure for Any Repo</h2>
+      <div class="terminal">
+        $ node scripts/init-ai.mjs
+        <br>? Project name: My Awesome App
+        <br>? Tech stack: React, Tailwind, Node
+        <br>🚀 Generating AGENTS.md, CLAUDE.md, GEMINI.md...
+      </div>
+      <div class="slide-number">5 / 8</div>
+    </section>
+
+    <!-- Slide 6: Optimization -->
+    <section>
+      <h1>RTK & Caveman Mode</h1>
+      <h2>Save 60-90% Tokens</h2>
+      <div style="display: flex; gap: 40px;">
+        <div style="flex: 1;">
+          <h3>RTK Proxy</h3>
+          <p style="font-size: 24px;">Filters shell output automatically.</p>
+        </div>
+        <div style="flex: 1;">
+          <h3>Caveman Mode</h3>
+          <p style="font-size: 24px;">Ultra-terse communication.</p>
+        </div>
+      </div>
+      <div class="terminal">
+        [Caveman] Bug in auth. Token expiry use < not <=. Fix:
+      </div>
+      <div class="slide-number">6 / 8</div>
+    </section>
+
+    <!-- Slide 7: Engineering -->
+    <section>
+      <h1>Matt Pocock's Skills</h1>
+      <h2>Engineering Discipline</h2>
+      <ul>
+        <li><strong>Grill Me:</strong> Sharpens your design decisions.</li>
+        <li><strong>TDD:</strong> Strict red-green-refactor loop.</li>
+        <li><strong>To-PRD:</strong> Automated product requirements.</li>
+        <li><strong>Diagnose:</strong> Scientific debugging methodology.</li>
+      </ul>
+      <div class="slide-number">7 / 8</div>
+    </section>
+
+    <!-- Slide 8: Summary -->
+    <section>
+      <h1>Build Your Workflow</h1>
+      <h2>Ready to Start</h2>
+      <p>Visit <strong>lemon.dev.br/pro-agents</strong> for the Pro version.</p>
+      <div class="terminal">
+        $ exit
+        <br>Happy hacking! 🤖
+      </div>
+      <div class="slide-number">8 / 8</div>
+    </section>
+  </div>
+
+  <div id="controls">
+    <div style="display:flex; gap: 5px; border-right: 1px solid #444; padding-right: 15px;">
+      <button onclick="setOrientation('horizontal')" id="btn-horizontal" class="active">16:9</button>
+      <button onclick="setOrientation('vertical')" id="btn-vertical">9:16</button>
+    </div>
+    <div style="display:flex; gap: 5px; border-right: 1px solid #444; padding-right: 15px;">
+      <button onclick="setVariation('architect')" id="btn-architect" class="active">Architect</button>
+      <button onclick="setVariation('power-user')" id="btn-power-user">Power User</button>
+      <button onclick="setVariation('product-lead')" id="btn-product-lead">Product Lead</button>
+    </div>
+    <div style="display:flex; gap: 5px;">
+      <button onclick="prevSlide()">Prev</button>
+      <button onclick="nextSlide()">Next</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('section');
+    const container = document.getElementById('deck-container');
+
+    function scaleDeck() {
+      const isVertical = document.body.getAttribute('data-orientation') === 'vertical';
+      const targetW = isVertical ? 1080 : 1920;
+      const targetH = isVertical ? 1920 : 1080;
+      
+      const scale = Math.min(
+        window.innerWidth / targetW,
+        window.innerHeight / targetH
+      );
+      container.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', scaleDeck);
+    scaleDeck();
+
+    function showSlide(n) {
+      const prev = currentSlide;
+      slides[prev].style.transform = "translateY(-20px) scale(0.98)";
+      slides[prev].classList.remove('active');
+      
+      currentSlide = (n + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      
+      // Automatic typing for ANY slide with a terminal
+      const terminal = slides[currentSlide].querySelector('.terminal');
+      if (terminal) {
+        startTyping(terminal);
+      }
+    }
+
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    function setVariation(v) {
+      document.body.setAttribute('data-variation', v);
+      document.querySelectorAll('#controls button[id^="btn-"]').forEach(b => {
+        if (b.id.includes('architect') || b.id.includes('power-user') || b.id.includes('product-lead')) {
+          b.classList.remove('active');
+        }
+      });
+      document.getElementById('btn-' + v).classList.add('active');
+    }
+
+    function setOrientation(o) {
+      document.body.setAttribute('data-orientation', o);
+      document.getElementById('btn-horizontal').classList.remove('active');
+      document.getElementById('btn-vertical').classList.remove('active');
+      document.getElementById('btn-' + o).classList.add('active');
+      scaleDeck();
+    }
+
+    function startTyping(el) {
+      if (el.dataset.typing === "true") return;
+      el.dataset.typing = "true";
+      
+      const text = el.innerText.trim();
+      el.innerHTML = "";
+      let i = 0;
+      
+      function type() {
+        if (i < text.length) {
+          if (text.substring(i, i+1) === "\n") {
+            el.innerHTML += "<br>";
+          } else {
+            el.innerHTML += text.substring(i, i+1);
+          }
+          i++;
+          setTimeout(type, 15);
+        } else {
+          el.innerHTML += '<span class="cursor">_</span>';
+          el.dataset.typing = "false";
+        }
+      }
+      type();
+    }
+  </script>
+</body>
+</html>

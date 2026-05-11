@@ -1,0 +1,20 @@
+{
+  "generated": "2026-05-11T14:00:00Z",
+  "sections": [
+    {
+      "id": "mockups",
+      "label": "Mockups",
+      "groups": [
+        {
+          "slug": "ai-starter-kit-tutorial",
+          "files": [
+            {
+              "label": "Tutorial Deck",
+              "path": "mockups/ai-starter-kit-tutorial/index.html"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
