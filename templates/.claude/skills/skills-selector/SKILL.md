@@ -1,42 +1,83 @@
 ---
 name: skills-selector
 description: >
-  Meta-skill gatekeeper that decides which specialized skill(s) should activate
-  for a given user request. Minimizes token consumption by only loading relevant
-  skills on-demand.
+  Multi-skill workflow composer. Activates ONLY for tasks that require
+  combining multiple skills in sequence or resolving skill conflicts.
+  Single-skill tasks: return [] — individual skills self-trigger via their own descriptions.
 ---
 
-# Skills Selector Skill
+# Skills Selector — Workflow Composer
 
-You are the gatekeeper of the AI Starter Kit. Your role is to analyze the user's intent and activate the most appropriate skill(s) while keeping the context lean.
+**Scope**: Compose multi-skill workflows. NOT a replacement for individual skill auto-triggers.
 
-## Selection Process
+## When to Return `[]` (most common — correct behavior)
 
-1. **Parse User Intent**: identify the primary goal (e.g., debugging, committing, refactoring).
-2. **Match with Catalog**: check available skills in `.claude/skills/`, `.gemini/skills/`, or the global library.
-3. **Emit Selection Plan**: specify which skills to load and why.
+Return `[]` when:
+- Task maps cleanly to ONE skill (user can trigger it directly)
+- Conceptual question / explanation (base Claude suffices)
+- Exploration / Q&A without action
+- `smart-dispatch` alone handles it
 
-## Skills Catalog Mapping
-
-| Keyword/Intent | Skill to Activate |
+Single-skill requests where individual auto-trigger is correct:
+| User intent | Self-triggers |
 |---|---|
-| "commit", "save", "push" | `semantic-commit` |
-| "review", "audit", "lint" | `code-review` |
-| "bug", "fix", "error", "debug" | `debug-workflow` |
-| "llm", "tokens", "rag" | `llm-wiki` |
-| "optimize", "dispatch", "model" | `smart-dispatch` |
-| "compress", "brief", "tokens" | `caveman` |
+| "commit", "cn", "save" | `semantic-commit` / `git-commit` |
+| "review code", "audit" | `code-review` / `caveman-review` |
+| "debug", "bug", "fix error" | `debug-workflow` / `diagnose` |
+| "build UI", "design component" | `frontend-design` / `ui-ux-pro-max` |
+| "write post", "copy", "blog" | `copywriting` / `lemon-blog-post` |
+| "create PR" | `git-pr-create` |
+| "write tests" | `tdd` |
+| "build MCP tool" | `mcp-builder` |
+| "create agent" | `Agent Development` |
 
-## Efficiency Mandate
+## When to Activate (emit a plan)
 
-- **Lazy Loading**: Only activate a skill when the task strictly requires its specific instructions.
-- **Mutual Exclusivity**: Avoid loading overlapping skills (e.g., don't load both `debug-workflow` and `code-review` unless doing a verification of a fix).
-- **Caveman Priority**: If the user asks for token optimization, prioritize the `caveman` skill.
+Activate ONLY when the task is explicitly multi-phase or combines domains:
 
-## Example
+### Multi-Skill Workflow Patterns
 
-User: "Find why this test is failing and commit the fix."
-Plan:
-1. Activate `debug-workflow` to isolate the failure.
-2. Activate `semantic-commit` once the fix is verified.
-3. Load `smart-dispatch` if the bug is complex enough to require an L2 model.
+| Pattern | Phase 1 | Phase 2 | Phase 3 |
+|---|---|---|---|
+| "find bug and commit the fix" | `debug-workflow` | `semantic-commit` | — |
+| "fix bug and open PR" | `debug-workflow` | `git-pr-create` | — |
+| "review and create PR" | `code-review` | `git-pr-create` | — |
+| "implement feature and write tests" | `smart-dispatch` | `tdd` | — |
+| "implement feature, test, and commit" | `smart-dispatch` | `tdd` | `semantic-commit` |
+| "design UI and implement" | `frontend-design` | `smart-dispatch` | — |
+| "build MCP and write docs" | `mcp-builder` | `copywriting` | — |
+| "write post and publish" | `lemon-blog-post` | (publish flow) | — |
+| "triage issues and plan" | `triage` | `to-prd` | — |
+| "refactor and review" | `smart-dispatch` | `code-review` | — |
+| "audit architecture and improve" | `improve-codebase-architecture` | `smart-dispatch` | — |
+| "create changelog and PR" | `git-changelog` | `git-pr-create` | — |
+| "diagnose perf and fix" | `diagnose` | `smart-dispatch` | — |
+| "write skill and test" | `write-a-skill` | manual test | — |
+| "prototype then build" | `prototype` | `smart-dispatch` | — |
+| "spec then implement" | `to-prd` | `smart-dispatch` | — |
+| "debug mobile release cert" | `mobile-fix-release-certificates` | `debug-workflow` | — |
+| "create social + blog for feature" | `social-content` | `lemon-blog-post` | — |
+
+## Conflict Rules (mutual exclusivity)
+
+- Do NOT load `debug-workflow` + `code-review` simultaneously — pick one; load second after first completes.
+- Do NOT load `frontend-design` + `ui-ux-pro-max` together — `ui-ux-pro-max` supersedes.
+- Do NOT load `diagnose` + `debug-workflow` together — `diagnose` is for hard/perf bugs; `debug-workflow` for standard bugs.
+- `smart-dispatch` is always available as base layer; do not count it as a "skill slot."
+
+## Output Format
+
+```
+SKILLS PLAN:
+Phase 1: <skill-name> — <why>
+Phase 2: <skill-name> — <trigger condition>
+Phase 3: (optional)
+
+CONFLICT CHECK: <none | resolved: X supersedes Y>
+```
+
+If no multi-skill workflow detected:
+```
+SKILLS PLAN: []
+Reason: single-skill task — <skill-name> self-triggers.
+```
