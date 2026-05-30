@@ -1,45 +1,61 @@
 ---
 name: smart-dispatch
-description: >
-  Automatically routes tasks to the optimal AI agent, model, or provider based on
-  complexity, cost, and capability. Use when implementing features, fixing bugs,
-  or any multi-step development work. Triggers on "implement", "build", "create",
-  "fix", "add feature", "develop", or when the user asks to do any coding task.
+description: Automatically routes tasks to the optimal AI agent, model, or provider based on complexity, cost, and capability. Use when implementing features, fixing bugs, or any multi-step development work. Triggers on "implement", "build", "create", "fix", "add feature", "develop", or when the user asks to do any coding task.
 ---
 
-# Smart Dispatch Skill
+# Smart Agent & Model Dispatch (Pro Edition)
 
-You are an expert orchestrator responsible for selecting the most efficient model and provider for a given task. Your goal is to maximize quality while minimizing token usage and latency.
+## Stage input — consume the EXEC-MAP contract if present
 
-## Model Capability Matrix
+If an `EXEC-MAP v1` block from `senior-prompt-engineer` is in context, **consume it instead of re-deriving complexity:**
+- `EXEC-MAP.effort` seeds the tier (trivial/low → Tier 0; medium/high → Tier 1).
+- `EXEC-MAP.models` is the per-phase routing intent (`plan`→Opus/quality, `impl`→Sonnet/balanced, `mechanical`→Haiku/budget); honor it unless validation proves it wrong.
+- `EXEC-MAP.executor` picks the provider/CLI; map model tiers to that CLI's tiers.
+- `EXEC-MAP.mcp` lists tools to wire up.
+Treat the map as a starting routing decision, not gospel — escalation rules (Tier 1) still override it when validation keeps failing. With no EXEC-MAP, derive routing from the request as usual.
 
-| Tier | Profile | Models | Best For |
-|---|---|---|---|
-| **L1: Creative/Logic** | High | Claude 3.5 Sonnet / GPT-4o | Complex architecture, refactoring, code review. |
-| **L2: Reasoning/Deep** | Ultra | Claude 3 Opus / o1-preview / Gemini 1.5 Pro | Critical bugs, security audits, zero-shot logic. |
-| **L3: Fast/Utility** | Base | Claude 3.5 Haiku / GPT-4o-mini / Gemini 2.0 Flash | Boilerplate, translations, unit tests, formatting. |
+## Tier 0 — Automated Boilerplate & Verification (RTK Bypass)
 
-## Dispatching Logic
+### 0.1 Local-First Rule
+Before dispatching to an AI agent for Tier 0 tasks, attempt to solve it using local CLI tools.
+- **Lint**: Run `npm run lint --fix` or `eslint --fix`.
+- **Formatting**: Run `prettier --write`.
+- **Typecheck**: Run `tsc` and check if errors are trivial.
 
-1. **Analyze Task Complexity**: 
-   - Is it a single-file edit? (L3)
-   - Does it involve multiple files or logic changes? (L1)
-   - Is it a hard-to-find bug or architectural decision? (L2)
-2. **Select Provider**:
-   - **Anthropic**: Best for coding precision and agentic tool use.
-   - **Google (Gemini)**: Best for long-context analysis (>100k tokens).
-   - **OpenCode (Multi-provider)**: Best for vendor independence and local models (Ollama).
-3. **Execute**: Delegate to the chosen subagent or model with specific instructions.
+### 0.2 RTK Bypass Dispatch (The "Hammer")
+If local tools fail or aren't enough, use **Gemini-Flash YOLO** via RTK.
+- **Lint/Typecheck/I18n/Tests**: Route to `rtk gemini --yolo`.
 
-## Token Optimization Rules
+### 0.3 Verification Mandate
+Any agent dispatched in YOLO/Bypass mode **MUST** execute the relevant validation command before completion.
+- If it fixed types, it **must** run `tsc --noEmit`.
+- If it fixed lint, it **must** run `npm run lint`.
+- If it fixed tests, it **must** run `npm run test <file>`.
 
-- **Prefer L3** for repetitive tasks.
-- **Use Context Caching** when possible (Anthropic/Gemini).
-- **Caveman Mode**: Activate if token efficiency is prioritized.
-- **RTK (Rust Token Killer)**: Proxy all shell commands through `rtk` if available.
+---
 
-## Examples
+## Tier 1 — Escalation & Intelligence Mapping
 
-- "Implement auth middleware" → **Dispatch to L1 (Sonnet)**
-- "Translate these 20 files" → **Dispatch to L3 (Haiku/Flash)**
-- "Find the race condition in the kernel" → **Dispatch to L2 (Opus/o1)**
+### 1.1 Auto-Escalation Policy
+If a Tier 0 agent fails to resolve the issue (validation still fails) after **2 attempts**, the dispatcher MUST:
+1. Stop using the "cheap" model.
+2. Escalate the task to a Tier 1 model (Claude Sonnet or Gemini Pro).
+3. Notify the user: "Escalating to [Model] due to persistent validation failures."
+
+### 1.2 Capability Matrix
+| Domain | Best Platform | Reason |
+|--------|---------------|--------|
+| **Multimodal / UI** | Gemini 2.5 Pro | Best image/screenshot interpretation. |
+| **Complex Logic / Math** | Codex (o3/o4) | Superior reasoning for algorithms. |
+| **Agentic Chains / Auth** | Claude Sonnet | Best tool-use and multi-step autonomy. |
+| **Open Source / Docs** | OpenCode | Deep integration with community patterns. |
+
+---
+
+## Rules
+
+- **Announce & Verify**: Always say what you are doing and how you will verify it.
+- **Token Economy**: Prefer Gemini Flash for context-heavy reads but simple edits.
+- **Fail Fast**: Don't loop on cheap models. Escalate early.
+- **Local First**: CLI tools > AI Agents for mechanical fixes.
+
