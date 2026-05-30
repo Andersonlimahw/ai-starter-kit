@@ -58,10 +58,13 @@ When operating in this repository, you must follow this operational contract:
 
 ## 🛠️ Skills and Subagents
 
+> **`prompt-pipeline` plugin** (`library/plugins/prompt-pipeline/`) bundles the three orchestration skills below as a stage 0→1→2 pipeline. They share an **`EXEC-MAP v1`** contract so intent is classified once (stage 0) and consumed by the routers (stages 1/2). Run all three with `/prompt-pipeline [request]`. See [Plugin Distribution](./docs/marketplace/PLUGIN-DISTRIBUTION.md).
+
 | Name | Type | Main Function |
 |---|---|---|
-| `skills-selector` | Meta-Skill | Gatekeeper that activates only relevant skills to save context. |
-| `smart-dispatch` | Skill | Routes tasks to the optimal model/provider (L1/L2/L3). |
+| `senior-prompt-engineer` | Meta-Skill (stage 0) | Refines the request into a definitive prompt + emits the `EXEC-MAP v1` contract. |
+| `skills-selector` | Meta-Skill (stage 1) | Gatekeeper; consumes `EXEC-MAP` intent/skills, activates only relevant skills. |
+| `smart-dispatch` | Skill (stage 2) | Consumes `EXEC-MAP` effort/models; routes tasks to the optimal model/provider (L1/L2/L3). |
 | `semantic-commit` | Skill | Generates semantic commit messages with timestamp. |
 | `code-review` | Skill | Quality, security, and performance checklist. |
 | `debug-workflow` | Skill | Scientific methodology: Reproduce -> Isolate -> Fix. |

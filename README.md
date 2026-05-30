@@ -80,6 +80,8 @@ The script:
 
 Skills included by default: `semantic-commit`, `code-review`, `debug-workflow`, `llm-wiki`
 
+**`prompt-pipeline` plugin** (`library/plugins/prompt-pipeline/`): bundles `senior-prompt-engineer` → `skills-selector` → `smart-dispatch` as a stage 0→1→2 orchestration layer sharing an `EXEC-MAP v1` contract (intent classified once, consumed by the routers). Run with `/prompt-pipeline [request]`. See [AGENTS.md](./AGENTS.md#%EF%B8%8F-skills-and-subagents) and [Plugin Distribution](./docs/marketplace/PLUGIN-DISTRIBUTION.md).
+
 ---
 
 ## 📦 CLI Installation

@@ -16,6 +16,9 @@ Marketplaces expect a standardized folder structure. The AI Starter Kit is alrea
 - **`.codex/`**: Specific to Codex CLI.
   - `commands/`: Custom command definitions.
 - **`library/skills/`**: Source folder for cross-platform skills.
+- **`library/plugins/`**: Self-contained plugins (manifest + skills + commands + `marketplace.json`).
+
+> **Reference plugin: `prompt-pipeline`** (`library/plugins/prompt-pipeline/`) — a complete, installable example. It bundles three co-versioned skills (`senior-prompt-engineer` → `skills-selector` → `smart-dispatch`) as a stage 0→1→2 pipeline, ships a `/prompt-pipeline` command, a `.claude-plugin/plugin.json` manifest, and a `marketplace.json`. Use it as the template for packaging your own multi-skill plugins.
 
 ---
 
