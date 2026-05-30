@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *.safetensors|*.ckpt|*.bin|*.pth|*.gguf) echo 'H1 weights-guard: BLOCK — model weight artifact. Confirm with user before editing.' >&2; exit 2;; esac",
+            "description": "H1 weights-guard: block edits to model weight files"
+          },
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *eval*.jsonl|evals/*.jsonl) if [ -z \"$ALLOW_EVAL_EDIT\" ]; then echo 'H2 eval-dataset-guard: BLOCK — eval dataset edit needs ALLOW_EVAL_EDIT=1 (prevents training/eval leakage).' >&2; exit 2; fi;; esac",
+            "description": "H2 eval-dataset-guard: protect eval datasets from silent edits"
+          },
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '(pip install|npm install|yarn add)' && ! echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '(requirements\\.txt|package-lock|yarn\\.lock|pyproject)'; then echo 'H5 vibe-block: unpinned dependency install. Use lockfile or pin version explicitly.' >&2; exit 2; fi",
+            "description": "H5 vibe-block: refuse unpinned package installs"
+          },
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in train/*|data/train/*) python3 -c \"import sys,os; eval_dir=os.path.join(os.path.dirname('$CLAUDE_FILE_PATH').split('train')[0],'eval'); sys.exit(0)\" 2>/dev/null || true;; esac",
+            "description": "H7 data-leakage-guard: stub — extend with hash comparison train vs eval"
+          },
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *.ipynb) command -v jupyter >/dev/null && jupyter nbconvert --clear-output --inplace \"$CLAUDE_FILE_PATH\" 2>/dev/null || true;; esac",
+            "description": "H8 notebook-clean: strip notebook outputs before edit"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *SKILL.md|*prompt*|*.system.md|*/agents/*.md) echo 'H3 prompt-change-reminder: prompt/skill changed. Run /eval-first or /regression-eval to validate.' ;; esac",
+            "description": "H3 prompt-change-reminder: remind eval after prompt edits"
+          },
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in *SKILL.md|*prompt*|*.system.md) tokens=$(wc -w < \"$CLAUDE_FILE_PATH\" 2>/dev/null); if [ \"${tokens:-0}\" -gt 1500 ]; then echo \"H4 token-budget-warn: $CLAUDE_FILE_PATH has ~$tokens words (>2k tokens estimate). Consider /prompt-compress.\"; fi;; esac",
+            "description": "H4 token-budget-warn: warn on large prompt files"
+          },
+          {
+            "type": "command",
+            "command": "case \"$CLAUDE_FILE_PATH\" in docs/*.md|*wiki*.md) if grep -qiE '(SOTA|state.of.the.art|breakthrough|outperforms)' \"$CLAUDE_FILE_PATH\" 2>/dev/null && ! grep -qE '(arxiv|https?://|\\[\\^[0-9])' \"$CLAUDE_FILE_PATH\" 2>/dev/null; then echo 'H6 paper-cite-check: ML claim detected without citation. Add arxiv/source link.'; fi;; esac",
+            "description": "H6 paper-cite-check: warn on uncited ML claims"
+          }
+        ]
+      }
+    ]
+  }
+}
