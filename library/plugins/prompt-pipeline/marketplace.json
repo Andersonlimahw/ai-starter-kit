@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "prompt-pipeline",
+  "description": "Stage 0→1→2 prompt-engineering + routing pipeline for coding agents. Refine → select skills → dispatch model, sharing one EXEC-MAP contract.",
+  "owner": {
+    "name": "Anderson Lima",
+    "url": "https://lemon.dev.br"
+  },
+  "plugins": [
+    {
+      "name": "prompt-pipeline",
+      "description": "senior-prompt-engineer + skills-selector + smart-dispatch as one co-versioned orchestration layer.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

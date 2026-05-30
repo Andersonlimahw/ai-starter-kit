@@ -1,0 +1,18 @@
+{
+  "name": "prompt-pipeline",
+  "version": "1.0.0",
+  "description": "Stage 0→1→2 orchestration layer for coding agents: senior-prompt-engineer refines the request into a definitive prompt + EXEC-MAP contract, skills-selector picks which skills load, smart-dispatch routes agent/model/provider. The three skills share one EXEC-MAP so intent is classified once, not three times.",
+  "author": {
+    "name": "Anderson Lima",
+    "email": "anderson@lemon.dev.br"
+  },
+  "homepage": "https://lemon.dev.br",
+  "keywords": [
+    "prompt-engineering",
+    "orchestration",
+    "routing",
+    "token-economy",
+    "skills-selector",
+    "smart-dispatch"
+  ]
+}
